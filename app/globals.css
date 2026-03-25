@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --card: #f9fafb;
+  --secondary: #eceff3;
+  --border-subtle: #dadfe7;
+  --border: #c1c9d7;
+  --primary: #0051ff;
+  --primary-hover: #0041cc;
+  --primary-strong: #003099;
+  --primary-soft: #eef4ff;
+  --primary-foreground: #f9fafb;
+  --secondary-foreground: #0041cc;
+  --muted-foreground: #50607c;
+  --foreground-soft: #3c485d;
+  --foreground-strong: #28303e;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-secondary: var(--secondary);
+  --color-border-subtle: var(--border-subtle);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-strong: var(--primary-strong);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-foreground-soft: var(--foreground-soft);
+  --color-foreground-strong: var(--foreground-strong);
+  --font-sans: var(--font-space-grotesk);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-space-grotesk), Arial, Helvetica, sans-serif;
+}
+
+button:not(:disabled),
+[role="button"]:not(:disabled) {
+  cursor: pointer;
+}
+
+@layer components {
+  .button-primary {
+    border: 1px solid transparent;
+    background-color: var(--primary);
+    background-image: linear-gradient(
+      90deg,
+      var(--primary-strong) 0%,
+      var(--primary) 100%
+    );
+    color: var(--primary-foreground);
+  }
+
+  .button-secondary {
+    border: 1px solid var(--primary-hover);
+    background-color: var(--secondary);
+    color: var(--secondary-foreground);
+  }
+
+  @media (hover: hover) {
+    .button-primary:hover {
+      background-image: linear-gradient(
+        90deg,
+        var(--primary-hover) 0%,
+        var(--primary) 100%
+      );
+    }
+
+    .button-secondary:hover {
+      background-color: var(--primary-soft);
+    }
+  }
+}
