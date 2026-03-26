@@ -31,7 +31,9 @@ export function ProgressCard({
   return (
     <div
       className={cn(
-        "bg-card border border-border-subtle border-solid content-stretch flex flex-col items-start justify-between p-[25px] relative rounded-[24px] w-[394.667px]",
+        // Default matches Figma card width, but stays responsive in narrow containers.
+        // Use `className="max-w-none"` for the stacked full-width layout.
+        "bg-card border border-border-subtle border-solid content-stretch flex flex-col items-start justify-between p-[25px] relative rounded-[24px] w-full max-w-[394.667px]",
         heightClass,
         className,
       )}

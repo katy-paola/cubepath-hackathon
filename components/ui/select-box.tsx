@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 
 import type { ReactNode } from "react";
 
@@ -22,6 +22,7 @@ export type SelectBoxProps = {
   contentClassName?: string;
   renderOption?: (option: string) => ReactNode;
   triggerAriaLabel?: string;
+  arrowIconSrc?: string;
 };
 
 export function SelectBox({
@@ -35,9 +36,13 @@ export function SelectBox({
   contentClassName,
   renderOption,
   triggerAriaLabel,
+  arrowIconSrc,
 }: SelectBoxProps) {
   const [open, setOpen] = useState(defaultOpen);
+  const [activeIndex, setActiveIndex] = useState<number>(-1);
   const rootRef = useRef<HTMLDivElement | null>(null);
+  const listboxRef = useRef<HTMLDivElement | null>(null);
+  const baseId = useId();
 
   const selectedLabel = value || placeholder || "";
 
@@ -45,6 +50,11 @@ export function SelectBox({
     const idx = options.indexOf(value);
     return idx;
   }, [options, value]);
+
+  useEffect(() => {
+    if (!open) return;
+    setActiveIndex(selectedIndex >= 0 ? selectedIndex : 0);
+  }, [open, selectedIndex]);
 
   useEffect(() => {
     if (!open) return;
@@ -63,24 +73,26 @@ export function SelectBox({
   useEffect(() => {
     if (!open) return;
 
-    function onDocKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") setOpen(false);
-    }
+    // Focus the listbox so arrow keys work immediately.
+    // (Options are still focusable for click and screen readers.)
+    queueMicrotask(() => listboxRef.current?.focus());
+  }, [open]);
 
-    document.addEventListener("keydown", onDocKeyDown);
+  function close() {
+    setOpen(false);
+  }
 
-    // Focus the currently selected option for keyboard users.
-    const root = rootRef.current;
-    if (root) {
-      const optionsEls = root.querySelectorAll<HTMLDivElement>(
-        '[role="option"]',
-      );
-      const toFocus = selectedIndex >= 0 ? optionsEls[selectedIndex] : optionsEls[0];
-      toFocus?.focus();
-    }
+  function selectIndex(index: number) {
+    const option = options[index];
+    if (!option) return;
+    onValueChange?.(option);
+    close();
+  }
 
-    return () => document.removeEventListener("keydown", onDocKeyDown);
-  }, [open, selectedIndex]);
+  function clampIndex(index: number) {
+    if (options.length <= 0) return -1;
+    return Math.max(0, Math.min(options.length - 1, index));
+  }
 
   return (
     <div ref={rootRef} className={cn("relative w-[162px]", className)}>
@@ -88,8 +100,15 @@ export function SelectBox({
         value={selectedLabel}
         open={open}
         onClick={() => setOpen((v) => !v)}
+        onKeyDown={(e) => {
+          if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+            e.preventDefault();
+            setOpen(true);
+          }
+        }}
         className={triggerClassName}
         aria-label={triggerAriaLabel}
+        arrowIconSrc={arrowIconSrc}
       />
 
       {open && (
@@ -98,22 +117,71 @@ export function SelectBox({
             "absolute left-0 right-0 top-full z-10 -mt-px w-full",
             contentClassName,
           )}
+          ref={listboxRef}
+          tabIndex={0}
+          aria-activedescendant={
+            activeIndex >= 0 ? `${baseId}-option-${activeIndex}` : undefined
+          }
+          onKeyDown={(e) => {
+            if (e.key === "Escape") {
+              e.preventDefault();
+              close();
+              return;
+            }
+
+            if (e.key === "ArrowDown") {
+              e.preventDefault();
+              setActiveIndex((idx) => clampIndex((idx < 0 ? 0 : idx + 1)));
+              return;
+            }
+
+            if (e.key === "ArrowUp") {
+              e.preventDefault();
+              setActiveIndex((idx) => clampIndex((idx < 0 ? 0 : idx - 1)));
+              return;
+            }
+
+            if (e.key === "Home") {
+              e.preventDefault();
+              setActiveIndex(clampIndex(0));
+              return;
+            }
+
+            if (e.key === "End") {
+              e.preventDefault();
+              setActiveIndex(clampIndex(options.length - 1));
+              return;
+            }
+
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              if (activeIndex >= 0) selectIndex(activeIndex);
+              return;
+            }
+
+            if (e.key === "Tab") {
+              // Let tab move focus out, but close the popover.
+              close();
+            }
+          }}
         >
           {options.map((option, index) => (
             <SelectItem
               key={`${option}-${index}`}
+              id={`${baseId}-option-${index}`}
               selected={index === selectedIndex}
               role="option"
-              tabIndex={0}
+              tabIndex={index === activeIndex ? 0 : -1}
+              onMouseEnter={() => setActiveIndex(index)}
               onClick={() => {
                 onValueChange?.(option);
-                setOpen(false);
+                close();
               }}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
                   onValueChange?.(option);
-                  setOpen(false);
+                  close();
                 }
               }}
               className="cursor-pointer"

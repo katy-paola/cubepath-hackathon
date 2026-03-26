@@ -269,7 +269,9 @@ export function TrainingDayCard({
   return (
     <div
       className={cn(
-        "bg-[#f5f8ff] border-2 border-solid content-stretch flex flex-col gap-[24px] items-start relative rounded-[24px] w-[394.667px]",
+        // Default matches the Figma card size, but remains responsive in narrower containers.
+        // Use `className="max-w-none"` when you need the "wide/stacked" responsive layout from Figma.
+        "bg-[#f5f8ff] border-2 border-solid content-stretch flex flex-col gap-[24px] items-start relative rounded-[24px] w-full max-w-[394.667px]",
         isMobile ? "p-[18px]" : "p-[26px]",
         isCompleted ? "border-[#07c559]" : "border-border",
         className,
