@@ -1,17 +1,17 @@
-import { AppHeader, StridiaLogo } from "@/components/brand";
+import { StridiaLogo } from "@/components/brand";
 import { ArtificialIntelligence, Sparkles } from "@/components/icons";
-import {
-  Button,
-  FormField,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-} from "@/components/ui";
+import { StridiaShared } from "@/components/shared";
+import { TrainingDayCard } from "@/components/training";
+import { Hero } from "@/components/landing";
+import { Button, SelectBox, ProgressCard } from "@/components/ui";
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-[radial-gradient(circle_at_top_left,#eef5ff_0,transparent_34%),linear-gradient(180deg,#f6f9ff_0%,#eef3fb_100%)] px-6 py-10 text-slate-900 sm:px-10 lg:px-16">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-8">
+        <div className="flex w-full justify-start">
+          <Hero />
+        </div>
         <section className="overflow-hidden rounded-[36px] border border-white/65 bg-white/84 p-8 shadow-[0_28px_80px_-42px_rgba(15,23,42,0.32)] backdrop-blur sm:p-10">
           <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-end">
             <div className="space-y-5">
@@ -75,26 +75,43 @@ export default function Home() {
 
               <div className="relative h-[88px]">
                 <div className="absolute top-5 left-[106px] w-[162px]">
-                  <SelectTrigger value="Resistencia" />
+                  <SelectBox value="Resistencia" options={goalOptions} />
                 </div>
                 <div className="absolute top-5 left-[308px] w-[162px]">
-                  <SelectTrigger open value="Resistencia" />
+                  <SelectBox value="Resistencia" options={goalOptions} defaultOpen />
                 </div>
               </div>
 
-              <SelectContent className="w-[162px]">
-                {goalOptions.map((option, index) => (
-                  <SelectItem key={`${option}-${index}`} selected={index === 1}>
-                    {option}
-                  </SelectItem>
-                ))}
-              </SelectContent>
+              <StridiaShared
+                goalOptions={goalOptions}
+                selectedGoalIndex={1}
+                formLabel="Label"
+                selectedGoalValue="Resistencia"
+                headerActionLabel="Ajustar rutina"
+              />
 
-              <FormField className="w-[162px]" label="Label">
-                <SelectTrigger value="Resistencia" />
-              </FormField>
+              <div className="space-y-4 pt-6">
+                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">
+                  Training Day Card
+                </p>
+                <div className="flex gap-[16px] overflow-x-auto pb-2">
+                  <TrainingDayCard device="desktop" status="default" />
+                  <TrainingDayCard device="desktop" status="completed" />
+                  <TrainingDayCard device="mobile" status="default" />
+                  <TrainingDayCard device="mobile" status="completed" />
+                </div>
+              </div>
 
-              <AppHeader className="w-[576px]" />
+              <div className="space-y-4 pt-6">
+                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">
+                  Progress Card
+                </p>
+                <div className="flex gap-[16px] overflow-x-auto pb-2">
+                  <ProgressCard type="consistencia" />
+                  <ProgressCard type="tiempo" />
+                  <ProgressCard type="intensidad" />
+                </div>
+              </div>
             </div>
           </article>
 
