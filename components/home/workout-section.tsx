@@ -65,13 +65,18 @@ export function WorkoutSection({
             : "flex items-center gap-[24px]",
         )}
       >
-        <TrainingDayCard device={isMobile ? "mobile" : "desktop"} status="completed" />
+        <TrainingDayCard
+          device={isMobile ? "mobile" : "desktop"}
+          status="completed"
+          className={cn(isStacked ? "max-w-none" : undefined)}
+        />
         <TrainingDayCard
           device={isMobile ? "mobile" : "desktop"}
           status="completed"
           workoutLabel="Intervalos"
           typeLabel="Tipo: Velocidad"
           intensityTag="ALTA"
+          className={cn(isStacked ? "max-w-none" : undefined)}
         />
         <TrainingDayCard
           device={isMobile ? "mobile" : "desktop"}
@@ -79,6 +84,7 @@ export function WorkoutSection({
           workoutLabel="Tirada larga"
           typeLabel="Tipo: Resistencia"
           intensityTag="MODERADA"
+          className={cn(isStacked ? "max-w-none" : undefined)}
         />
       </div>
     </section>

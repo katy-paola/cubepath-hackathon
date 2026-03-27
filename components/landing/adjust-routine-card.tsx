@@ -56,7 +56,7 @@ export function AdjustRoutineCard({
     <section
       {...props}
       className={cn(
-        "bg-[#e0eaff] content-stretch flex flex-col gap-[32px] items-start overflow-clip relative rounded-[24px] w-full max-w-[1232px]",
+        "bg-[#e0eaff] content-stretch flex flex-col gap-[24px] lg:gap-[32px] items-start overflow-hidden relative rounded-[24px] w-full max-w-[1232px]",
         isMobile ? "p-[16px]" : "p-[24px]",
         className,
       )}
@@ -79,7 +79,7 @@ export function AdjustRoutineCard({
             isMobile
               ? "flex flex-col gap-[10px] items-start"
               : isTablet
-                ? "grid grid-cols-2 gap-x-[24px] gap-y-[24px]"
+                ? "grid grid-cols-2 gap-x-[20px] gap-y-[20px] lg:gap-x-[24px] lg:gap-y-[24px]"
                 : "grid grid-cols-4 gap-x-[24px] gap-y-[24px]",
           )}
         >

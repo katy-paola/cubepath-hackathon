@@ -24,7 +24,7 @@ export function ProgressSection({
       {...props}
       className={cn(
         "flex flex-col items-start relative w-full max-w-[1232px]",
-        isMobile ? "gap-[16px]" : "gap-[32px]",
+        isMobile ? "gap-[16px]" : "gap-[24px] lg:gap-[32px]",
         className,
       )}
       role="region"

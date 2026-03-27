@@ -65,7 +65,7 @@ export function GenerateSection({
     >
       <div
         className={cn(
-          "bg-card border border-border-subtle border-solid content-stretch flex flex-col gap-[24px] items-start justify-self-stretch p-[24px] relative rounded-[24px] shrink-0 w-full",
+          "bg-card border border-border-subtle border-solid content-stretch flex flex-col gap-[20px] lg:gap-[24px] items-start justify-self-stretch p-[20px] lg:p-[24px] relative rounded-[24px] shrink-0 w-full",
           "lg:col-span-2",
         )}
       >
@@ -80,14 +80,14 @@ export function GenerateSection({
             />
           </div>
 
-          <div className="flex flex-col font-bold justify-center leading-0 relative shrink-0 text-[24px] text-foreground-strong whitespace-nowrap">
+          <div className="flex flex-col font-bold justify-center leading-0 relative shrink-0 text-[22px] lg:text-[24px] text-foreground-strong whitespace-nowrap">
             <p className="leading-[32px]">Configura tu rutina</p>
           </div>
         </div>
 
         <div
           className={cn(
-            "border-border border-b border-solid gap-x-[24px] gap-y-[24px] grid grid-cols-1 sm:grid-cols-2 pb-[24px] relative shrink-0 w-full",
+            "border-border border-b border-solid gap-x-[20px] lg:gap-x-[24px] gap-y-[20px] lg:gap-y-[24px] grid grid-cols-1 sm:grid-cols-2 pb-[20px] lg:pb-[24px] relative shrink-0 w-full",
             // On mobile, keep a comfortable tap target.
             isMobile ? "gap-y-[16px]" : undefined,
           )}
@@ -186,7 +186,7 @@ export function GenerateSection({
 
         <Button
           variant="primary"
-          className="w-full"
+          className="w-full h-[48px] lg:h-auto"
           icon={
             <img
               src={generateSectionAssets.sparkles}
@@ -203,10 +203,10 @@ export function GenerateSection({
 
       <div
         className={cn(
-          "col-span-1 content-stretch flex flex-col gap-[24px] items-start justify-self-stretch relative row-1 self-stretch shrink-0 lg:col-span-1",
+          "col-span-1 content-stretch flex flex-col gap-[24px] items-start justify-self-stretch relative self-stretch shrink-0 lg:col-span-1",
         )}
       >
-        <div className="bg-primary content-stretch flex flex-[1_0_0] flex-col gap-[24px] items-start justify-center min-h-px min-w-px overflow-clip p-[24px] relative rounded-[24px] w-full">
+        <div className="bg-primary content-stretch flex flex-col gap-[20px] lg:gap-[24px] items-start justify-center overflow-hidden p-[20px] lg:p-[24px] relative rounded-[24px] w-full">
           <div className="bg-[#3374ff] content-stretch flex items-center justify-center relative rounded-[12px] shrink-0 size-[48px]">
             <div className="relative shrink-0 size-[24px]">
               <div className="absolute inset-[8.33%_10.42%]">
@@ -235,11 +235,11 @@ export function GenerateSection({
             </div>
           </div>
 
-          <div className="flex flex-col font-bold justify-center leading-0 relative shrink-0 text-[24px] text-[#f9fafb] w-full min-w-0 lg:min-w-full lg:w-min">
+          <div className="flex flex-col font-bold justify-center leading-0 relative shrink-0 text-[22px] lg:text-[24px] text-[#f9fafb] w-full min-w-0 lg:min-w-full lg:w-min">
             <p className="leading-[36px]">Tu entrenador digital inteligente</p>
           </div>
 
-          <div className="flex flex-col font-medium justify-center leading-0 relative shrink-0 text-[16px] text-[#eceff3] w-full min-w-0 lg:min-w-full lg:w-min">
+          <div className="flex flex-col font-medium justify-center leading-0 relative shrink-0 text-[15px] lg:text-[16px] text-[#eceff3] w-full min-w-0 lg:min-w-full lg:w-min">
             <p className="leading-[26px]">
               Nuestra IA ajusta tu entrenamiento basándose en tu nivel, objetivos y estado diario
               para garantizar un proceso seguro y efectivo.
