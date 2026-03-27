@@ -15,25 +15,34 @@ export type ProgressCardProps = Omit<
   "children"
 > & {
   type?: "consistencia" | "tiempo" | "intensidad";
+  device?: "desktop" | "tablet" | "mobile";
 };
 
 export function ProgressCard({
   type = "consistencia",
+  device = "desktop",
   className,
   ...props
 }: ProgressCardProps) {
   const isIntensidad = type === "intensidad";
   const isTiempo = type === "tiempo";
+  const isMobile = device === "mobile";
 
-  const heightClass =
-    isIntensidad ? "h-[191px]" : isTiempo ? "h-[200px]" : "h-[171px]";
+  const heightClass = isMobile
+    ? "h-[200px]"
+    : isIntensidad
+      ? "h-[191px]"
+      : isTiempo
+        ? "h-[200px]"
+        : "h-[171px]";
 
   return (
     <div
       className={cn(
         // Default matches Figma card width, but stays responsive in narrow containers.
         // Use `className="max-w-none"` for the stacked full-width layout.
-        "bg-card border border-border-subtle border-solid content-stretch flex flex-col items-start justify-between p-[25px] relative rounded-[24px] w-full max-w-[394.667px]",
+        "bg-card border border-border-subtle border-solid content-stretch flex flex-col items-start justify-between relative rounded-[24px] w-full max-w-[394.667px]",
+        isMobile ? "p-[17px]" : "p-[25px]",
         heightClass,
         className,
       )}
@@ -43,7 +52,7 @@ export function ProgressCard({
     >
       <div className="relative shrink-0 w-full" data-section="content">
         <div className="bg-clip-padding border-0 border-solid content-stretch flex flex-col gap-[16px] items-start relative w-full">
-          <div className="flex flex-col justify-center font-bold leading-[0] relative shrink-0 text-[16px] text-foreground-soft w-full">
+          <div className="flex flex-col justify-center font-bold leading-0 relative shrink-0 text-[16px] text-foreground-soft w-full">
             <p className="leading-[normal]">
               {isIntensidad ? "INTENSIDAD" : isTiempo ? "TIEMPO TOTAL" : "CONSISTENCIA"}
             </p>
@@ -51,7 +60,7 @@ export function ProgressCard({
 
           {["consistencia", "tiempo"].includes(type) && (
             <div className="content-stretch flex flex-col gap-[12px] items-start relative shrink-0 w-full">
-              <div className="content-stretch flex gap-[4px] items-end leading-0 relative shrink-0 whitespace-nowrap">
+                <div className="content-stretch flex gap-[4px] items-end leading-0 relative shrink-0 whitespace-nowrap">
                 <div className="flex flex-col font-bold justify-center relative shrink-0 text-[24px] text-[#002066]">
                   <p className="leading-[24px]">{isTiempo ? "85" : "2 / 3"}</p>
                 </div>
@@ -68,7 +77,7 @@ export function ProgressCard({
 
               {isTiempo && (
                 <div className="content-stretch flex gap-[4px] items-start relative shrink-0">
-                  <div className="flex flex-col font-medium justify-center leading-[0] relative shrink-0 text-[16px] text-[#059443] whitespace-nowrap">
+                  <div className="flex flex-col font-medium justify-center leading-0 relative shrink-0 text-[16px] text-[#059443] whitespace-nowrap">
                     <p className="leading-[24px]">+15% vs semana anterior</p>
                   </div>
                   <div

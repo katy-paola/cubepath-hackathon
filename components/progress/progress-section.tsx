@@ -59,9 +59,21 @@ export function ProgressSection({
             : "grid grid-cols-3 gap-x-[16px] gap-y-[16px]",
         )}
       >
-        <ProgressCard type="consistencia" className={cn(isStacked && "max-w-none")} />
-        <ProgressCard type="tiempo" className={cn(isStacked && "max-w-none")} />
-        <ProgressCard type="intensidad" className={cn(isStacked && "max-w-none")} />
+        <ProgressCard
+          type="consistencia"
+          device={device}
+          className={cn(isStacked && "max-w-none")}
+        />
+        <ProgressCard
+          type="tiempo"
+          device={device}
+          className={cn(isStacked && "max-w-none")}
+        />
+        <ProgressCard
+          type="intensidad"
+          device={device}
+          className={cn(isStacked && "max-w-none")}
+        />
       </div>
     </section>
   );

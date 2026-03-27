@@ -28,7 +28,7 @@ export function Hero({
       {...props}
       className={cn(
         // Keep desktop fidelity, but avoid overflow on small screens.
-        "bg-[#e0eaff] content-stretch flex flex-col items-start overflow-clip p-[64px] relative rounded-[24px] w-full max-w-[1232px]",
+        "bg-[#e0eaff] content-stretch flex flex-col items-start overflow-clip p-[16px] md:p-[32px] lg:p-[64px] relative rounded-[24px] w-full max-w-[1232px]",
         className,
       )}
     >
@@ -37,7 +37,7 @@ export function Hero({
         aria-hidden="true"
       />
 
-      <div className="content-stretch flex flex-col gap-[24px] items-start leading-0 max-w-[900px] relative shrink-0 w-full">
+      <div className="content-stretch flex flex-col gap-[16px] md:gap-[24px] items-start leading-0 max-w-[900px] relative shrink-0 w-full">
         <div
           className={cn(
             lexendBlack.className,
@@ -45,15 +45,15 @@ export function Hero({
             "lg:min-w-full lg:w-min",
           )}
         >
-          <p className={cn(fugazOne.className, "not-italic text-[48px]")}>
-            <span className="leading-[64px]">{titlePrefix}</span>
-            <span className="leading-[64px] text-primary">
+          <p className={cn(fugazOne.className, "not-italic text-[24px] md:text-[36px] lg:text-[48px]")}>
+            <span className="leading-[36px] md:leading-[48px] lg:leading-[64px]">{titlePrefix}</span>
+            <span className="leading-[36px] md:leading-[48px] lg:leading-[64px] text-primary">
               {titleHighlight}
             </span>
           </p>
         </div>
 
-        <div className="flex flex-col font-['Space_Grotesk:Medium',sans-serif] font-medium justify-center relative shrink-0 text-[20px] text-muted-foreground w-full max-w-[648.95px] min-w-0">
+        <div className="flex flex-col font-['Space_Grotesk:Medium',sans-serif] font-medium justify-center relative shrink-0 text-[16px] lg:text-[20px] text-muted-foreground w-full max-w-[648.95px] min-w-0">
           <p className="leading-[28px]">{subtitle}</p>
         </div>
       </div>
