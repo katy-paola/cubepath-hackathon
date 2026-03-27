@@ -28,7 +28,7 @@ export function Hero({
       {...props}
       className={cn(
         // Keep desktop fidelity, but avoid overflow on small screens.
-        "bg-[#e0eaff] content-stretch flex flex-col items-start overflow-clip p-[16px] md:p-[32px] lg:p-[64px] relative rounded-[24px] w-full max-w-[1232px]",
+        "bg-[#e0eaff] flex flex-col items-start overflow-clip p-[16px] md:p-[32px] lg:p-[64px] relative rounded-[24px] w-full max-w-[1232px]",
         className,
       )}
     >
@@ -37,7 +37,7 @@ export function Hero({
         aria-hidden="true"
       />
 
-      <div className="content-stretch flex flex-col gap-[16px] md:gap-[24px] items-start leading-0 max-w-[900px] relative shrink-0 w-full">
+      <div className="flex flex-col gap-[16px] md:gap-[24px] items-start leading-0 max-w-[900px] relative shrink-0 w-full">
         <div
           className={cn(
             lexendBlack.className,

@@ -43,8 +43,8 @@ function TrainingHeader({
 >) {
   return (
     <div className="relative shrink-0 w-full">
-      <div className="bg-clip-padding border-0 border-transparent border-solid content-stretch flex items-start justify-between relative w-full">
-        <div className="content-stretch flex flex-col gap-[2px] items-start leading-0 relative shrink-0 whitespace-nowrap">
+      <div className="flex items-start justify-between relative w-full">
+        <div className="flex flex-col gap-[2px] items-start leading-0 relative shrink-0 whitespace-nowrap">
           <div className="flex flex-col justify-center relative shrink-0 text-[12px] text-muted-foreground uppercase">
             <p className="leading-[16px]">{dayLabel}</p>
           </div>
@@ -56,7 +56,7 @@ function TrainingHeader({
           </div>
         </div>
 
-        <div className="bg-border-subtle content-stretch flex flex-col items-start px-[12px] py-[4px] relative rounded-[16px] shrink-0">
+        <div className="bg-border-subtle flex flex-col items-start px-[12px] py-[4px] relative rounded-[16px] shrink-0">
           <div className="flex flex-col font-bold justify-center leading-0 relative shrink-0 text-[10px] text-primary-hover uppercase whitespace-nowrap tracking-[1px]">
             <p className="leading-[15px]">{intensityTag}</p>
           </div>
@@ -73,7 +73,7 @@ function TrainingExercises({
 }) {
   return (
     <div className="relative shrink-0 w-full">
-      <div className="bg-clip-padding border-0 border-transparent border-solid content-stretch flex flex-col gap-[16px] items-start relative w-full">
+      <div className="flex flex-col gap-[16px] items-start relative w-full">
         {exercises.map((ex, idx) => (
           <ExerciseRow
             key={`${ex.label}-${idx}`}
@@ -93,7 +93,7 @@ function TrainingReason({
 }: Pick<TrainingDayCardProps, "reasonTitle" | "reasonText">) {
   return (
     <div className="bg-secondary relative rounded-[16px] shrink-0 w-full">
-      <div className="bg-clip-padding border-0 border-transparent border-solid content-stretch flex flex-col gap-[8px] items-start leading-0 p-[16px] relative w-full">
+      <div className="flex flex-col gap-[8px] items-start leading-0 p-[16px] relative w-full">
         <div className="flex flex-col font-bold justify-center relative shrink-0 text-[10px] text-primary-hover tracking-[1px] uppercase w-full">
           <p className="leading-[15px]">{reasonTitle}</p>
         </div>
@@ -132,12 +132,12 @@ function TrainingAdaptationForm({
 }) {
   return (
     <div className="bg-secondary relative rounded-[16px] shrink-0 w-full">
-      <div className="bg-clip-padding border-0 border-transparent border-solid content-stretch flex flex-col gap-[16px] items-start p-[16px] relative w-full">
+      <div className="flex flex-col gap-[16px] items-start p-[16px] relative w-full">
         <div className="flex flex-col font-bold justify-center leading-0 relative shrink-0 text-[12px] text-foreground-soft tracking-[1px] w-full">
           <p className="leading-[16px]">{adaptationTitle}</p>
         </div>
 
-        <div className="content-stretch flex flex-col gap-[24px] items-start relative shrink-0 w-full">
+        <div className="flex flex-col gap-[24px] items-start relative shrink-0 w-full">
           <div
             className={cn(
               "relative shrink-0 w-full",
@@ -180,7 +180,7 @@ function TrainingAdaptationForm({
             </FormField>
           </div>
 
-          <div className="bg-secondary border border-primary-hover border-solid content-stretch flex gap-[4px] items-center justify-center opacity-80 px-[16px] py-[8px] relative rounded-[12px] shrink-0 w-full">
+          <div className="bg-secondary border border-primary-hover flex gap-[4px] items-center justify-center opacity-80 px-[16px] py-[8px] relative rounded-[12px] shrink-0 w-full">
             <Button
               variant="secondary"
               size="sm"
@@ -206,8 +206,8 @@ function TrainingFooter({
 > & { isCompleted: boolean }) {
   return (
     <div className="relative shrink-0 w-full">
-      <div className="bg-clip-padding border-0 border-transparent border-solid content-stretch flex items-center justify-between relative w-full">
-        <div className="content-stretch flex flex-col font-bold items-start leading-0 relative shrink-0 whitespace-nowrap">
+      <div className="flex items-center justify-between relative w-full">
+        <div className="flex flex-col font-bold items-start leading-0 relative shrink-0 whitespace-nowrap">
           <div className="flex flex-col justify-center relative shrink-0 text-[12px] text-muted-foreground">
             <p className="leading-[12px]">{durationLabel}</p>
           </div>
@@ -218,7 +218,7 @@ function TrainingFooter({
 
         <div
           className={cn(
-            "content-stretch flex items-center justify-center py-[4px] shrink-0",
+            "flex items-center justify-center py-[4px] shrink-0",
             isCompleted ? "relative" : "h-[32px] w-[150px]",
           )}
         >
@@ -271,7 +271,7 @@ export function TrainingDayCard({
       className={cn(
         // Default matches the Figma card size, but remains responsive in narrower containers.
         // Use `className="max-w-none"` when you need the "wide/stacked" responsive layout from Figma.
-        "bg-[#f5f8ff] border-2 border-solid content-stretch flex flex-col gap-[24px] items-start relative rounded-[24px] w-full max-w-[394.667px]",
+        "bg-[#f5f8ff] border-2 flex flex-col gap-[24px] items-start relative rounded-[24px] w-full max-w-[394.667px]",
         isMobile ? "p-[18px]" : "p-[26px]",
         isCompleted ? "border-[#07c559]" : "border-border",
         className,

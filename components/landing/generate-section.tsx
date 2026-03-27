@@ -65,11 +65,11 @@ export function GenerateSection({
     >
       <div
         className={cn(
-          "bg-card border border-border-subtle border-solid content-stretch flex flex-col gap-[16px] md:gap-[20px] lg:gap-[24px] items-start justify-self-stretch p-[16px] md:p-[20px] lg:p-[24px] relative rounded-[24px] shrink-0 w-full",
+          "bg-card border border-border-subtle flex flex-col gap-[16px] md:gap-[20px] lg:gap-[24px] items-start justify-self-stretch p-[16px] md:p-[20px] lg:p-[24px] relative rounded-[24px] shrink-0 w-full",
           "lg:col-span-2",
         )}
       >
-        <div className="content-stretch flex gap-[8px] items-center relative shrink-0">
+        <div className="flex gap-[8px] items-center relative shrink-0">
           <div className="relative shrink-0 size-[24px]">
             <img
               src={generateSectionAssets.slidersHorizontal}
@@ -87,12 +87,12 @@ export function GenerateSection({
 
         <div
           className={cn(
-            "border-border border-b border-solid gap-x-[16px] md:gap-x-[20px] lg:gap-x-[24px] gap-y-[16px] md:gap-y-[20px] lg:gap-y-[24px] grid grid-cols-1 md:grid-cols-2 pb-[16px] md:pb-[20px] lg:pb-[24px] relative shrink-0 w-full",
+            "border-border border-b gap-x-[16px] md:gap-x-[20px] lg:gap-x-[24px] gap-y-[16px] md:gap-y-[20px] lg:gap-y-[24px] grid grid-cols-1 md:grid-cols-2 pb-[16px] md:pb-[20px] lg:pb-[24px] relative shrink-0 w-full",
             // On mobile, keep a comfortable tap target.
             isMobile ? "gap-y-[16px]" : undefined,
           )}
         >
-          <div className="col-span-1 content-stretch flex flex-col gap-[8px] items-start justify-self-stretch relative self-start shrink-0 w-full">
+          <div className="col-span-1 flex flex-col gap-[8px] items-start justify-self-stretch relative self-start shrink-0 w-full">
             <FormField className="w-full" label="Objetivo">
               <SelectBox
                 value={objective}
@@ -105,7 +105,7 @@ export function GenerateSection({
             </FormField>
           </div>
 
-          <div className="col-span-1 content-stretch flex flex-col gap-[8px] items-start justify-self-stretch relative self-start shrink-0 w-full">
+          <div className="col-span-1 flex flex-col gap-[8px] items-start justify-self-stretch relative self-start shrink-0 w-full">
             <FormField className="w-full" label="Nivel">
               <SelectBox
                 value={level}
@@ -118,7 +118,7 @@ export function GenerateSection({
             </FormField>
           </div>
 
-          <div className="col-span-1 content-stretch flex flex-col gap-[8px] items-start justify-self-stretch relative self-start shrink-0 w-full">
+          <div className="col-span-1 flex flex-col gap-[8px] items-start justify-self-stretch relative self-start shrink-0 w-full">
             <FormField className="w-full" label="Frecuencia semanal">
               <SelectBox
                 value={frequency}
@@ -131,7 +131,7 @@ export function GenerateSection({
             </FormField>
           </div>
 
-          <div className="col-span-1 content-stretch flex flex-col gap-[8px] items-start justify-self-stretch relative self-start shrink-0 w-full">
+          <div className="col-span-1 flex flex-col gap-[8px] items-start justify-self-stretch relative self-start shrink-0 w-full">
             <FormField className="w-full" label="Tiempo por sesión">
               <SelectBox
                 value={sessionTime}
@@ -144,7 +144,7 @@ export function GenerateSection({
             </FormField>
           </div>
 
-          <div className="col-span-1 content-stretch flex flex-col gap-[8px] items-start justify-self-stretch relative self-start shrink-0 w-full">
+          <div className="col-span-1 flex flex-col gap-[8px] items-start justify-self-stretch relative self-start shrink-0 w-full">
             <FormField className="w-full" label="Lugar preferido">
               <SelectBox
                 value={location}
@@ -157,7 +157,7 @@ export function GenerateSection({
             </FormField>
           </div>
 
-          <div className="col-span-1 content-stretch flex flex-col gap-[8px] items-start justify-self-stretch relative self-start shrink-0 w-full">
+          <div className="col-span-1 flex flex-col gap-[8px] items-start justify-self-stretch relative self-start shrink-0 w-full">
             <FormField className="w-full" label="Compromiso">
               <SelectBox
                 value={commitment}
@@ -170,7 +170,7 @@ export function GenerateSection({
             </FormField>
           </div>
 
-          <div className="col-span-1 md:col-span-2 content-stretch flex flex-col gap-[8px] items-start justify-self-stretch relative self-start shrink-0 w-full">
+          <div className="col-span-1 md:col-span-2 flex flex-col gap-[8px] items-start justify-self-stretch relative self-start shrink-0 w-full">
             <FormField className="w-full" label="Salud y limitaciones">
               <SelectBox
                 value={health}
@@ -203,11 +203,11 @@ export function GenerateSection({
 
       <div
         className={cn(
-          "col-span-1 content-stretch flex flex-col gap-[24px] items-start justify-self-stretch relative self-stretch shrink-0 lg:col-span-1",
+          "col-span-1 flex flex-col gap-[24px] items-start justify-self-stretch relative self-stretch shrink-0 lg:col-span-1",
         )}
       >
-        <div className="bg-primary content-stretch flex flex-col gap-[16px] md:gap-[20px] lg:gap-[24px] items-start justify-center overflow-hidden p-[16px] md:p-[20px] lg:p-[24px] relative rounded-[24px] w-full">
-          <div className="bg-[#3374ff] content-stretch flex items-center justify-center relative rounded-[12px] shrink-0 size-[48px]">
+        <div className="bg-primary flex flex-col gap-[16px] md:gap-[20px] lg:gap-[24px] items-start justify-center overflow-hidden p-[16px] md:p-[20px] lg:p-[24px] relative rounded-[24px] w-full">
+          <div className="bg-[#3374ff] flex items-center justify-center relative rounded-[12px] shrink-0 size-[48px]">
             <div className="relative shrink-0 size-[24px]">
               <div className="absolute inset-[8.33%_10.42%]">
                 <div className="absolute inset-[-3%_-3.16%]">
@@ -246,8 +246,8 @@ export function GenerateSection({
             </p>
           </div>
 
-          <div className="content-stretch flex flex-col gap-[16px] items-start relative shrink-0">
-            <div className="content-stretch flex gap-[8px] items-center relative shrink-0">
+          <div className="flex flex-col gap-[16px] items-start relative shrink-0">
+            <div className="flex gap-[8px] items-center relative shrink-0">
               <div className="relative shrink-0 size-[24px]">
                 <div className="absolute inset-[8.33%]">
                   <div className="absolute inset-[-3%]">
@@ -266,7 +266,7 @@ export function GenerateSection({
               </div>
             </div>
 
-            <div className="content-stretch flex gap-[8px] items-center relative shrink-0">
+            <div className="flex gap-[8px] items-center relative shrink-0">
               <div className="relative shrink-0 size-[24px]">
                 <div className="absolute inset-[8.33%]">
                   <div className="absolute inset-[-3%]">
@@ -286,7 +286,7 @@ export function GenerateSection({
             </div>
           </div>
 
-          <div className="absolute content-stretch flex flex-col items-start right-[-20px] lg:right-[-53.45px] top-[-47px]">
+          <div className="absolute flex flex-col items-start right-[-20px] lg:right-[-53.45px] top-[-47px]">
             <div className="flex h-[190px] items-center justify-center relative shrink-0 w-[220px]">
               <div className="scale-[1.5]">
                 <div className="h-[126.667px] relative w-[146.667px]">
@@ -303,8 +303,8 @@ export function GenerateSection({
           </div>
         </div>
 
-        <div className="bg-[#e0eaff] content-stretch flex flex-col gap-[12px] items-start p-[24px] relative rounded-[24px] shrink-0 w-full">
-          <div className="content-stretch flex gap-[8px] items-center relative shrink-0">
+        <div className="bg-[#e0eaff] flex flex-col gap-[12px] items-start p-[24px] relative rounded-[24px] shrink-0 w-full">
+          <div className="flex gap-[8px] items-center relative shrink-0">
             <div className="relative shrink-0 size-[24px]">
               <div className="absolute inset-[8.33%]">
                 <div className="absolute inset-[-5%]">

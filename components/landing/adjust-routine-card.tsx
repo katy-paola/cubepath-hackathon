@@ -56,7 +56,7 @@ export function AdjustRoutineCard({
     <section
       {...props}
       className={cn(
-        "bg-[#e0eaff] content-stretch flex flex-col gap-[32px] items-start overflow-clip relative rounded-[24px] w-full max-w-[1232px]",
+        "bg-[#e0eaff] flex flex-col gap-[32px] items-start overflow-clip relative rounded-[24px] w-full max-w-[1232px]",
         isMobile ? "p-[16px]" : "p-[24px]",
         className,
       )}
@@ -72,7 +72,7 @@ export function AdjustRoutineCard({
         <p className="leading-[32px]">¿Cambio de planes? Reajusta rápido.</p>
       </div>
 
-      <div className="content-stretch flex flex-col gap-[24px] items-start relative shrink-0 w-full">
+      <div className="flex flex-col gap-[24px] items-start relative shrink-0 w-full">
         <div
           className={cn(
             "relative shrink-0 w-full",
@@ -168,7 +168,7 @@ export function AdjustRoutineCard({
           </FormField>
         </div>
 
-        <div className="content-stretch flex items-start justify-center relative shrink-0 w-full">
+        <div className="flex items-start justify-center relative shrink-0 w-full">
           <Button
             className={cn(isMobile ? "w-full" : "w-[156px]")}
             size="sm"
