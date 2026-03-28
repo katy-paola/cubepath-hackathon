@@ -1,43 +1,34 @@
 "use client";
 
 import type { ComponentPropsWithoutRef } from "react";
+import Image from "next/image";
 import { useMemo, useState } from "react";
 
 import { Button, FormField, SelectBox } from "@/components/ui";
+import {
+  routineCommitmentOptions,
+  routineFormDefaults,
+  routineFrequencyOptions,
+  routineHealthOptions,
+  routineLevelOptions,
+  routineLocationOptions,
+  routineObjectiveOptions,
+  routineSessionTimeOptions,
+} from "@/lib/routine-form-options";
 import { cn } from "@/lib/utils";
 
 import { generateSectionAssets } from "./generate-section-assets";
 
-export type GenerateSectionProps = Omit<
-  ComponentPropsWithoutRef<"section">,
-  "children"
-> & {
-  device?: "desktop" | "tablet" | "mobile";
-};
+export type GenerateSectionProps = Omit<ComponentPropsWithoutRef<"section">, "children">;
 
-const objectiveOptions = ["Resistencia", "Velocidad", "Potencia"] as const;
-const levelOptions = ["Principiante", "Intermedio", "Avanzado"] as const;
-const frequencyOptions = ["2 días", "3 días", "4 días", "5 días"] as const;
-const sessionTimeOptions = ["30 min", "45 min", "60 min", "75 min"] as const;
-const locationOptions = ["Exterior", "Interior"] as const;
-const commitmentOptions = ["Bajo", "Medio", "Alto"] as const;
-const healthOptions = ["Nada", "Molestias", "Lesiones previas"] as const;
-
-export function GenerateSection({
-  className,
-  device = "desktop",
-  ...props
-}: GenerateSectionProps) {
-  // Default values match the design screenshot.
-  const [objective, setObjective] = useState<string>("Resistencia");
-  const [level, setLevel] = useState<string>("Principiante");
-  const [frequency, setFrequency] = useState<string>("3 días");
-  const [sessionTime, setSessionTime] = useState<string>("45 min");
-  const [location, setLocation] = useState<string>("Exterior");
-  const [commitment, setCommitment] = useState<string>("Medio");
-  const [health, setHealth] = useState<string>("Nada");
-
-  const isMobile = device === "mobile";
+export function GenerateSection({ className, ...props }: GenerateSectionProps) {
+  const [objective, setObjective] = useState<string>(routineFormDefaults.objective);
+  const [level, setLevel] = useState<string>(routineFormDefaults.level);
+  const [frequency, setFrequency] = useState<string>(routineFormDefaults.frequency);
+  const [sessionTime, setSessionTime] = useState<string>(routineFormDefaults.sessionTime);
+  const [location, setLocation] = useState<string>(routineFormDefaults.location);
+  const [commitment, setCommitment] = useState<string>(routineFormDefaults.commitment);
+  const [health, setHealth] = useState<string>(routineFormDefaults.health);
 
   // Avoid recreating strings when rendering many selects.
   const aria = useMemo(
@@ -56,281 +47,279 @@ export function GenerateSection({
   return (
     <section
       {...props}
-      role="region"
-      aria-label="Configura tu rutina"
+      aria-labelledby="configura-rutina-heading"
       className={cn(
-        "grid gap-x-[24px] gap-y-[24px] grid-cols-1 lg:grid-cols-3 relative w-full max-w-[1232px]",
+        "relative grid w-full max-w-page grid-cols-1 items-stretch gap-6 lg:grid-cols-3",
         className,
       )}
     >
-      <div
+      <article
         className={cn(
-          "bg-card border border-border-subtle flex flex-col gap-[16px] md:gap-[20px] lg:gap-[24px] items-start justify-self-stretch p-[16px] md:p-[20px] lg:p-[24px] relative rounded-[24px] shrink-0 w-full",
-          "lg:col-span-2",
+          "relative flex w-full shrink-0 flex-col items-start justify-self-stretch rounded-3xl border border-border-subtle bg-card p-4 md:gap-5 md:p-5 lg:col-span-2 lg:gap-6 lg:p-6",
+          "gap-4",
         )}
+        aria-labelledby="configura-rutina-heading"
       >
-        <div className="flex gap-[8px] items-center relative shrink-0">
-          <div className="relative shrink-0 size-[24px]">
-            <img
+        <div className="flex items-center gap-2">
+          <div className="relative size-6 shrink-0">
+            <Image
               src={generateSectionAssets.slidersHorizontal}
               alt=""
-              aria-hidden="true"
-              className="absolute inset-0 block max-w-none size-full"
-              loading="lazy"
+              width={24}
+              height={24}
+              aria-hidden
+              className="absolute inset-0 size-full"
             />
           </div>
-
-          <div className="flex flex-col font-bold justify-center leading-0 relative shrink-0 text-[20px] md:text-[22px] lg:text-[24px] text-foreground-strong whitespace-nowrap">
-            <p className="leading-[32px]">Configura tu rutina</p>
-          </div>
+          <h2
+            id="configura-rutina-heading"
+            className="whitespace-nowrap text-xl font-bold leading-8 text-heading md:text-2xl md:leading-9 lg:text-2xl lg:leading-10"
+          >
+            Configura tu rutina
+          </h2>
         </div>
 
-        <div
-          className={cn(
-            "border-border border-b gap-x-[16px] md:gap-x-[20px] lg:gap-x-[24px] gap-y-[16px] md:gap-y-[20px] lg:gap-y-[24px] grid grid-cols-1 md:grid-cols-2 pb-[16px] md:pb-[20px] lg:pb-[24px] relative shrink-0 w-full",
-            // On mobile, keep a comfortable tap target.
-            isMobile ? "gap-y-[16px]" : undefined,
-          )}
-        >
-          <div className="col-span-1 flex flex-col gap-[8px] items-start justify-self-stretch relative self-start shrink-0 w-full">
-            <FormField className="w-full" label="Objetivo">
-              <SelectBox
-                value={objective}
-                options={objectiveOptions}
-                onValueChange={setObjective}
-                className="w-full"
-                triggerAriaLabel={aria.objective}
-                arrowIconSrc={generateSectionAssets.selectArrow}
-              />
-            </FormField>
-          </div>
+        <div className="relative grid w-full shrink-0 grid-cols-1 gap-4 border-b border-border pb-4 md:grid-cols-2 md:gap-5 md:pb-5 lg:gap-6 lg:pb-6">
+          <FormField className="w-full" label="Objetivo">
+            <SelectBox
+              value={objective}
+              options={routineObjectiveOptions}
+              onValueChange={setObjective}
+              className="w-full"
+              triggerAriaLabel={aria.objective}
+              arrowIconSrc={generateSectionAssets.selectArrow}
+            />
+          </FormField>
 
-          <div className="col-span-1 flex flex-col gap-[8px] items-start justify-self-stretch relative self-start shrink-0 w-full">
-            <FormField className="w-full" label="Nivel">
-              <SelectBox
-                value={level}
-                options={levelOptions}
-                onValueChange={setLevel}
-                className="w-full"
-                triggerAriaLabel={aria.level}
-                arrowIconSrc={generateSectionAssets.selectArrow}
-              />
-            </FormField>
-          </div>
+          <FormField className="w-full" label="Nivel">
+            <SelectBox
+              value={level}
+              options={routineLevelOptions}
+              onValueChange={setLevel}
+              className="w-full"
+              triggerAriaLabel={aria.level}
+              arrowIconSrc={generateSectionAssets.selectArrow}
+            />
+          </FormField>
 
-          <div className="col-span-1 flex flex-col gap-[8px] items-start justify-self-stretch relative self-start shrink-0 w-full">
-            <FormField className="w-full" label="Frecuencia semanal">
-              <SelectBox
-                value={frequency}
-                options={frequencyOptions}
-                onValueChange={setFrequency}
-                className="w-full"
-                triggerAriaLabel={aria.frequency}
-                arrowIconSrc={generateSectionAssets.selectArrow}
-              />
-            </FormField>
-          </div>
+          <FormField className="w-full" label="Frecuencia semanal">
+            <SelectBox
+              value={frequency}
+              options={routineFrequencyOptions}
+              onValueChange={setFrequency}
+              className="w-full"
+              triggerAriaLabel={aria.frequency}
+              arrowIconSrc={generateSectionAssets.selectArrow}
+            />
+          </FormField>
 
-          <div className="col-span-1 flex flex-col gap-[8px] items-start justify-self-stretch relative self-start shrink-0 w-full">
-            <FormField className="w-full" label="Tiempo por sesión">
-              <SelectBox
-                value={sessionTime}
-                options={sessionTimeOptions}
-                onValueChange={setSessionTime}
-                className="w-full"
-                triggerAriaLabel={aria.sessionTime}
-                arrowIconSrc={generateSectionAssets.selectArrow}
-              />
-            </FormField>
-          </div>
+          <FormField className="w-full" label="Tiempo por sesión">
+            <SelectBox
+              value={sessionTime}
+              options={routineSessionTimeOptions}
+              onValueChange={setSessionTime}
+              className="w-full"
+              triggerAriaLabel={aria.sessionTime}
+              arrowIconSrc={generateSectionAssets.selectArrow}
+            />
+          </FormField>
 
-          <div className="col-span-1 flex flex-col gap-[8px] items-start justify-self-stretch relative self-start shrink-0 w-full">
-            <FormField className="w-full" label="Lugar preferido">
-              <SelectBox
-                value={location}
-                options={locationOptions}
-                onValueChange={setLocation}
-                className="w-full"
-                triggerAriaLabel={aria.location}
-                arrowIconSrc={generateSectionAssets.selectArrow}
-              />
-            </FormField>
-          </div>
+          <FormField className="w-full" label="Lugar preferido">
+            <SelectBox
+              value={location}
+              options={routineLocationOptions}
+              onValueChange={setLocation}
+              className="w-full"
+              triggerAriaLabel={aria.location}
+              arrowIconSrc={generateSectionAssets.selectArrow}
+            />
+          </FormField>
 
-          <div className="col-span-1 flex flex-col gap-[8px] items-start justify-self-stretch relative self-start shrink-0 w-full">
-            <FormField className="w-full" label="Compromiso">
-              <SelectBox
-                value={commitment}
-                options={commitmentOptions}
-                onValueChange={setCommitment}
-                className="w-full"
-                triggerAriaLabel={aria.commitment}
-                arrowIconSrc={generateSectionAssets.selectArrow}
-              />
-            </FormField>
-          </div>
+          <FormField className="w-full" label="Compromiso">
+            <SelectBox
+              value={commitment}
+              options={routineCommitmentOptions}
+              onValueChange={setCommitment}
+              className="w-full"
+              triggerAriaLabel={aria.commitment}
+              arrowIconSrc={generateSectionAssets.selectArrow}
+            />
+          </FormField>
 
-          <div className="col-span-1 md:col-span-2 flex flex-col gap-[8px] items-start justify-self-stretch relative self-start shrink-0 w-full">
-            <FormField className="w-full" label="Salud y limitaciones">
-              <SelectBox
-                value={health}
-                options={healthOptions}
-                onValueChange={setHealth}
-                className="w-full"
-                triggerAriaLabel={aria.health}
-                arrowIconSrc={generateSectionAssets.selectArrow}
-              />
-            </FormField>
-          </div>
+          <FormField className="w-full md:col-span-2" label="Salud y limitaciones">
+            <SelectBox
+              value={health}
+              options={routineHealthOptions}
+              onValueChange={setHealth}
+              className="w-full"
+              triggerAriaLabel={aria.health}
+              arrowIconSrc={generateSectionAssets.selectArrow}
+            />
+          </FormField>
         </div>
 
         <Button
           variant="primary"
-          className="w-full h-[48px] lg:h-auto"
+          className="w-full"
           icon={
-            <img
+            <Image
               src={generateSectionAssets.sparkles}
               alt=""
-              aria-hidden="true"
+              width={16}
+              height={16}
+              aria-hidden
               className="size-4"
-              loading="lazy"
             />
           }
         >
           Generar rutina
         </Button>
-      </div>
+      </article>
 
-      <div
-        className={cn(
-          "col-span-1 flex flex-col gap-[24px] items-start justify-self-stretch relative self-stretch shrink-0 lg:col-span-1",
-        )}
-      >
-        <div className="bg-primary flex flex-col gap-[16px] md:gap-[20px] lg:gap-[24px] items-start justify-center overflow-hidden p-[16px] md:p-[20px] lg:p-[24px] relative rounded-[24px] w-full">
-          <div className="bg-[#3374ff] flex items-center justify-center relative rounded-[12px] shrink-0 size-[48px]">
-            <div className="relative shrink-0 size-[24px]">
+      <div className="col-span-1 flex min-h-0 flex-col gap-6 self-stretch justify-self-stretch lg:col-span-1 lg:h-full">
+        <article
+          aria-labelledby="entrenador-digital-heading"
+          className="relative flex min-h-0 w-full flex-1 flex-col items-start gap-4 overflow-hidden rounded-3xl bg-primary p-4 md:gap-5 md:p-5 lg:justify-center lg:gap-6 lg:p-6"
+        >
+          <div className="relative flex size-12 shrink-0 items-center justify-center rounded-xl bg-primary-accent-tile">
+            <div className="relative size-6 shrink-0">
               <div className="absolute inset-[8.33%_10.42%]">
                 <div className="absolute inset-[-3%_-3.16%]">
-                  <img
-                    src={generateSectionAssets.aiIconPart1}
-                    alt=""
-                    aria-hidden="true"
-                    className="absolute block max-w-none size-full"
-                    loading="lazy"
-                  />
+                  <div className="relative size-full">
+                    <Image
+                      src={generateSectionAssets.aiIconPart1}
+                      alt=""
+                      fill
+                      aria-hidden
+                      className="object-contain"
+                      sizes="24px"
+                    />
+                  </div>
                 </div>
               </div>
 
               <div className="absolute inset-[22.49%_39.58%_43.32%_27.08%]">
                 <div className="absolute inset-[-6.09%_-6.25%]">
-                  <img
-                    src={generateSectionAssets.aiIconPart2}
-                    alt=""
-                    aria-hidden="true"
-                    className="absolute block max-w-none size-full"
-                    loading="lazy"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex flex-col font-bold justify-center leading-0 relative shrink-0 text-[20px] md:text-[22px] lg:text-[24px] text-[#f9fafb] w-full min-w-0 lg:min-w-full lg:w-min">
-            <p className="leading-[36px]">Tu entrenador digital inteligente</p>
-          </div>
-
-          <div className="flex flex-col font-medium justify-center leading-0 relative shrink-0 text-[14px] md:text-[15px] lg:text-[16px] text-[#eceff3] w-full min-w-0 lg:min-w-full lg:w-min">
-            <p className="leading-[26px]">
-              Nuestra IA ajusta tu entrenamiento basándose en tu nivel, objetivos y estado diario
-              para garantizar un proceso seguro y efectivo.
-            </p>
-          </div>
-
-          <div className="flex flex-col gap-[16px] items-start relative shrink-0">
-            <div className="flex gap-[8px] items-center relative shrink-0">
-              <div className="relative shrink-0 size-[24px]">
-                <div className="absolute inset-[8.33%]">
-                  <div className="absolute inset-[-3%]">
-                    <img
-                      src={generateSectionAssets.checkmark}
+                  <div className="relative size-full">
+                    <Image
+                      src={generateSectionAssets.aiIconPart2}
                       alt=""
-                      aria-hidden="true"
-                      className="absolute block max-w-none size-full"
-                      loading="lazy"
+                      fill
+                      aria-hidden
+                      className="object-contain"
+                      sizes="24px"
                     />
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col font-normal justify-center leading-0 relative shrink-0 text-[16px] text-white whitespace-nowrap">
-                <p className="leading-[24px]">Adaptación en tiempo real</p>
-              </div>
             </div>
+          </div>
 
-            <div className="flex gap-[8px] items-center relative shrink-0">
-              <div className="relative shrink-0 size-[24px]">
+          <h3
+            id="entrenador-digital-heading"
+            className="w-full min-w-0 text-xl font-bold leading-9 text-primary-foreground md:text-2xl md:leading-10 lg:w-min lg:min-w-full lg:text-2xl lg:leading-10"
+          >
+            Tu entrenador digital inteligente
+          </h3>
+
+          <p className="w-full min-w-0 text-sm font-medium leading-relaxed text-primary-foreground/90 lg:w-min lg:min-w-full lg:text-base">
+            Nuestra IA ajusta tu entrenamiento basándose en tu nivel, objetivos y estado diario para
+            garantizar un proceso seguro y efectivo.
+          </p>
+
+          <ul className="m-0 flex list-none flex-col gap-4 p-0">
+            <li className="flex items-center gap-2">
+              <div className="relative size-6 shrink-0">
                 <div className="absolute inset-[8.33%]">
                   <div className="absolute inset-[-3%]">
-                    <img
-                      src={generateSectionAssets.checkmark}
-                      alt=""
-                      aria-hidden="true"
-                      className="absolute block max-w-none size-full"
-                      loading="lazy"
-                    />
+                    <div className="relative size-full">
+                      <Image
+                        src={generateSectionAssets.checkmark}
+                        alt=""
+                        fill
+                        aria-hidden
+                        className="object-contain"
+                        sizes="24px"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col font-normal justify-center leading-0 relative shrink-0 text-[16px] text-white whitespace-nowrap">
-                <p className="leading-[24px]">Prevención de lesiones</p>
+              <span className="whitespace-nowrap text-base leading-6 text-white">Adaptación en tiempo real</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <div className="relative size-6 shrink-0">
+                <div className="absolute inset-[8.33%]">
+                  <div className="absolute inset-[-3%]">
+                    <div className="relative size-full">
+                      <Image
+                        src={generateSectionAssets.checkmark}
+                        alt=""
+                        fill
+                        aria-hidden
+                        className="object-contain"
+                        sizes="24px"
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+              <span className="whitespace-nowrap text-base leading-6 text-white">Prevención de lesiones</span>
+            </li>
+          </ul>
 
           <div className="absolute flex flex-col items-start right-[-20px] lg:right-[-53.45px] top-[-47px]">
             <div className="flex h-[190px] items-center justify-center relative shrink-0 w-[220px]">
               <div className="scale-[1.5]">
                 <div className="h-[126.667px] relative w-[146.667px]">
-                  <img
+                  <Image
                     src={generateSectionAssets.aiIcon}
                     alt=""
-                    aria-hidden="true"
-                    className="absolute block max-w-none size-full"
-                    loading="lazy"
+                    fill
+                    aria-hidden
+                    className="object-contain"
+                    sizes="150px"
                   />
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </article>
 
-        <div className="bg-[#e0eaff] flex flex-col gap-[12px] items-start p-[24px] relative rounded-[24px] shrink-0 w-full">
-          <div className="flex gap-[8px] items-center relative shrink-0">
-            <div className="relative shrink-0 size-[24px]">
+        <aside
+          aria-labelledby="dato-del-dia-heading"
+          className="flex w-full shrink-0 flex-col gap-3 rounded-3xl bg-hero-surface p-6"
+        >
+          <div className="flex items-center gap-2">
+            <div className="relative size-6 shrink-0">
               <div className="absolute inset-[8.33%]">
                 <div className="absolute inset-[-5%]">
-                  <img
-                    src={generateSectionAssets.ideaIcon}
-                    alt=""
-                    aria-hidden="true"
-                    className="block max-w-none size-full"
-                    loading="lazy"
-                  />
+                  <div className="relative size-full">
+                    <Image
+                      src={generateSectionAssets.ideaIcon}
+                      alt=""
+                      fill
+                      aria-hidden
+                      className="object-contain"
+                      sizes="24px"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-
-            <div className="flex flex-col font-bold justify-center leading-0 relative shrink-0 text-[20px] text-primary-hover whitespace-nowrap">
-              <p className="leading-[24px]">Dato del día</p>
-            </div>
+            <h4
+              id="dato-del-dia-heading"
+              className="whitespace-nowrap text-xl font-bold leading-6 text-primary-hover"
+            >
+              Dato del día
+            </h4>
           </div>
 
-          <div className="flex flex-col font-normal justify-center leading-0 relative shrink-0 text-[14px] text-muted-foreground w-full min-w-0 lg:min-w-full lg:w-min">
-            <p className="leading-[21px]">
-              Corre a un ritmo suave el 80% de tus sesiones mejora tu resistencia un 12% más rápido
-              que el esfuerzo máximo constante.
-            </p>
-          </div>
-        </div>
+          <p className="w-full min-w-0 text-sm leading-relaxed text-muted-foreground lg:w-min lg:min-w-full lg:text-base">
+            Corre a un ritmo suave el 80% de tus sesiones mejora tu resistencia un 12% más rápido que
+            el esfuerzo máximo constante.
+          </p>
+        </aside>
       </div>
     </section>
   );

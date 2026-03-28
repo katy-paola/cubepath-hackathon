@@ -38,23 +38,18 @@ export function SelectBox({
   triggerAriaLabel,
   arrowIconSrc,
 }: SelectBoxProps) {
+  const selectedIndex = useMemo(() => options.indexOf(value), [options, value]);
+
   const [open, setOpen] = useState(defaultOpen);
-  const [activeIndex, setActiveIndex] = useState<number>(-1);
+  const [activeIndex, setActiveIndex] = useState<number>(() => {
+    if (!defaultOpen) return -1;
+    return selectedIndex >= 0 ? selectedIndex : 0;
+  });
   const rootRef = useRef<HTMLDivElement | null>(null);
   const listboxRef = useRef<HTMLDivElement | null>(null);
   const baseId = useId();
 
   const selectedLabel = value || placeholder || "";
-
-  const selectedIndex = useMemo(() => {
-    const idx = options.indexOf(value);
-    return idx;
-  }, [options, value]);
-
-  useEffect(() => {
-    if (!open) return;
-    setActiveIndex(selectedIndex >= 0 ? selectedIndex : 0);
-  }, [open, selectedIndex]);
 
   useEffect(() => {
     if (!open) return;
@@ -95,14 +90,22 @@ export function SelectBox({
   }
 
   return (
-    <div ref={rootRef} className={cn("relative w-[162px]", className)}>
+    <div ref={rootRef} className={cn("relative w-40", className)}>
       <SelectTrigger
         value={selectedLabel}
         open={open}
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => {
+          if (open) {
+            setOpen(false);
+            return;
+          }
+          setActiveIndex(selectedIndex >= 0 ? selectedIndex : 0);
+          setOpen(true);
+        }}
         onKeyDown={(e) => {
           if (e.key === "ArrowDown" || e.key === "ArrowUp") {
             e.preventDefault();
+            setActiveIndex(selectedIndex >= 0 ? selectedIndex : 0);
             setOpen(true);
           }
         }}

@@ -1,9 +1,20 @@
 "use client";
 
 import type { ComponentPropsWithoutRef } from "react";
+import Image from "next/image";
 import { useMemo, useState } from "react";
 
 import { Button, FormField, SelectBox } from "@/components/ui";
+import {
+  routineCommitmentOptions,
+  routineFormDefaults,
+  routineFrequencyOptions,
+  routineHealthOptions,
+  routineLevelOptions,
+  routineLocationOptions,
+  routineObjectiveOptions,
+  routineSessionTimeOptions,
+} from "@/lib/routine-form-options";
 import { cn } from "@/lib/utils";
 
 import { adjustRoutineAssets } from "./adjust-routine-assets";
@@ -15,14 +26,6 @@ export type AdjustRoutineCardProps = Omit<
   device?: "desktop" | "tablet" | "mobile";
 };
 
-const objectiveOptions = ["Resistencia", "Velocidad", "Potencia"] as const;
-const levelOptions = ["Principiante", "Intermedio", "Avanzado"] as const;
-const frequencyOptions = ["2 días", "3 días", "4 días", "5 días"] as const;
-const sessionTimeOptions = ["30 min", "45 min", "60 min", "75 min"] as const;
-const locationOptions = ["Exterior", "Interior"] as const;
-const commitmentOptions = ["Bajo", "Medio", "Alto"] as const;
-const healthOptions = ["Nada", "Molestias", "Lesiones previas"] as const;
-
 export function AdjustRoutineCard({
   className,
   device = "desktop",
@@ -31,13 +34,13 @@ export function AdjustRoutineCard({
   const isMobile = device === "mobile";
   const isTablet = device === "tablet";
 
-  const [objective, setObjective] = useState<string>("Resistencia");
-  const [level, setLevel] = useState<string>("Principiante");
-  const [frequency, setFrequency] = useState<string>("3 días");
-  const [sessionTime, setSessionTime] = useState<string>("45 min");
-  const [location, setLocation] = useState<string>("Exterior");
-  const [commitment, setCommitment] = useState<string>("Medio");
-  const [health, setHealth] = useState<string>("Nada");
+  const [objective, setObjective] = useState<string>(routineFormDefaults.objective);
+  const [level, setLevel] = useState<string>(routineFormDefaults.level);
+  const [frequency, setFrequency] = useState<string>(routineFormDefaults.frequency);
+  const [sessionTime, setSessionTime] = useState<string>(routineFormDefaults.sessionTime);
+  const [location, setLocation] = useState<string>(routineFormDefaults.location);
+  const [commitment, setCommitment] = useState<string>(routineFormDefaults.commitment);
+  const [health, setHealth] = useState<string>(routineFormDefaults.health);
 
   const aria = useMemo(
     () => ({
@@ -56,37 +59,37 @@ export function AdjustRoutineCard({
     <section
       {...props}
       className={cn(
-        "bg-[#e0eaff] flex flex-col gap-[32px] items-start overflow-clip relative rounded-[24px] w-full max-w-[1232px]",
-        isMobile ? "p-[16px]" : "p-[24px]",
+        "relative flex w-full max-w-page flex-col items-start gap-8 overflow-clip rounded-3xl bg-hero-surface",
+        isMobile ? "p-4" : "p-6",
         className,
       )}
-      role="region"
-      aria-label="¿Cambio de planes? Reajusta rápido."
+      aria-labelledby="ajustar-rutina-heading"
     >
-      <div
+      <h2
+        id="ajustar-rutina-heading"
         className={cn(
-          "font-bold justify-center leading-0 relative shrink-0 text-foreground-strong w-full",
-          isMobile ? "text-[20px]" : "text-[24px]",
+          "w-full font-bold leading-8 text-heading",
+          isMobile ? "text-xl" : "text-2xl",
         )}
       >
-        <p className="leading-[32px]">¿Cambio de planes? Reajusta rápido.</p>
-      </div>
+        ¿Cambio de planes? Reajusta rápido.
+      </h2>
 
-      <div className="flex flex-col gap-[24px] items-start relative shrink-0 w-full">
+      <div className="flex w-full flex-col gap-6">
         <div
           className={cn(
-            "relative shrink-0 w-full",
+            "w-full",
             isMobile
-              ? "flex flex-col gap-[10px] items-start"
+              ? "flex flex-col gap-2.5"
               : isTablet
-                ? "grid grid-cols-2 gap-x-[20px] gap-y-[20px] lg:gap-x-[24px] lg:gap-y-[24px]"
-                : "grid grid-cols-4 gap-x-[24px] gap-y-[24px]",
+                ? "grid grid-cols-2 items-stretch gap-5 lg:gap-x-6 lg:gap-y-6"
+                : "grid grid-cols-4 items-stretch gap-x-6 gap-y-6",
           )}
         >
           <FormField className="w-full" label="Objetivo">
             <SelectBox
               value={objective}
-              options={objectiveOptions}
+              options={routineObjectiveOptions}
               onValueChange={setObjective}
               className="w-full"
               triggerAriaLabel={aria.objective}
@@ -97,7 +100,7 @@ export function AdjustRoutineCard({
           <FormField className="w-full" label="Nivel">
             <SelectBox
               value={level}
-              options={levelOptions}
+              options={routineLevelOptions}
               onValueChange={setLevel}
               className="w-full"
               triggerAriaLabel={aria.level}
@@ -108,7 +111,7 @@ export function AdjustRoutineCard({
           <FormField className="w-full" label="Frecuencia semanal">
             <SelectBox
               value={frequency}
-              options={frequencyOptions}
+              options={routineFrequencyOptions}
               onValueChange={setFrequency}
               className="w-full"
               triggerAriaLabel={aria.frequency}
@@ -119,7 +122,7 @@ export function AdjustRoutineCard({
           <FormField className="w-full" label="Tiempo por sesión">
             <SelectBox
               value={sessionTime}
-              options={sessionTimeOptions}
+              options={routineSessionTimeOptions}
               onValueChange={setSessionTime}
               className="w-full"
               triggerAriaLabel={aria.sessionTime}
@@ -130,7 +133,7 @@ export function AdjustRoutineCard({
           <FormField className="w-full" label="Lugar preferido">
             <SelectBox
               value={location}
-              options={locationOptions}
+              options={routineLocationOptions}
               onValueChange={setLocation}
               className="w-full"
               triggerAriaLabel={aria.location}
@@ -141,7 +144,7 @@ export function AdjustRoutineCard({
           <FormField className="w-full" label="Compromiso">
             <SelectBox
               value={commitment}
-              options={commitmentOptions}
+              options={routineCommitmentOptions}
               onValueChange={setCommitment}
               className="w-full"
               triggerAriaLabel={aria.commitment}
@@ -150,16 +153,12 @@ export function AdjustRoutineCard({
           </FormField>
 
           <FormField
-            className={cn(
-              "w-full",
-              // In Figma desktop/tablet this field spans wider.
-              isMobile ? undefined : isTablet ? "col-span-2" : "col-span-2",
-            )}
+            className={cn("w-full", !isMobile && "col-span-2")}
             label="Salud y limitaciones"
           >
             <SelectBox
               value={health}
-              options={healthOptions}
+              options={routineHealthOptions}
               onValueChange={setHealth}
               className="w-full"
               triggerAriaLabel={aria.health}
@@ -168,17 +167,18 @@ export function AdjustRoutineCard({
           </FormField>
         </div>
 
-        <div className="flex items-start justify-center relative shrink-0 w-full">
+        <div className="flex w-full justify-center">
           <Button
-            className={cn(isMobile ? "w-full" : "w-[156px]")}
+            className={cn(isMobile ? "w-full" : "shrink-0")}
             size="sm"
             icon={
-              <img
+              <Image
                 src={adjustRoutineAssets.sparkles}
                 alt=""
-                aria-hidden="true"
+                width={16}
+                height={16}
+                aria-hidden
                 className="size-4"
-                loading="lazy"
               />
             }
           >

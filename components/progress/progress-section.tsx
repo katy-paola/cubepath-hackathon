@@ -23,40 +23,40 @@ export function ProgressSection({
     <section
       {...props}
       className={cn(
-        "flex flex-col items-start relative w-full max-w-[1232px]",
-        isMobile ? "gap-[16px]" : "gap-[24px] lg:gap-[32px]",
+        "relative flex w-full max-w-page flex-col items-start",
+        isMobile ? "gap-4" : "gap-6 lg:gap-8",
         className,
       )}
-      role="region"
-      aria-label="Progreso semanal"
+      aria-labelledby="progress-section-heading"
     >
-      <div className="flex flex-col items-start leading-0 relative shrink-0 whitespace-nowrap">
-        <div
+      <h2
+        id="progress-section-heading"
+        className="flex flex-col items-start gap-1 leading-none"
+      >
+        <span
           className={cn(
-            "font-medium justify-center relative shrink-0 text-primary-hover",
-            isMobile ? "text-[12px]" : "text-[14px]",
+            "font-medium leading-6 text-primary-hover",
+            isMobile ? "text-xs" : "text-sm",
           )}
         >
-          <p className="leading-[24px]">MÉTRICAS EN VIVO</p>
-        </div>
-        <div
+          MÉTRICAS EN VIVO
+        </span>
+        <span
           className={cn(
-            "font-bold justify-center relative shrink-0 text-foreground-strong",
-            isMobile ? "text-[24px]" : "text-[30px]",
+            "font-bold text-heading",
+            isMobile ? "text-2xl leading-8" : "text-3xl leading-8",
           )}
         >
-          <p className={cn(isMobile ? "leading-[30px]" : "leading-[30px]")}>
-            Progreso semanal
-          </p>
-        </div>
-      </div>
+          Progreso semanal
+        </span>
+      </h2>
 
       <div
         className={cn(
-          "relative shrink-0 w-full",
+          "w-full",
           isStacked
-            ? "flex flex-col gap-[16px] items-start"
-            : "grid grid-cols-3 gap-x-[16px] gap-y-[16px]",
+            ? "flex flex-col gap-4 items-stretch"
+            : "grid grid-cols-3 gap-4 items-stretch",
         )}
       >
         <ProgressCard

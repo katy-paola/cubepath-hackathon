@@ -1,37 +1,30 @@
-import { AdjustRoutineCard, GenerateSection, Hero } from "@/components/landing";
-import { ProgressSection } from "@/components/progress";
 import { HomeHeader } from "@/components/home/home-header";
 import { WorkoutSection } from "@/components/home/workout-section";
+import { AdjustRoutineCard } from "@/components/landing/adjust-routine-card";
+import { GenerateSection } from "@/components/landing/generate-section";
+import { Hero } from "@/components/landing/hero";
+import { ProgressSection } from "@/components/progress/progress-section";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#f5f8ff] overflow-x-hidden">
+    <main
+      className="min-h-screen bg-page-shell overflow-x-hidden"
+      aria-label="Contenido principal"
+    >
       <HomeHeader />
-      <div className="mx-auto w-full max-w-[1232px]">
-        <div className="flex flex-col gap-[32px] md:gap-[64px] px-[16px] md:px-[24px] py-[16px] md:py-[24px]">
-          {/* These components are already responsive by design tokens/max-w patterns */}
-          {/* Imported below to avoid barrel churn */}
-          {/* (see imports added at top) */}
-          {/* Hero */}
+      <div className="mx-auto w-full max-w-page">
+        <div className="flex flex-col gap-8 px-4 py-4 md:gap-16 md:px-6 md:py-6">
           <Hero />
-
-          {/* Configure routine + AI info */}
           <GenerateSection />
-
-          {/* Workout plan */}
           <WorkoutSection device="desktop" className="hidden lg:flex" />
           <WorkoutSection device="tablet" className="hidden sm:flex lg:hidden" />
           <WorkoutSection device="mobile" className="flex sm:hidden" />
-
-          {/* Weekly progress */}
           <ProgressSection device="desktop" className="hidden lg:flex" />
-          <ProgressSection device="tablet" className="hidden sm:flex lg:hidden max-w-[505px]" />
-          <ProgressSection device="mobile" className="flex sm:hidden max-w-[403px]" />
-
-          {/* Adjust routine */}
+          <ProgressSection device="tablet" className="hidden max-w-lg sm:flex lg:hidden" />
+          <ProgressSection device="mobile" className="flex max-w-sm sm:hidden" />
           <AdjustRoutineCard device="desktop" className="hidden lg:flex" />
-          <AdjustRoutineCard device="tablet" className="hidden sm:flex lg:hidden max-w-[750px]" />
-          <AdjustRoutineCard device="mobile" className="flex sm:hidden max-w-[492px]" />
+          <AdjustRoutineCard device="tablet" className="hidden max-w-3xl sm:flex lg:hidden" />
+          <AdjustRoutineCard device="mobile" className="flex max-w-lg sm:hidden" />
         </div>
       </div>
     </main>

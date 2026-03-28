@@ -10,7 +10,7 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
 };
 
 const buttonVariants = cva(
-  "relative inline-flex items-center justify-center gap-1 whitespace-nowrap text-base leading-6 font-medium transition-[background-color,border-color,color] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-offset-2 focus-visible:ring-offset-card disabled:pointer-events-none disabled:opacity-50",
+  "relative inline-flex items-center justify-center gap-1 whitespace-nowrap font-medium transition-[background-color,border-color,color] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-offset-2 focus-visible:ring-offset-card disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
@@ -18,8 +18,9 @@ const buttonVariants = cva(
         secondary: "button-secondary",
       },
       size: {
-        default: "min-h-14 rounded-[16px] px-6 py-4",
-        sm: "min-h-10 rounded-[12px] px-4 py-2",
+        // Height comes from line-height + vertical padding (no min-height); matches Figma via scale, not fixed px.
+        default: "rounded-2xl px-6 py-3 text-base leading-6 lg:py-4",
+        sm: "rounded-xl px-6 py-2 text-sm leading-5",
       },
     },
     defaultVariants: {

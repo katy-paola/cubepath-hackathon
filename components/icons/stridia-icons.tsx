@@ -8,17 +8,13 @@ import type {
 import RawArtificialIntelligenceInner from "./raw/ArtificialIntelligenceInner";
 import RawArtificialIntelligenceOutline from "./raw/ArtificialIntelligenceOutline";
 import RawArrowDown from "./raw/ArrowDown";
-import RawCheckmark from "./raw/Checkmark";
-import RawIdea from "./raw/Idea";
 import RawInfoCircle from "./raw/InfoCircle";
 import RawInfoDot from "./raw/InfoDot";
 import RawInfoLine from "./raw/InfoLine";
 import RawRefresh from "./raw/Refresh";
 import RawSlidersHorizontal from "./raw/SlidersHorizontal";
 import RawSparkles from "./raw/Sparkles";
-import RawTradeDown from "./raw/TradeDown";
 import RawTradeUp from "./raw/TradeUp";
-import RawWorkoutRun from "./raw/WorkoutRun";
 
 type StridiaIconProps = Omit<ComponentPropsWithoutRef<"span">, "children"> & {
   decorative?: boolean;
@@ -117,12 +113,6 @@ function createSingleLayerIcon(
   };
 }
 
-export const WorkoutRun = createSingleLayerIcon(
-  RawWorkoutRun,
-  { inset: "12.5% 16.67%" },
-  { inset: "-3.33% -3.75%" },
-);
-
 export const SlidersHorizontal = createSingleLayerIcon(
   RawSlidersHorizontal,
   { inset: "8.33% 16.67%" },
@@ -167,18 +157,6 @@ export function ArtificialIntelligence(props: StridiaIconProps) {
   );
 }
 
-export const Checkmark = createSingleLayerIcon(
-  RawCheckmark,
-  { inset: "8.33%" },
-  { inset: "-3%" },
-);
-
-export const Idea = createSingleLayerIcon(
-  RawIdea,
-  { inset: "8.33%" },
-  { inset: "-3%" },
-);
-
 export function Info(props: StridiaIconProps) {
   return (
     <IconRoot {...props}>
@@ -213,31 +191,10 @@ export const TradeUp = createSingleLayerIcon(
   { inset: "-7.5% -3.75%" },
 );
 
-export const TradeDown = createSingleLayerIcon(
-  RawTradeDown,
-  { inset: "33.33% 16.67%" },
-  { inset: "-7.5% -3.75%" },
-);
-
 export const Refresh = createSingleLayerIcon(
   RawRefresh,
   { inset: "12.5%" },
   { inset: "-3.33%" },
 );
 
-export const stridiaIcons = [
-  { name: "workout-run", component: WorkoutRun },
-  { name: "sliders-horizontal", component: SlidersHorizontal },
-  { name: "arrow-down", component: ArrowDown },
-  { name: "sparkles", component: Sparkles },
-  { name: "artificial-intelligence", component: ArtificialIntelligence },
-  { name: "checkmark", component: Checkmark },
-  { name: "idea", component: Idea },
-  { name: "trade-up", component: TradeUp },
-  { name: "trade-down", component: TradeDown },
-  { name: "refresh", component: Refresh },
-  { name: "info", component: Info },
-] as const;
-
-export type StridiaIconName = (typeof stridiaIcons)[number]["name"];
 export type { StridiaIconProps };

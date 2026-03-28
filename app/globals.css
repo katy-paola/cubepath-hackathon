@@ -1,8 +1,16 @@
 @import "tailwindcss";
 
+/*
+ * Tokens de color / layout alineados al archivo de diseño Stridia (Hackathon CubePath).
+ * Variables (Dev Mode): https://www.figma.com/design/Q7k2k9oI7EIeOESkiPZZlF/Stridia-%7C-Hackathon-CubePath?node-id=12-7&m=dev&vars=1&var-set-id=12-572
+ * Marco de referencia adicional: https://www.figma.com/design/Q7k2k9oI7EIeOESkiPZZlF/Stridia-%7C-Hackathon-CubePath?node-id=18-687&m=dev
+ */
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  /* Text — mapear nombres de Figma a --text-* / utilidades text-ink, text-heading, text-subdued */
+  --text-default: #171717;
+  --text-heading: #28303e;
+  --text-subdued: #3c485d;
   --card: #f9fafb;
   --secondary: #eceff3;
   --border-subtle: #dadfe7;
@@ -14,13 +22,30 @@
   --primary-foreground: #f9fafb;
   --secondary-foreground: #0041cc;
   --muted-foreground: #50607c;
-  --foreground-soft: #3c485d;
-  --foreground-strong: #28303e;
+  /* Layout / marketing surfaces (Stridia) */
+  --page-shell: #f5f8ff;
+  --hero-surface: #e0eaff;
+  --hero-orb: #c2d5ff;
+  --container-max-width: 1232px;
+  /* Métricas / progreso (evitar hex sueltos en cards) */
+  --metric-blue: #002066;
+  --trend-positive: #059443;
+  --primary-accent-tile: #3374ff;
+  /* Estado completado (training card, etc.) */
+  --success-border: #07c559;
+  --success-ink: #04622d;
+  /* Etiquetas muy pequeñas (badges uppercase en cards) */
+  --font-size-eyebrow: 0.625rem;
+  --line-height-eyebrow: 0.9375rem;
+  /* Ancho mínimo rail demo (galería / scroll horizontal) */
+  --width-demo-rail: 36rem;
 }
 
 @theme inline {
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-ink: var(--text-default);
+  --color-heading: var(--text-heading);
+  --color-subdued: var(--text-subdued);
   --color-card: var(--card);
   --color-secondary: var(--secondary);
   --color-border-subtle: var(--border-subtle);
@@ -32,8 +57,17 @@
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted-foreground: var(--muted-foreground);
-  --color-foreground-soft: var(--foreground-soft);
-  --color-foreground-strong: var(--foreground-strong);
+  --color-page-shell: var(--page-shell);
+  --color-hero-surface: var(--hero-surface);
+  --color-hero-orb: var(--hero-orb);
+  --color-metric-blue: var(--metric-blue);
+  --color-trend-positive: var(--trend-positive);
+  --color-primary-accent-tile: var(--primary-accent-tile);
+  --color-success-border: var(--success-border);
+  --color-success-ink: var(--success-ink);
+  --max-width-page: var(--container-max-width);
+  --max-width-card-promo: 24.666875rem; /* ~394.667px Figma training/progress card */
+  --min-width-demo-rail: var(--width-demo-rail);
   --font-sans: var(--font-space-grotesk);
   --font-mono: var(--font-geist-mono);
 }
@@ -41,13 +75,13 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
-    --foreground: #ededed;
+    --text-default: #ededed;
   }
 }
 
 body {
   background: var(--background);
-  color: var(--foreground);
+  color: var(--text-default);
   font-family: var(--font-space-grotesk), Arial, Helvetica, sans-serif;
 }
 
@@ -57,6 +91,11 @@ button:not(:disabled),
 }
 
 @layer components {
+  .text-eyebrow-sm {
+    font-size: var(--font-size-eyebrow);
+    line-height: var(--line-height-eyebrow);
+  }
+
   /* Increase touch target on touch devices without changing visual size. */
   @media (pointer: coarse) {
     .button-primary::before,

@@ -24,29 +24,36 @@ export function WorkoutSection({
   return (
     <section
       {...props}
-      className={cn("flex flex-col gap-[24px] w-full", className)}
-      role="region"
-      aria-label="Rutina generada"
+      className={cn("flex w-full flex-col gap-6", className)}
+      aria-labelledby="workout-section-heading"
     >
-      <div className={cn("w-full", isMobile ? "flex flex-col gap-[16px] items-start" : "flex items-end justify-between")}>
-        <div className="flex flex-col items-start leading-0 whitespace-nowrap">
-          <div className={cn("font-medium text-primary-hover", isMobile ? "text-[12px]" : "text-[14px]")}>
-            <p className="leading-[24px]">TU PLAN DE ACCIÓN</p>
-          </div>
-          <div
+      <div className={cn("w-full", isMobile ? "flex flex-col items-start gap-4" : "flex items-end justify-between")}>
+        <h2
+          id="workout-section-heading"
+          className="flex flex-col items-start gap-0 leading-0 whitespace-nowrap"
+        >
+          <span
             className={cn(
-              "font-bold text-foreground-strong",
-              isMobile ? "text-[24px]" : "text-[30px]",
+              "block font-medium leading-6 text-primary-hover",
+              isMobile ? "text-xs" : "text-sm",
             )}
           >
-            <p className="leading-[30px]">Rutina generada</p>
-          </div>
-        </div>
+            TU PLAN DE ACCIÓN
+          </span>
+          <span
+            className={cn(
+              "block font-bold leading-8 text-heading",
+              isMobile ? "text-2xl" : "text-3xl",
+            )}
+          >
+            Rutina generada
+          </span>
+        </h2>
 
         <div
           className={cn(
             "flex items-start",
-            isMobile ? "gap-[16px] w-full" : "gap-[16px]",
+            isMobile ? "w-full gap-4" : "gap-4",
           )}
         >
           <Button
@@ -75,8 +82,8 @@ export function WorkoutSection({
         className={cn(
           "w-full",
           isStacked
-            ? "flex flex-col gap-[16px]"
-            : "flex items-center gap-[24px]",
+            ? "flex flex-col gap-4"
+            : "flex items-center gap-6",
         )}
       >
         <TrainingDayCard

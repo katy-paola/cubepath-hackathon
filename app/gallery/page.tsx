@@ -1,64 +1,69 @@
-import { StridiaLogo } from "@/components/brand";
+import { AppHeader, StridiaLogo } from "@/components/brand";
 import { ArtificialIntelligence, Sparkles } from "@/components/icons";
-import { AdjustRoutineCard, GenerateSection, Hero } from "@/components/landing";
+import { AdjustRoutineCard } from "@/components/landing/adjust-routine-card";
+import { GenerateSection } from "@/components/landing/generate-section";
+import { Hero } from "@/components/landing/hero";
 import { generateSectionAssets } from "@/components/landing/generate-section-assets";
-import { StridiaShared } from "@/components/shared";
-import { ProgressSection } from "@/components/progress";
+import { ProgressSection } from "@/components/progress/progress-section";
 import { TrainingDayCard } from "@/components/training";
-import { Button, SelectBox } from "@/components/ui";
+import { Button, FormField, SelectBox, SelectContent, SelectItem } from "@/components/ui";
+import { routineObjectiveOptions } from "@/lib/routine-form-options";
+
+/** Lista demo (3 filas iguales en SelectContent de muestra). */
+const GALLERY_GOAL_LIST = ["Resistencia", "Resistencia", "Resistencia"] as const;
 
 export default function GalleryPage() {
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_top_left,#eef5ff_0,transparent_34%),linear-gradient(180deg,#f6f9ff_0%,#eef3fb_100%)] px-6 py-10 text-slate-900 sm:px-10 lg:px-16">
+    <main className="min-h-screen bg-page-shell px-6 py-10 text-heading sm:px-10 lg:px-16">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-8">
         <div className="flex w-full justify-start">
           <Hero />
         </div>
 
         <section className="flex w-full justify-start">
-          <div className="w-full max-w-[1232px] overflow-x-hidden">
+          <div className="w-full max-w-page overflow-x-hidden">
             <GenerateSection />
           </div>
         </section>
 
         <section className="flex w-full justify-start">
-          <div className="w-full max-w-[1232px] overflow-x-hidden">
+          <div className="w-full max-w-page overflow-x-hidden">
             <div className="space-y-4">
               <AdjustRoutineCard device="desktop" />
-              <AdjustRoutineCard device="tablet" className="max-w-[750px]" />
-              <AdjustRoutineCard device="mobile" className="max-w-[492px]" />
+              <AdjustRoutineCard device="tablet" className="max-w-3xl" />
+              <AdjustRoutineCard device="mobile" className="max-w-lg" />
             </div>
           </div>
         </section>
 
-        <section className="overflow-hidden rounded-[36px] border border-white/65 bg-white/84 p-8 shadow-[0_28px_80px_-42px_rgba(15,23,42,0.32)] backdrop-blur sm:p-10">
-          <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-end">
+        <section className="overflow-hidden rounded-3xl border border-white/60 bg-white/80 p-8 shadow-xl backdrop-blur sm:p-10">
+          <div className="grid gap-8 lg:grid-cols-2 lg:items-end">
             <div className="space-y-5">
               <StridiaLogo className="max-w-full" />
               <div className="space-y-3">
-                <p className="text-xs font-semibold uppercase tracking-[0.34em] text-primary">
-                  Shared Components
+                <p className="text-xs font-semibold uppercase tracking-widest text-primary">
+                  Componentes base
                 </p>
-                <h1 className="max-w-2xl text-4xl font-semibold tracking-[-0.04em] text-balance text-slate-950 sm:text-5xl">
-                  Primer bloque UI de Stridia extraido del nodo compartido de Figma.
+                <h1 className="max-w-2xl text-balance text-4xl font-semibold tracking-tight text-heading sm:text-5xl">
+                  Primer bloque UI de Stridia extraído del nodo compartido de Figma.
                 </h1>
-                <p className="max-w-2xl text-base leading-7 text-slate-600 sm:text-lg">
+                <p className="max-w-2xl text-base leading-7 text-subdued sm:text-lg">
                   Convertimos el frame en componentes reutilizables para CTA y selección de objetivos,
                   listos para crecer sin perder fidelidad visual.
                 </p>
               </div>
             </div>
 
-            <div className="rounded-[30px] border border-slate-900/10 bg-[#151515] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
-              <div className="grid gap-4 sm:grid-cols-2">
-                <Button className="w-[180px]">Generar rutina</Button>
-                <Button className="w-[180px]" variant="secondary">
+            <div className="rounded-3xl border border-heading/10 bg-zinc-950 p-5 shadow-inner">
+              <div className="grid grid-cols-2 gap-4">
+                <Button className="w-44 justify-center">Generar rutina</Button>
+                <Button className="w-44 justify-center" variant="secondary">
                   Generar rutina
                 </Button>
-                <Button className="w-[164px]" size="sm">
+                <Button className="w-40 justify-center" size="sm">
                   Generar rutina
                 </Button>
-                <Button className="w-[164px]" size="sm" variant="secondary">
+                <Button className="w-40 justify-center" size="sm" variant="secondary">
                   Generar rutina
                 </Button>
               </div>
@@ -66,69 +71,74 @@ export default function GalleryPage() {
           </div>
         </section>
 
-        <section className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
-          <article className="overflow-x-hidden md:overflow-x-auto rounded-[30px] border border-slate-200/80 bg-white/88 p-6 shadow-[0_20px_60px_-42px_rgba(15,23,42,0.3)]">
-            <div className="min-w-0 md:min-w-[576px] space-y-[22px]">
-              <div className="relative h-[147px]">
-                <div className="absolute top-[22.5px] left-6">
-                  <Button className="w-[180px]">Generar rutina</Button>
-                </div>
-                <div className="absolute top-[89.5px] left-6">
-                  <Button className="w-[164px]" size="sm">
-                    Generar rutina
-                  </Button>
-                </div>
-                <div className="absolute top-[22.5px] left-[233px]">
-                  <Button className="w-[180px]" variant="secondary">
-                    Generar rutina
-                  </Button>
-                </div>
-                <div className="absolute top-[89.5px] left-[233px]">
-                  <Button className="w-[164px]" size="sm" variant="secondary">
-                    Generar rutina
-                  </Button>
-                </div>
+        <section className="flex flex-col gap-4 lg:flex-row lg:items-start">
+          <article className="min-w-0 flex-1 overflow-x-hidden rounded-3xl border border-border/80 bg-white/90 p-6 shadow-lg md:overflow-x-auto">
+            <div className="min-w-0 space-y-5 md:min-w-demo-rail">
+              <div className="grid grid-cols-2 gap-4 gap-y-6 sm:max-w-xl">
+                <Button className="w-44 justify-center">Generar rutina</Button>
+                <Button className="w-44 justify-center" variant="secondary">
+                  Generar rutina
+                </Button>
+                <Button className="w-40 justify-center" size="sm">
+                  Generar rutina
+                </Button>
+                <Button className="w-40 justify-center" size="sm" variant="secondary">
+                  Generar rutina
+                </Button>
               </div>
 
-              <div className="relative h-[88px]">
-                <div className="absolute top-5 left-[106px] w-[162px]">
-                  <SelectBox value="Resistencia" options={goalOptions} />
+              <div className="flex flex-wrap gap-4">
+                <div className="w-40">
+                  <SelectBox value="Resistencia" options={routineObjectiveOptions} />
                 </div>
-                <div className="absolute top-5 left-[308px] w-[162px]">
-                  <SelectBox value="Resistencia" options={goalOptions} defaultOpen />
+                <div className="w-40">
+                  <SelectBox value="Resistencia" options={routineObjectiveOptions} defaultOpen />
                 </div>
               </div>
 
               <div className="flex flex-wrap items-start gap-4">
                 <SelectBox
                   value="Resistencia"
-                  options={goalOptions}
+                  options={routineObjectiveOptions}
                   triggerAriaLabel="Seleccionar Objetivo (chevron Figma)"
                   arrowIconSrc={generateSectionAssets.selectArrow}
                 />
                 <SelectBox
                   value="Resistencia"
-                  options={goalOptions}
+                  options={routineObjectiveOptions}
                   defaultOpen
                   triggerAriaLabel="Seleccionar Objetivo (chevron Figma, abierto)"
                   arrowIconSrc={generateSectionAssets.selectArrow}
                 />
               </div>
 
-              <StridiaShared
-                goalOptions={goalOptions}
-                selectedGoalIndex={1}
-                formLabel="Label"
-                selectedGoalValue="Resistencia"
-                headerActionLabel="Ajustar rutina"
-              />
+              <div className="flex w-full flex-col items-start gap-5">
+                <div className="flex w-full justify-start">
+                  <SelectContent className="w-40">
+                    {GALLERY_GOAL_LIST.map((option, index) => (
+                      <SelectItem key={`${option}-${index}`} selected={index === 1}>
+                        {option}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </div>
+                <FormField className="w-40" label="Label">
+                  <SelectBox
+                    value="Resistencia"
+                    options={routineObjectiveOptions}
+                    className="w-full"
+                    triggerAriaLabel="Seleccionar Label (actual: Resistencia)"
+                  />
+                </FormField>
+                <AppHeader className="max-w-xl" actionLabel="Ajustar rutina" />
+              </div>
 
               <div className="space-y-4 pt-6">
-                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">
+                <p className="text-xs font-semibold uppercase tracking-widest text-subdued">
                   Training Day Card
                 </p>
                 <div className="space-y-4">
-                  <div className="flex gap-[16px] overflow-x-auto pb-2">
+                  <div className="flex gap-4 overflow-x-auto pb-2">
                     <TrainingDayCard device="desktop" status="default" />
                     <TrainingDayCard device="desktop" status="completed" />
                     <TrainingDayCard
@@ -166,28 +176,28 @@ export default function GalleryPage() {
               </div>
 
               <div className="space-y-4 pt-6">
-                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">
+                <p className="text-xs font-semibold uppercase tracking-widest text-subdued">
                   Progress Card
                 </p>
                 <div className="space-y-4">
                   <ProgressSection device="desktop" />
-                  <ProgressSection device="tablet" className="max-w-[505px]" />
-                  <ProgressSection device="mobile" className="max-w-[403px]" />
+                  <ProgressSection device="tablet" className="max-w-lg" />
+                  <ProgressSection device="mobile" className="max-w-sm" />
                 </div>
               </div>
             </div>
           </article>
 
-          <article className="rounded-[30px] border border-slate-200/80 bg-white/88 p-6 shadow-[0_20px_60px_-42px_rgba(15,23,42,0.3)]">
+          <article className="w-full shrink-0 rounded-3xl border border-border/80 bg-white/90 p-6 shadow-lg lg:w-80">
             <div className="space-y-5">
-              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">
-                MCP Values
+              <p className="text-xs font-semibold uppercase tracking-widest text-subdued">
+                Valores de referencia
               </p>
 
-              <div className="rounded-[24px] bg-slate-950 p-5 text-white">
+              <div className="rounded-2xl bg-slate-950 p-5 text-white">
                 <div className="flex items-start justify-between gap-4">
                   <div className="space-y-2">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-sky-200/75">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-sky-200/80">
                       Action
                     </p>
                     <p className="text-sm leading-6 text-slate-300">
@@ -199,13 +209,13 @@ export default function GalleryPage() {
                 </div>
               </div>
 
-              <div className="rounded-[24px] bg-slate-100 p-5">
+              <div className="rounded-2xl bg-slate-100 p-5">
                 <div className="flex items-start justify-between gap-4">
                   <div className="space-y-2">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-500">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-subdued">
                       Tokens
                     </p>
-                    <p className="text-sm leading-6 text-slate-600">
+                    <p className="text-sm leading-6 text-subdued">
                       `blue/600` `#0051FF`, `blue/700` `#0041CC`, `blue/800` `#003099`, `neutral/50`
                       `#F9FAFB`, `neutral/100` `#ECEFF3`, `neutral/200` `#DADFE7`, `neutral/300`
                       `#C1C9D7`, `neutral/800` `#3C485D`, `neutral/900` `#28303E`.
@@ -221,6 +231,3 @@ export default function GalleryPage() {
     </main>
   );
 }
-
-const goalOptions = ["Resistencia", "Resistencia", "Resistencia"] as const;
-

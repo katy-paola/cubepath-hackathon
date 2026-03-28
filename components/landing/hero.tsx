@@ -1,10 +1,9 @@
 import type { ComponentPropsWithoutRef } from "react";
 
-import { Fugaz_One, Lexend } from "next/font/google";
+import { Fugaz_One } from "next/font/google";
 
 import { cn } from "@/lib/utils";
 
-const lexendBlack = Lexend({ subsets: ["latin"], weight: "900" });
 const fugazOne = Fugaz_One({ subsets: ["latin"], weight: "400" });
 
 export type HeroProps = Omit<
@@ -26,38 +25,35 @@ export function Hero({
   return (
     <section
       {...props}
+      aria-labelledby="hero-heading"
       className={cn(
-        // Keep desktop fidelity, but avoid overflow on small screens.
-        "bg-[#e0eaff] flex flex-col items-start overflow-clip p-[16px] md:p-[32px] lg:p-[64px] relative rounded-[24px] w-full max-w-[1232px]",
+        "relative flex w-full max-w-page flex-col items-start overflow-clip rounded-3xl bg-hero-surface p-4 md:p-8 lg:p-16",
         className,
       )}
     >
       <div
-        className="absolute bg-[#c2d5ff] blur-[50px] right-[-80px] rounded-[9999px] size-[384px] top-[-80px]"
+        className="absolute -right-20 -top-20 size-96 rounded-full bg-hero-orb blur-3xl"
         aria-hidden="true"
       />
 
-      <div className="flex flex-col gap-[16px] md:gap-[24px] items-start leading-0 max-w-[900px] relative shrink-0 w-full">
-        <div
+      <div className="relative flex w-full max-w-4xl flex-col gap-4 md:gap-6">
+        <h1
+          id="hero-heading"
           className={cn(
-            lexendBlack.className,
-            "flex flex-col font-black relative shrink-0 text-[0px] text-foreground-strong w-full min-w-0",
-            "lg:min-w-full lg:w-min",
+            fugazOne.className,
+            "text-2xl font-normal not-italic text-heading md:text-4xl lg:text-5xl",
           )}
         >
-          <p className={cn(fugazOne.className, "not-italic text-[24px] md:text-[36px] lg:text-[48px]")}>
-            <span className="leading-[36px] md:leading-[48px] lg:leading-[64px]">{titlePrefix}</span>
-            <span className="leading-[36px] md:leading-[48px] lg:leading-[64px] text-primary">
-              {titleHighlight}
-            </span>
-          </p>
-        </div>
+          <span className="leading-9 md:leading-12 lg:leading-16">{titlePrefix}</span>
+          <span className="leading-9 text-primary md:leading-12 lg:leading-16">
+            {titleHighlight}
+          </span>
+        </h1>
 
-        <div className="flex flex-col font-['Space_Grotesk:Medium',sans-serif] font-medium justify-center relative shrink-0 text-[16px] lg:text-[20px] text-muted-foreground w-full max-w-[648.95px] min-w-0">
-          <p className="leading-[28px]">{subtitle}</p>
-        </div>
+        <p className="max-w-2xl text-base font-medium leading-7 text-muted-foreground lg:text-xl">
+          {subtitle}
+        </p>
       </div>
     </section>
   );
 }
-
