@@ -8,5 +8,5 @@ export type Progress = {
 
   tiempo_total: number;
 
-  intensidad_promedio: Intensity;
+  intensidad: Intensity;
 };
