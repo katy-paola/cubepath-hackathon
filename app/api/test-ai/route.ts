@@ -1,17 +1,68 @@
+import {
+  RoutineAIResponseSchema,
+  RoutineAISchema,
+} from "@/lib/validations/training";
 import { generateRoutineAI } from "@/lib/ai/test-ai";
+import { RoutineConfig } from "@/lib/types";
 
 export async function GET() {
-  const raw = await generateRoutineAI({
+  const config: RoutineConfig = {
     objetivo: "resistencia",
-    nivel: "principiante",
-    frecuencia_semanal: 3,
+    nivel: "avanzado",
+    frecuencia_semanal: 5,
     tiempo_sesion: 30,
     lugar_entrenamiento: "exterior",
-    compromiso: "medio",
-    salud_limitaciones: "nada",
+    compromiso: "alto",
+    salud_limitaciones: "condicion_cardiaca",
+  };
+
+  const raw = await generateRoutineAI(config);
+
+  const cleaned = raw
+    ?.replace(/```json/g, "")
+    .replace(/```/g, "")
+    .trim();
+
+  const parsed = JSON.parse(cleaned || "{}");
+
+  // Validar contra schema de IA (sin estado)
+  const aiResponse = RoutineAIResponseSchema.parse(parsed);
+
+  const adjustedDays = aiResponse.dias.map((dia) => {
+    const total = dia.ejercicios.reduce((acc, e) => acc + (e.duracion || 0), 0);
+
+    const diff = config.tiempo_sesion - total;
+
+    // si ya está correcto
+    if (diff === 0) return dia;
+
+    const ejercicios = [...dia.ejercicios];
+
+    const last = ejercicios[ejercicios.length - 1];
+
+    if (last && last.duracion) {
+      // evitar duraciones inválidas
+      const nuevaDuracion = last.duracion + diff;
+
+      last.duracion = nuevaDuracion > 1 ? nuevaDuracion : 1;
+    }
+
+    return {
+      ...dia,
+      ejercicios,
+    };
   });
 
-  const parsed = JSON.parse(raw || "{}");
+  // Agregar estado a cada día
+  const withEstado = {
+    dias: adjustedDays.map((dia) => ({
+      ...dia,
+      estado: "pendiente",
+    })),
+  };
 
-  return Response.json({ data: parsed });
+  // Validar contra schema final (con estado)
+  const validated = RoutineAISchema.parse(withEstado);
+
+  return Response.json({ data: validated });
 }

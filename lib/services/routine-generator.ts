@@ -117,13 +117,13 @@ function getExercises(tipo: TrainingType) {
     return [
       {
         nombre: "Sentadillas",
-        repeticiones: 12,
+        duracion: 15,
         descripcion:
           "Mantén la espalda recta, baja lentamente hasta que los muslos estén paralelos al suelo y sube controladamente. Evita que las rodillas se proyecten hacia adelante.",
       },
       {
         nombre: "Plancha",
-        duracion: 30,
+        duracion: 15,
         descripcion:
           "Apoya antebrazos y pies en el suelo. Mantén el cuerpo recto desde la cabeza hasta los pies, contrayendo abdomen y glúteos.",
       },
