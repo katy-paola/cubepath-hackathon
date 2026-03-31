@@ -1,6 +1,10 @@
 import type { RoutineConfig } from "@/lib/types";
 
 import type { RoutineConfigSchemaType } from "@/lib/validations/config";
+import {
+  routineFrequencyOptions,
+  routineHealthNingunaLabel,
+} from "@/lib/routine-form-options";
 
 export type RoutineFormValues = {
   objective: string;
@@ -15,7 +19,10 @@ export type RoutineFormValues = {
 const objectiveMap: Record<string, RoutineConfigSchemaType["objetivo"]> = {
   Resistencia: "resistencia",
   Velocidad: "velocidad",
-  Potencia: "general",
+  "Perder peso": "perder_peso",
+  "5K": "5k",
+  "10K": "10k",
+  General: "general",
 };
 
 const levelMap: Record<string, RoutineConfigSchemaType["nivel"]> = {
@@ -29,7 +36,8 @@ const locationMap: Record<
   RoutineConfigSchemaType["lugar_entrenamiento"]
 > = {
   Exterior: "exterior",
-  Interior: "cinta",
+  Cinta: "cinta",
+  "Casa sin equipo": "casa_sin_equipo",
 };
 
 const commitmentMap: Record<string, RoutineConfigSchemaType["compromiso"]> = {
@@ -42,13 +50,16 @@ const healthMap: Record<
   string,
   RoutineConfigSchemaType["salud_limitaciones"] | undefined
 > = {
-  Nada: undefined,
-  Molestias: ["molestias_leves"],
-  "Lesiones previas": ["lesion_cronica"],
+  [routineHealthNingunaLabel]: undefined,
+  "Molestias leves": ["molestias_leves"],
+  "Lesión crónica": ["lesion_cronica"],
+  "Condición cardiaca": ["condicion_cardiaca"],
+  "Condición respiratoria": ["condicion_respiratoria"],
 };
 
 const sessionTimeMap: Record<string, RoutineConfigSchemaType["tiempo_sesion"]> =
   {
+    "20 min": 20,
     "30 min": 30,
     "45 min": 45,
     "60 min": 60,
@@ -72,10 +83,10 @@ const reverseObjective: Record<
 > = {
   resistencia: "Resistencia",
   velocidad: "Velocidad",
-  general: "Potencia",
-  perder_peso: "Resistencia",
-  "5k": "Resistencia",
-  "10k": "Resistencia",
+  perder_peso: "Perder peso",
+  "5k": "5K",
+  "10k": "10K",
+  general: "General",
 };
 
 const reverseLevel: Record<RoutineConfig["nivel"], RoutineFormValues["level"]> =
@@ -90,8 +101,8 @@ const reverseLocation: Record<
   RoutineFormValues["location"]
 > = {
   exterior: "Exterior",
-  cinta: "Interior",
-  casa_sin_equipo: "Interior",
+  cinta: "Cinta",
+  casa_sin_equipo: "Casa sin equipo",
 };
 
 const reverseCommitment: Record<
@@ -112,12 +123,40 @@ const reverseFrequency: Record<number, RoutineFormValues["frequency"]> = {
 };
 
 const reverseSessionTime: Record<number, RoutineFormValues["sessionTime"]> = {
-  20: "30 min",
+  20: "20 min",
   30: "30 min",
   45: "45 min",
   60: "60 min",
   75: "75 min",
 };
+
+/** Prioridad al mostrar una sola opción si hay varias limitaciones guardadas. */
+const healthDisplayPriority = [
+  "lesion_cronica",
+  "condicion_cardiaca",
+  "condicion_respiratoria",
+  "molestias_leves",
+] as const;
+
+const limitationToFormLabel: Record<
+  (typeof healthDisplayPriority)[number],
+  RoutineFormValues["health"]
+> = {
+  lesion_cronica: "Lesión crónica",
+  condicion_cardiaca: "Condición cardiaca",
+  condicion_respiratoria: "Condición respiratoria",
+  molestias_leves: "Molestias leves",
+};
+
+function mapSaludToFormHealth(
+  salud: RoutineConfig["salud_limitaciones"],
+): RoutineFormValues["health"] {
+  if (!salud?.length) return routineHealthNingunaLabel;
+  for (const code of healthDisplayPriority) {
+    if (salud.includes(code)) return limitationToFormLabel[code];
+  }
+  return routineHealthNingunaLabel;
+}
 
 export function frequencyLabelToNumber(label: string): number {
   return frequencyMap[label as keyof typeof frequencyMap] ?? 3;
@@ -127,22 +166,16 @@ export function frequencyLabelToNumber(label: string): number {
 export function routineFrequencyOptionsForMinDays(
   minDays: number,
 ): readonly string[] {
-  const floor = Math.min(Math.max(minDays, 2), 5);
-  const opts = (
-    ["2 días", "3 días", "4 días", "5 días", "6 días"] as const
-  ).filter((opt) => frequencyLabelToNumber(opt) >= floor);
+  const floor = Math.min(Math.max(minDays, 2), 6);
+  const opts = [...routineFrequencyOptions].filter(
+    (opt) => frequencyLabelToNumber(opt) >= floor,
+  );
   return opts.length > 0 ? opts : (["6 días"] as const);
 }
 
 export function mapRoutineConfigToFormValues(
   config: RoutineConfig,
 ): RoutineFormValues {
-  const health: RoutineFormValues["health"] = !config.salud_limitaciones?.length
-    ? "Nada"
-    : config.salud_limitaciones.includes("lesion_cronica")
-      ? "Lesiones previas"
-      : "Molestias";
-
   return {
     objective: reverseObjective[config.objetivo] ?? "Resistencia",
     level: reverseLevel[config.nivel] ?? "Principiante",
@@ -150,7 +183,7 @@ export function mapRoutineConfigToFormValues(
     sessionTime: reverseSessionTime[config.tiempo_sesion] ?? "45 min",
     location: reverseLocation[config.lugar_entrenamiento] ?? "Exterior",
     commitment: reverseCommitment[config.compromiso] ?? "Medio",
-    health,
+    health: mapSaludToFormHealth(config.salud_limitaciones),
   };
 }
 

@@ -12,7 +12,7 @@ describe("routine generation invariants", () => {
       sessionTime: "75 min",
       location: "Exterior",
       commitment: "Medio",
-      health: "Nada",
+      health: "Ninguna",
     });
 
     expect(config.tiempo_sesion).toBe(75);

@@ -5,18 +5,20 @@ import { useMemo, useState } from "react";
 import { Sparkles } from "@/components/icons";
 import { Button, FormField, SelectBox } from "@/components/ui";
 import { mapAdjustDayFormToAdjustment } from "@/lib/map-adjust-day-form";
+import {
+  adjustDayDiscomfortOptions,
+  adjustDayEnergyOptions,
+  adjustDayLocationOptions,
+  adjustDayTimeOptions,
+} from "@/lib/routine-form-options";
 import { replaceTrainingDayContent } from "@/lib/storage/routine-store";
 import type { TrainingDay } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
-const energyOptions = ["Media", "Baja", "Alta"] as const;
-const timeOptions = ["30min", "45min", "60min", "75min"] as const;
-const locationOptions = ["Exterior", "Interior"] as const;
-const discomfortOptions = [
-  "Nada",
-  "Molestias leves",
-  "Molestias moderadas",
-] as const;
+const energyOptions = adjustDayEnergyOptions;
+const timeOptions = adjustDayTimeOptions;
+const locationOptions = adjustDayLocationOptions;
+const discomfortOptions = adjustDayDiscomfortOptions;
 
 export type AdjustDayCardProps = {
   day: TrainingDay;
@@ -29,10 +31,10 @@ export function AdjustDayCard({
   onDayUpdated,
   className,
 }: AdjustDayCardProps) {
-  const [energy, setEnergy] = useState<string>("Media");
-  const [time, setTime] = useState<string>("30min");
+  const [energy, setEnergy] = useState<string>("media");
+  const [time, setTime] = useState<string>("45min");
   const [location, setLocation] = useState<string>("Exterior");
-  const [discomfort, setDiscomfort] = useState<string>("Nada");
+  const [discomfort, setDiscomfort] = useState<string>("Ninguna");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
