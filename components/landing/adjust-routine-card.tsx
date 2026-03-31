@@ -4,7 +4,12 @@ import type { ComponentPropsWithoutRef } from "react";
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-import { Button, FormField, SelectBox } from "@/components/ui";
+import {
+  Button,
+  FormField,
+  HealthLimitationsField,
+  SelectBox,
+} from "@/components/ui";
 import {
   mapRoutineConfigToFormValues,
   mapRoutineFormToConfig,
@@ -14,13 +19,14 @@ import {
   routineCommitmentOptions,
   routineFormDefaults,
   routineFrequencyOptions,
-  routineHealthOptions,
+  routineHealthLimitationLabel,
   routineLevelOptions,
   routineLocationOptions,
   routineObjectiveOptions,
   routineSessionTimeOptions,
 } from "@/lib/routine-form-options";
 import type { Routine } from "@/lib/types";
+import type { HealthLimitation } from "@/lib/types/config";
 import {
   getActiveRoutine,
   onRoutineUpdated,
@@ -66,7 +72,9 @@ export function AdjustRoutineCard({
   const [commitment, setCommitment] = useState<string>(
     routineFormDefaults.commitment,
   );
-  const [health, setHealth] = useState<string>(routineFormDefaults.health);
+  const [health, setHealth] = useState<HealthLimitation[]>([
+    ...routineFormDefaults.health,
+  ]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -123,7 +131,11 @@ export function AdjustRoutineCard({
       sessionTime: `Seleccionar Tiempo por sesión (actual: ${sessionTime})`,
       location: `Seleccionar Lugar preferido (actual: ${location})`,
       commitment: `Seleccionar Compromiso (actual: ${commitment})`,
-      health: `Seleccionar Salud y limitaciones (actual: ${health})`,
+      health: `Seleccionar Salud y limitaciones (actual: ${
+        health.length
+          ? health.map((c) => routineHealthLimitationLabel(c)).join(", ")
+          : "ninguna"
+      })`,
     }),
     [commitment, frequency, health, level, location, objective, sessionTime],
   );
@@ -283,13 +295,11 @@ export function AdjustRoutineCard({
             className={cn("w-full", !isMobile && "col-span-2")}
             label="Salud y limitaciones"
           >
-            <SelectBox
+            <HealthLimitationsField
               value={health}
-              options={routineHealthOptions}
-              onValueChange={setHealth}
+              onChange={setHealth}
               className="w-full"
               triggerAriaLabel={aria.health}
-              arrowIconSrc={adjustRoutineAssets.selectArrow}
             />
           </FormField>
         </div>

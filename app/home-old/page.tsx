@@ -1,3 +1,4 @@
+import { ChipDemoSection } from "@/components/home/chip-demo-section";
 import { HomeHeader } from "@/components/home/home-header";
 import { WorkoutSection } from "@/components/home/workout-section";
 import { AdjustRoutineCard } from "@/components/landing/adjust-routine-card";
@@ -15,6 +16,7 @@ export default function HomeOld() {
       <div className="mx-auto w-full max-w-page">
         <div className="flex flex-col gap-8 px-4 py-4 md:gap-16 md:px-6 md:py-6">
           <Hero />
+          <ChipDemoSection />
           <GenerateSection />
           <WorkoutSection device="desktop" className="hidden lg:flex" />
           <WorkoutSection

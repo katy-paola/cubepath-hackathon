@@ -1,10 +1,9 @@
 import type { RoutineConfig } from "@/lib/types";
+import type { HealthLimitation } from "@/lib/types/config";
+import { HEALTH_LIMITATIONS_VALUES } from "@/lib/types/shared/config";
 
 import type { RoutineConfigSchemaType } from "@/lib/validations/config";
-import {
-  routineFrequencyOptions,
-  routineHealthNingunaLabel,
-} from "@/lib/routine-form-options";
+import { routineFrequencyOptions } from "@/lib/routine-form-options";
 
 export type RoutineFormValues = {
   objective: string;
@@ -13,7 +12,8 @@ export type RoutineFormValues = {
   sessionTime: string;
   location: string;
   commitment: string;
-  health: string;
+  /** Códigos en orden estable; vacío = sin limitaciones. */
+  health: HealthLimitation[];
 };
 
 const objectiveMap: Record<string, RoutineConfigSchemaType["objetivo"]> = {
@@ -44,17 +44,6 @@ const commitmentMap: Record<string, RoutineConfigSchemaType["compromiso"]> = {
   Bajo: "bajo",
   Medio: "medio",
   Alto: "alto",
-};
-
-const healthMap: Record<
-  string,
-  RoutineConfigSchemaType["salud_limitaciones"] | undefined
-> = {
-  [routineHealthNingunaLabel]: undefined,
-  "Molestias leves": ["molestias_leves"],
-  "Lesión crónica": ["lesion_cronica"],
-  "Condición cardiaca": ["condicion_cardiaca"],
-  "Condición respiratoria": ["condicion_respiratoria"],
 };
 
 const sessionTimeMap: Record<string, RoutineConfigSchemaType["tiempo_sesion"]> =
@@ -130,32 +119,18 @@ const reverseSessionTime: Record<number, RoutineFormValues["sessionTime"]> = {
   75: "75 min",
 };
 
-/** Prioridad al mostrar una sola opción si hay varias limitaciones guardadas. */
-const healthDisplayPriority = [
-  "lesion_cronica",
-  "condicion_cardiaca",
-  "condicion_respiratoria",
-  "molestias_leves",
-] as const;
-
-const limitationToFormLabel: Record<
-  (typeof healthDisplayPriority)[number],
-  RoutineFormValues["health"]
-> = {
-  lesion_cronica: "Lesión crónica",
-  condicion_cardiaca: "Condición cardiaca",
-  condicion_respiratoria: "Condición respiratoria",
-  molestias_leves: "Molestias leves",
-};
+/** Orden estable para UI y payload (coincide con HEALTH_LIMITATIONS_VALUES). */
+export function normalizeHealthLimitations(
+  selected: readonly HealthLimitation[],
+): HealthLimitation[] {
+  return [...HEALTH_LIMITATIONS_VALUES].filter((c) => selected.includes(c));
+}
 
 function mapSaludToFormHealth(
   salud: RoutineConfig["salud_limitaciones"],
 ): RoutineFormValues["health"] {
-  if (!salud?.length) return routineHealthNingunaLabel;
-  for (const code of healthDisplayPriority) {
-    if (salud.includes(code)) return limitationToFormLabel[code];
-  }
-  return routineHealthNingunaLabel;
+  if (!salud?.length) return [];
+  return normalizeHealthLimitations(salud);
 }
 
 export function frequencyLabelToNumber(label: string): number {
@@ -190,6 +165,7 @@ export function mapRoutineConfigToFormValues(
 export function mapRoutineFormToConfig(
   values: RoutineFormValues,
 ): RoutineConfigSchemaType {
+  const salud = normalizeHealthLimitations(values.health);
   return {
     objetivo: objectiveMap[values.objective] ?? "general",
     nivel: levelMap[values.level] ?? "principiante",
@@ -197,6 +173,6 @@ export function mapRoutineFormToConfig(
     tiempo_sesion: sessionTimeMap[values.sessionTime] ?? 45,
     lugar_entrenamiento: locationMap[values.location] ?? "exterior",
     compromiso: commitmentMap[values.commitment] ?? "medio",
-    salud_limitaciones: healthMap[values.health],
+    salud_limitaciones: salud.length > 0 ? salud : undefined,
   };
 }

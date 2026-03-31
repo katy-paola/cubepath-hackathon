@@ -5,8 +5,14 @@ import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { SlidersHorizontal } from "@/components/icons";
-import { Button, FormField, SelectBox } from "@/components/ui";
 import {
+  Button,
+  FormField,
+  HealthLimitationsField,
+  SelectBox,
+} from "@/components/ui";
+import {
+  type RoutineFormValues,
   mapRoutineConfigToFormValues,
   mapRoutineFormToConfig,
 } from "@/lib/routine-form-mapper";
@@ -20,7 +26,7 @@ import {
   routineCommitmentOptions,
   routineFormDefaults,
   routineFrequencyOptions,
-  routineHealthOptions,
+  routineHealthLimitationLabel,
   routineLevelOptions,
   routineLocationOptions,
   routineObjectiveOptions,
@@ -36,16 +42,6 @@ export type GenerateSectionProps = Omit<
   "children"
 >;
 
-type RoutineFormValues = {
-  objective: string;
-  level: string;
-  frequency: string;
-  sessionTime: string;
-  location: string;
-  commitment: string;
-  health: string;
-};
-
 export function GenerateSection({ className, ...props }: GenerateSectionProps) {
   const [formValues, setFormValues] = useState<RoutineFormValues>({
     objective: routineFormDefaults.objective,
@@ -54,7 +50,7 @@ export function GenerateSection({ className, ...props }: GenerateSectionProps) {
     sessionTime: routineFormDefaults.sessionTime,
     location: routineFormDefaults.location,
     commitment: routineFormDefaults.commitment,
-    health: routineFormDefaults.health,
+    health: [...routineFormDefaults.health],
   });
   const [activeRoutine, setActiveRoutineState] = useState<Routine | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -131,7 +127,13 @@ export function GenerateSection({ className, ...props }: GenerateSectionProps) {
       sessionTime: `Seleccionar Tiempo por sesión (actual: ${formValues.sessionTime})`,
       location: `Seleccionar Lugar preferido (actual: ${formValues.location})`,
       commitment: `Seleccionar Compromiso (actual: ${formValues.commitment})`,
-      health: `Seleccionar Salud y limitaciones (actual: ${formValues.health})`,
+      health: `Seleccionar Salud y limitaciones (actual: ${
+        formValues.health.length
+          ? formValues.health
+              .map((c) => routineHealthLimitationLabel(c))
+              .join(", ")
+          : "ninguna"
+      })`,
     }),
     [
       formValues.commitment,
@@ -385,13 +387,11 @@ export function GenerateSection({ className, ...props }: GenerateSectionProps) {
               className="w-full md:col-span-2"
               label="Salud y limitaciones"
             >
-              <SelectBox
+              <HealthLimitationsField
                 value={formValues.health}
-                options={routineHealthOptions}
-                onValueChange={(value) => updateField("health", value)}
+                onChange={(next) => updateField("health", next)}
                 className="w-full"
                 triggerAriaLabel={aria.health}
-                arrowIconSrc={generateSectionAssets.selectArrow}
               />
             </FormField>
           </div>

@@ -26,6 +26,11 @@
   --page-shell: #f5f8ff;
   --hero-surface: #e0eaff;
   --hero-orb: #c2d5ff;
+  /* Chip (Figma: blue/100, blue/300, blue/950) */
+  --chip-surface: #e0eaff;
+  --chip-surface-selected: #99b9ff;
+  --chip-border: #99b9ff;
+  --chip-ink: #00184d;
   --container-max-width: 1232px;
   /* Métricas / progreso (evitar hex sueltos en cards) */
   --metric-blue: #002066;
@@ -72,6 +77,10 @@ html:focus-within {
   --color-page-shell: var(--page-shell);
   --color-hero-surface: var(--hero-surface);
   --color-hero-orb: var(--hero-orb);
+  --color-chip-surface: var(--chip-surface);
+  --color-chip-surface-selected: var(--chip-surface-selected);
+  --color-chip-border: var(--chip-border);
+  --color-chip-ink: var(--chip-ink);
   --color-metric-blue: var(--metric-blue);
   --color-trend-positive: var(--trend-positive);
   --color-trend-negative: var(--trend-negative);
@@ -89,6 +98,11 @@ html:focus-within {
   :root {
     --background: #0a0a0a;
     --text-default: #ededed;
+    /* Chips (Figma): no heredar texto del body en modo oscuro */
+    --chip-surface: #e0eaff;
+    --chip-surface-selected: #99b9ff;
+    --chip-border: #99b9ff;
+    --chip-ink: #00184d;
   }
 }
 

@@ -2,6 +2,7 @@
  * Etiquetas de UI alineadas con `lib/types/shared/config.ts` (GOAL_VALUES, etc.).
  * Un solo lugar (KISS) para “Configura tu rutina”, “Reajusta” y defaults.
  */
+import type { HealthLimitation } from "@/lib/types/config";
 import { ENERGY_LEVEL_VALUES } from "@/lib/types/shared/adjustments";
 import {
   COMMITMENT_VALUES,
@@ -103,13 +104,14 @@ const HEALTH_LABELS: Record<
 
 export const routineHealthNingunaLabel = "Ninguna" as const;
 
-export const routineHealthOptions = [
-  routineHealthNingunaLabel,
-  HEALTH_LABELS.molestias_leves,
-  HEALTH_LABELS.lesion_cronica,
-  HEALTH_LABELS.condicion_cardiaca,
-  HEALTH_LABELS.condicion_respiratoria,
-] as const;
+/** Orden del modal / chips (mismo que `HEALTH_LIMITATIONS_VALUES`). */
+export const routineHealthLimitationCodesOrdered = [
+  ...HEALTH_LIMITATIONS_VALUES,
+] as const satisfies readonly HealthLimitation[];
+
+export function routineHealthLimitationLabel(code: HealthLimitation): string {
+  return HEALTH_LABELS[code];
+}
 
 export const routineFormDefaults = {
   objective: GOAL_LABELS.resistencia,
@@ -118,7 +120,7 @@ export const routineFormDefaults = {
   sessionTime: SESSION_LABELS[45],
   location: LOCATION_LABELS.exterior,
   commitment: COMMITMENT_LABELS.medio,
-  health: routineHealthNingunaLabel,
+  health: [] satisfies HealthLimitation[],
 } as const;
 
 /** “Adaptar hoy”: energía = `ENERGY_LEVEL_VALUES` / `DailyAdjustment.energia`. */
@@ -135,4 +137,11 @@ export const adjustDayTimeOptions = [
 
 export const adjustDayLocationOptions = routineLocationOptions;
 
-export const adjustDayDiscomfortOptions = routineHealthOptions;
+/** “Adaptar hoy”: incluye Ninguna + las cuatro limitaciones (select simple). */
+export const adjustDayDiscomfortOptions = [
+  routineHealthNingunaLabel,
+  HEALTH_LABELS.molestias_leves,
+  HEALTH_LABELS.lesion_cronica,
+  HEALTH_LABELS.condicion_cardiaca,
+  HEALTH_LABELS.condicion_respiratoria,
+] as const;
