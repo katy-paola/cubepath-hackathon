@@ -3,19 +3,32 @@ import Link from "next/link";
 
 import { Refresh, TradeUpCompact } from "@/components/icons";
 import { Button } from "@/components/ui";
-import { workoutDays } from "@/lib/workout-days";
 import { cn } from "@/lib/utils";
+
+export type WorkoutSectionDay = {
+  slug: string;
+  day: string;
+  name: string;
+  borderClass?: string;
+  statusLabel?: string;
+};
 
 export type WorkoutSectionProps = Omit<
   ComponentPropsWithoutRef<"section">,
   "children"
 > & {
   device?: "desktop" | "tablet" | "mobile";
+  days?: WorkoutSectionDay[];
+  onReset?: () => void | Promise<void>;
+  onRefresh?: () => void | Promise<void>;
 };
 
 export function WorkoutSection({
   className,
   device = "desktop",
+  days,
+  onReset,
+  onRefresh,
   ...props
 }: WorkoutSectionProps) {
   const isMobile = device === "mobile";
@@ -70,6 +83,7 @@ export function WorkoutSection({
               isMobile ? "flex-1 justify-center" : undefined,
             )}
             icon={<Refresh className="size-4" />}
+            onClick={onReset}
           >
             Reiniciar
           </Button>
@@ -80,6 +94,7 @@ export function WorkoutSection({
               isMobile ? "flex-1 justify-center" : undefined,
             )}
             icon={<TradeUpCompact className="size-4" />}
+            onClick={onRefresh}
           >
             Actualizar
           </Button>
@@ -87,7 +102,7 @@ export function WorkoutSection({
       </div>
 
       <div className={cn("grid w-full", gridClasses)}>
-        {workoutDays.map((day) => (
+        {(days ?? []).map((day) => (
           <Link
             key={day.slug}
             href={`/rutina/${day.slug}`}
