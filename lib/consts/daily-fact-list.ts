@@ -1,4 +1,9 @@
-export const DAILY_FACT_LIST = [
+export interface DailyFact {
+  id: number;
+  text: string;
+}
+
+export const DAILY_FACT_LIST: DailyFact[] = [
   {
     id: 1,
     text: "Correr regularmente mejora la salud cardiovascular, fortalece las piernas y aumenta la resistencia. Además, ayuda a reducir el estrés y a mejorar la calidad del sueño, generando beneficios tanto físicos como mentales.",
