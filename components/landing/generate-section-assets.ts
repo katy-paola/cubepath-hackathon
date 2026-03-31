@@ -10,4 +10,3 @@ export const generateSectionAssets = {
 } as const;
 
 export type GenerateSectionAssets = typeof generateSectionAssets;
-

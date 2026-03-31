@@ -18,4 +18,3 @@ export function MiniChart({ className, ...props }: MiniChartProps) {
     </div>
   );
 }
-

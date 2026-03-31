@@ -171,7 +171,11 @@ export function IntensityMeter({
           >
             <div className="relative size-full">
               <Image
-                src={isMedium ? intensityAssets.imgVector11 : intensityAssets.imgVector10}
+                src={
+                  isMedium
+                    ? intensityAssets.imgVector11
+                    : intensityAssets.imgVector10
+                }
                 alt=""
                 fill
                 aria-hidden
@@ -200,4 +204,3 @@ export function IntensityMeter({
     </div>
   );
 }
-

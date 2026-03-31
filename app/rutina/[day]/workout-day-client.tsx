@@ -4,15 +4,15 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
 import { HomeHeader } from "@/components/home/home-header";
+import { ArrowLeft } from "@/components/icons/stridia-icons";
 import { IntensityMeter } from "@/components/progress";
 import { AdjustDayCard } from "@/components/routine/adjust-day-card";
-import { Button } from "@/components/ui";
 import { buttonVariants } from "@/components/ui/button";
 import {
   getActiveRoutineDayBySlug,
   updateDayStatus,
 } from "@/lib/storage/routine-store";
-import type { Status, TrainingDay } from "@/lib/types";
+import type { TrainingDay } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 type WorkoutDayClientProps = {
@@ -85,14 +85,18 @@ export function WorkoutDayClient({ daySlug }: WorkoutDayClientProps) {
     };
   }, [state.day]);
 
+  async function refreshDay() {
+    const res = await getActiveRoutineDayBySlug(daySlug);
+    setState({ loading: false, day: res?.day ?? null });
+  }
+
   async function handleComplete() {
     if (!view?.day) return;
     await updateDayStatus(view.day.numero_dia, "completado", {
       completedAt: new Date().toISOString(),
       durationMinutes: totalDurationMinutes(view.day),
     });
-    const res = await getActiveRoutineDayBySlug(daySlug);
-    setState({ loading: false, day: res?.day ?? null });
+    await refreshDay();
   }
 
   if (state.loading) {
@@ -129,6 +133,45 @@ export function WorkoutDayClient({ daySlug }: WorkoutDayClientProps) {
     );
   }
 
+  if (view.day.estado === "pendiente") {
+    return (
+      <main className="min-h-screen overflow-x-hidden bg-page-shell">
+        <HomeHeader />
+        <div className="mx-auto w-full max-w-page px-4 py-6 md:px-6">
+          <section className="flex w-full flex-col gap-8">
+            <header className="flex flex-col gap-6">
+              <Link
+                href="/"
+                className="inline-flex items-center gap-1 text-subdued font-medium text-xl hover:text-heading transition-colors"
+              >
+                <ArrowLeft decorative size={24} />
+                Volver
+              </Link>
+              <div className="flex flex-col gap-3 rounded-3xl border border-border bg-card p-6">
+                <h1 className="text-2xl font-bold text-heading">
+                  Aún no te toca este día
+                </h1>
+                <p className="text-muted-foreground">
+                  Completa el día marcado como{" "}
+                  <span className="font-semibold">“por completar”</span> para
+                  desbloquear el siguiente.
+                </p>
+                <div className="flex gap-3">
+                  <Link
+                    href="/"
+                    className={buttonVariants({ variant: "primary" })}
+                  >
+                    Ir a mi rutina
+                  </Link>
+                </div>
+              </div>
+            </header>
+          </section>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="min-h-screen overflow-x-hidden bg-page-shell">
       <HomeHeader />
@@ -138,8 +181,9 @@ export function WorkoutDayClient({ daySlug }: WorkoutDayClientProps) {
           <header className="flex flex-col gap-6">
             <Link
               href="/"
-              className="text-subdued font-medium text-xl hover:text-heading transition-colors"
+              className="inline-flex items-center gap-1 text-subdued font-medium text-xl hover:text-heading transition-colors"
             >
+              <ArrowLeft decorative size={24} />
               Volver
             </Link>
             <div
@@ -227,7 +271,9 @@ export function WorkoutDayClient({ daySlug }: WorkoutDayClientProps) {
             </p>
           </aside>
 
-          {view.showAdjustDay ? <AdjustDayCard /> : null}
+          {view.showAdjustDay ? (
+            <AdjustDayCard day={view.day} onDayUpdated={refreshDay} />
+          ) : null}
         </section>
       </div>
     </main>

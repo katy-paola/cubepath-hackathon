@@ -10,8 +10,6 @@ const SvgStridDefault = (props: SVGProps<SVGSVGElement>) => (
       display: "block",
     }}
     viewBox="0 0 108.372 32.598"
-    width="false"
-    height="false"
     {...props}
   >
     <g fill="var(--fill-0, #0051FF)">

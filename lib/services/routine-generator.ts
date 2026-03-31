@@ -32,30 +32,15 @@ function getIntensity(level: RoutineConfig["nivel"]) {
 
 function getTrainingPlan(goal: RoutineConfig["objetivo"]): TrainingType[] {
   if (goal === "resistencia") {
-    return [
-      "suave",
-      "largo",
-      "intervalos",
-      "suave",
-    ];
+    return ["suave", "largo", "intervalos", "suave"];
   }
 
   if (goal === "velocidad") {
-    return [
-      "intervalos",
-      "suave",
-      "tempo",
-      "fuerza",
-    ];
+    return ["intervalos", "suave", "tempo", "fuerza"];
   }
 
   if (goal === "perder_peso") {
-    return [
-      "suave",
-      "fuerza",
-      "cruzado",
-      "largo",
-    ];
+    return ["suave", "fuerza", "cruzado", "largo"];
   }
 
   if (goal === "5k") {
@@ -71,14 +56,21 @@ function getTrainingPlan(goal: RoutineConfig["objetivo"]): TrainingType[] {
 }
 
 function getReason(tipo: TrainingType) {
-  if (tipo === "suave") return "Construye base aeróbica con bajo estrés y buena técnica.";
-  if (tipo === "largo") return "Mejora la resistencia y la tolerancia al volumen progresivamente.";
-  if (tipo === "intervalos") return "Desarrolla velocidad y capacidad anaeróbica con repeticiones controladas.";
+  if (tipo === "suave")
+    return "Construye base aeróbica con bajo estrés y buena técnica.";
+  if (tipo === "largo")
+    return "Mejora la resistencia y la tolerancia al volumen progresivamente.";
+  if (tipo === "intervalos")
+    return "Desarrolla velocidad y capacidad anaeróbica con repeticiones controladas.";
   if (tipo === "tempo") return "Sube tu umbral y mejora el ritmo sostenible.";
-  if (tipo === "fartlek") return "Mejora cambios de ritmo de forma flexible y divertida.";
-  if (tipo === "recuperacion") return "Facilita la recuperación y suma volumen suave sin sobrecargar.";
-  if (tipo === "cruzado") return "Mantén condición cardiovascular reduciendo impacto articular.";
-  if (tipo === "fuerza") return "Fortalece músculos y tendones para correr mejor y prevenir lesiones.";
+  if (tipo === "fartlek")
+    return "Mejora cambios de ritmo de forma flexible y divertida.";
+  if (tipo === "recuperacion")
+    return "Facilita la recuperación y suma volumen suave sin sobrecargar.";
+  if (tipo === "cruzado")
+    return "Mantén condición cardiovascular reduciendo impacto articular.";
+  if (tipo === "fuerza")
+    return "Fortalece músculos y tendones para correr mejor y prevenir lesiones.";
   return "Descanso para asimilar el entrenamiento y reducir riesgo de lesión.";
 }
 
@@ -134,8 +126,7 @@ function getExercises(tipo: TrainingType) {
       {
         nombre: "Enfriamiento",
         duracion: 8,
-        descripcion:
-          "Trote muy suave para bajar pulsaciones y soltar piernas.",
+        descripcion: "Trote muy suave para bajar pulsaciones y soltar piernas.",
       },
     ];
   }
@@ -157,8 +148,7 @@ function getExercises(tipo: TrainingType) {
       {
         nombre: "Enfriamiento",
         duracion: 8,
-        descripcion:
-          "Trote suave y estiramientos ligeros.",
+        descripcion: "Trote suave y estiramientos ligeros.",
       },
     ];
   }

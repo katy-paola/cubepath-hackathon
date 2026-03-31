@@ -9,8 +9,10 @@ export type WorkoutSectionDay = {
   slug: string;
   day: string;
   name: string;
+  numeroDia: number;
   borderClass?: string;
   statusLabel?: string;
+  locked?: boolean;
 };
 
 export type WorkoutSectionProps = Omit<
@@ -21,14 +23,18 @@ export type WorkoutSectionProps = Omit<
   days?: WorkoutSectionDay[];
   onReset?: () => void | Promise<void>;
   onRefresh?: () => void | Promise<void>;
+  onCompleteDay?: (numeroDia: number) => void | Promise<void>;
+  refreshLoading?: boolean;
 };
 
 export function WorkoutSection({
   className,
   device = "desktop",
   days,
+  onCompleteDay,
   onReset,
   onRefresh,
+  refreshLoading = false,
   ...props
 }: WorkoutSectionProps) {
   const isMobile = device === "mobile";
@@ -78,28 +84,33 @@ export function WorkoutSection({
             isMobile ? "w-full gap-4" : "gap-4",
           )}
         >
-          <Button
-            variant="secondary"
-            className={cn(
-              "rounded-xl px-4 py-2 text-base leading-6",
-              isMobile ? "flex-1 justify-center" : undefined,
-            )}
-            icon={<Refresh className="size-4" />}
-            onClick={onReset}
-          >
-            Reiniciar
-          </Button>
-          <Button
-            variant="secondary"
-            className={cn(
-              "rounded-xl px-4 py-2 text-base leading-6 opacity-70 hover:bg-secondary",
-              isMobile ? "flex-1 justify-center" : undefined,
-            )}
-            icon={<TradeUpCompact className="size-4" />}
-            onClick={onRefresh}
-          >
-            Actualizar
-          </Button>
+          {onReset ? (
+            <Button
+              variant="secondary"
+              className={cn(
+                "rounded-xl px-4 py-2 text-base leading-6",
+                isMobile ? "flex-1 justify-center" : undefined,
+              )}
+              icon={<Refresh className="size-4" />}
+              onClick={onReset}
+            >
+              Reiniciar
+            </Button>
+          ) : null}
+          {onRefresh ? (
+            <Button
+              variant="secondary"
+              className={cn(
+                "rounded-xl px-4 py-2 text-base leading-6 opacity-70 hover:bg-secondary",
+                isMobile ? "flex-1 justify-center" : undefined,
+              )}
+              icon={<TradeUpCompact className="size-4" />}
+              onClick={onRefresh}
+              disabled={refreshLoading}
+            >
+              {refreshLoading ? "Generando..." : "Actualizar"}
+            </Button>
+          ) : null}
         </div>
       </div>
 
@@ -110,25 +121,51 @@ export function WorkoutSection({
             className={cn(
               "relative flex min-h-27 flex-col items-start justify-between rounded-3xl border-2 bg-page-shell transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/25 focus-visible:ring-offset-2 focus-visible:ring-offset-page-shell",
               day.borderClass ?? "border-border",
+              day.locked ? "opacity-60" : undefined,
             )}
+            inert={day.locked ? true : undefined}
           >
-            <Link href={`/rutina/${day.slug}`} className="w-full h-full p-4.5">
-              <div className="w-full">
-                <p className="text-xs font-medium uppercase leading-4 text-muted-foreground">
-                  {day.day}
-                </p>
-                <p className="text-xl font-medium leading-7.5 text-heading">
-                  {day.name}
-                </p>
+            {day.locked ? (
+              <div className="w-full h-full p-4.5 cursor-not-allowed">
+                <div className="w-full">
+                  <p className="text-xs font-medium uppercase leading-4 text-muted-foreground">
+                    {day.day}
+                  </p>
+                  <p className="text-xl font-medium leading-7.5 text-heading">
+                    {day.name}
+                  </p>
+                </div>
               </div>
-            </Link>
+            ) : (
+              <Link
+                href={`/rutina/${day.slug}`}
+                className="w-full h-full p-4.5"
+              >
+                <div className="w-full">
+                  <p className="text-xs font-medium uppercase leading-4 text-muted-foreground">
+                    {day.day}
+                  </p>
+                  <p className="text-xl font-medium leading-7.5 text-heading">
+                    {day.name}
+                  </p>
+                </div>
+              </Link>
+            )}
             {day.statusLabel === "Completado" ? (
               <span className="absolute left-4.5 bottom-4.5 whitespace-nowrap text-base font-bold leading-6 text-success-ink">
                 Completado
               </span>
             ) : (
               day.statusLabel === "Completar día" && (
-                <button className="absolute left-4.5 bottom-4.5 whitespace-nowrap text-base font-bold leading-6 text-success-ink underline hover:no-underline">
+                <button
+                  type="button"
+                  className="absolute left-4.5 bottom-4.5 whitespace-nowrap text-base font-bold leading-6 text-success-ink underline hover:no-underline"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onCompleteDay?.(day.numeroDia);
+                  }}
+                >
                   Completar día
                 </button>
               )

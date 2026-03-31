@@ -14,7 +14,7 @@
 
 ## Cómo usarlo en este proyecto (Stridia)
 
-1. **Antes de abstraer**: ¿el duplicado es real o imaginario? ¿Un helper o componente nuevo reduce líneas *y* claridad?
+1. **Antes de abstraer**: ¿el duplicado es real o imaginario? ¿Un helper o componente nuevo reduce líneas _y_ claridad?
 2. **Estado y efectos en React**: preferir estado derivado o un solo lugar de verdad antes que varios `useEffect` que se sincronicen entre sí (menos cascadas, más simple de razonar).
 3. **UI**: mismos patrones de layout y tokens ya usados en `app/globals.css` y componentes compartidos antes de inventar variantes nuevas.
 4. **Performance**: medir o tener síntoma claro (LCP, bundle) antes de micro-optimizar; KISS no es “sin optimizar”, es **no complicar sin evidencia**.
@@ -27,4 +27,4 @@
 
 ---
 
-*Documento interno del equipo; alineado con material consultado vía Context7 (`/websites/davichuder_github_io_software-engineering-guide`).*
+_Documento interno del equipo; alineado con material consultado vía Context7 (`/websites/davichuder_github_io_software-engineering-guide`)._

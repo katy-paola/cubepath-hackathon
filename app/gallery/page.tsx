@@ -6,11 +6,21 @@ import { Hero } from "@/components/landing/hero";
 import { generateSectionAssets } from "@/components/landing/generate-section-assets";
 import { ProgressSection } from "@/components/progress/progress-section";
 import { TrainingDayCard } from "@/components/training";
-import { Button, FormField, SelectBox, SelectContent, SelectItem } from "@/components/ui";
+import {
+  Button,
+  FormField,
+  SelectBox,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui";
 import { routineObjectiveOptions } from "@/lib/routine-form-options";
 
 /** Lista demo (3 filas iguales en SelectContent de muestra). */
-const GALLERY_GOAL_LIST = ["Resistencia", "Resistencia", "Resistencia"] as const;
+const GALLERY_GOAL_LIST = [
+  "Resistencia",
+  "Resistencia",
+  "Resistencia",
+] as const;
 
 export default function GalleryPage() {
   return (
@@ -29,9 +39,17 @@ export default function GalleryPage() {
         <section className="flex w-full justify-start">
           <div className="w-full max-w-page overflow-x-hidden">
             <div className="space-y-4">
-              <AdjustRoutineCard device="desktop" />
-              <AdjustRoutineCard device="tablet" className="max-w-3xl" />
-              <AdjustRoutineCard device="mobile" className="max-w-lg" />
+              <AdjustRoutineCard demoMode device="desktop" />
+              <AdjustRoutineCard
+                demoMode
+                device="tablet"
+                className="max-w-3xl"
+              />
+              <AdjustRoutineCard
+                demoMode
+                device="mobile"
+                className="max-w-lg"
+              />
             </div>
           </div>
         </section>
@@ -45,11 +63,13 @@ export default function GalleryPage() {
                   Componentes base
                 </p>
                 <h1 className="max-w-2xl text-balance text-4xl font-semibold tracking-tight text-heading sm:text-5xl">
-                  Primer bloque UI de Stridia extraído del nodo compartido de Figma.
+                  Primer bloque UI de Stridia extraído del nodo compartido de
+                  Figma.
                 </h1>
                 <p className="max-w-2xl text-base leading-7 text-subdued sm:text-lg">
-                  Convertimos el frame en componentes reutilizables para CTA y selección de objetivos,
-                  listos para crecer sin perder fidelidad visual.
+                  Convertimos el frame en componentes reutilizables para CTA y
+                  selección de objetivos, listos para crecer sin perder
+                  fidelidad visual.
                 </p>
               </div>
             </div>
@@ -63,7 +83,11 @@ export default function GalleryPage() {
                 <Button className="w-40 justify-center" size="sm">
                   Generar rutina
                 </Button>
-                <Button className="w-40 justify-center" size="sm" variant="secondary">
+                <Button
+                  className="w-40 justify-center"
+                  size="sm"
+                  variant="secondary"
+                >
                   Generar rutina
                 </Button>
               </div>
@@ -82,17 +106,28 @@ export default function GalleryPage() {
                 <Button className="w-40 justify-center" size="sm">
                   Generar rutina
                 </Button>
-                <Button className="w-40 justify-center" size="sm" variant="secondary">
+                <Button
+                  className="w-40 justify-center"
+                  size="sm"
+                  variant="secondary"
+                >
                   Generar rutina
                 </Button>
               </div>
 
               <div className="flex flex-wrap gap-4">
                 <div className="w-40">
-                  <SelectBox value="Resistencia" options={routineObjectiveOptions} />
+                  <SelectBox
+                    value="Resistencia"
+                    options={routineObjectiveOptions}
+                  />
                 </div>
                 <div className="w-40">
-                  <SelectBox value="Resistencia" options={routineObjectiveOptions} defaultOpen />
+                  <SelectBox
+                    value="Resistencia"
+                    options={routineObjectiveOptions}
+                    defaultOpen
+                  />
                 </div>
               </div>
 
@@ -116,7 +151,10 @@ export default function GalleryPage() {
                 <div className="flex w-full justify-start">
                   <SelectContent className="w-40">
                     {GALLERY_GOAL_LIST.map((option, index) => (
-                      <SelectItem key={`${option}-${index}`} selected={index === 1}>
+                      <SelectItem
+                        key={`${option}-${index}`}
+                        selected={index === 1}
+                      >
                         {option}
                       </SelectItem>
                     ))}
@@ -150,8 +188,16 @@ export default function GalleryPage() {
                   </div>
 
                   <div className="space-y-3">
-                    <TrainingDayCard device="desktop" status="default" className="max-w-none" />
-                    <TrainingDayCard device="desktop" status="completed" className="max-w-none" />
+                    <TrainingDayCard
+                      device="desktop"
+                      status="default"
+                      className="max-w-none"
+                    />
+                    <TrainingDayCard
+                      device="desktop"
+                      status="completed"
+                      className="max-w-none"
+                    />
                     <TrainingDayCard
                       device="desktop"
                       status="default"
@@ -162,8 +208,16 @@ export default function GalleryPage() {
                   </div>
 
                   <div className="space-y-3">
-                    <TrainingDayCard device="mobile" status="default" className="max-w-none" />
-                    <TrainingDayCard device="mobile" status="completed" className="max-w-none" />
+                    <TrainingDayCard
+                      device="mobile"
+                      status="default"
+                      className="max-w-none"
+                    />
+                    <TrainingDayCard
+                      device="mobile"
+                      status="completed"
+                      className="max-w-none"
+                    />
                     <TrainingDayCard
                       device="mobile"
                       status="default"
@@ -201,8 +255,9 @@ export default function GalleryPage() {
                       Action
                     </p>
                     <p className="text-sm leading-6 text-slate-300">
-                      `default`: 56px alto, `small`: 40px alto. Padding horizontal de 24px y 16px,
-                      gap interno de 4px, radios 16 y 12.
+                      `default`: 56px alto, `small`: 40px alto. Padding
+                      horizontal de 24px y 16px, gap interno de 4px, radios 16 y
+                      12.
                     </p>
                   </div>
                   <Sparkles className="text-sky-200" size={18} />
@@ -216,9 +271,11 @@ export default function GalleryPage() {
                       Tokens
                     </p>
                     <p className="text-sm leading-6 text-subdued">
-                      `blue/600` `#0051FF`, `blue/700` `#0041CC`, `blue/800` `#003099`, `neutral/50`
-                      `#F9FAFB`, `neutral/100` `#ECEFF3`, `neutral/200` `#DADFE7`, `neutral/300`
-                      `#C1C9D7`, `neutral/800` `#3C485D`, `neutral/900` `#28303E`.
+                      `blue/600` `#0051FF`, `blue/700` `#0041CC`, `blue/800`
+                      `#003099`, `neutral/50` `#F9FAFB`, `neutral/100`
+                      `#ECEFF3`, `neutral/200` `#DADFE7`, `neutral/300`
+                      `#C1C9D7`, `neutral/800` `#3C485D`, `neutral/900`
+                      `#28303E`.
                     </p>
                   </div>
                   <ArtificialIntelligence className="text-primary" size={18} />

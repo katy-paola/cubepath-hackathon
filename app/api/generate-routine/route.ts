@@ -81,15 +81,22 @@ Reglas:
             };
             send("day", finalDay);
             index += 1;
-            send("progress", { generatedDays: index, totalDays: config.frecuencia_semanal });
+            send("progress", {
+              generatedDays: index,
+              totalDays: config.frecuencia_semanal,
+            });
           }
 
-          send("done", { generatedDays: index, totalDays: config.frecuencia_semanal });
+          send("done", {
+            generatedDays: index,
+            totalDays: config.frecuencia_semanal,
+          });
           controller.close();
         } catch (error) {
           // If aborted, Next/AI SDK will throw an abort error; surface it as an SSE event.
           send("error", {
-            message: error instanceof Error ? error.message : "Error generando rutina",
+            message:
+              error instanceof Error ? error.message : "Error generando rutina",
             aborted: req.signal.aborted,
           });
           controller.close();
@@ -106,7 +113,9 @@ Reglas:
     });
   } catch (error) {
     const message =
-      error instanceof Error ? error.message : "Unknown error generating routine";
+      error instanceof Error
+        ? error.message
+        : "Unknown error generating routine";
     return Response.json({ error: message }, { status: 500 });
   }
 }

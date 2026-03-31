@@ -66,7 +66,8 @@ export const workoutDays: WorkoutDay[] = [
     intensity: "medium",
     intensityLabel: "MODERADA",
     totalDuration: "30min",
-    reason: "Trabajo de velocidad para aumentar capacidad anaeróbica y eficiencia.",
+    reason:
+      "Trabajo de velocidad para aumentar capacidad anaeróbica y eficiencia.",
     showAdjustDay: true,
     exercises: [
       {
@@ -96,7 +97,8 @@ export const workoutDays: WorkoutDay[] = [
     intensity: "medium",
     intensityLabel: "MODERADA",
     totalDuration: "35min",
-    reason: "Sesión cruzada para mantener carga cardiovascular con menor impacto.",
+    reason:
+      "Sesión cruzada para mantener carga cardiovascular con menor impacto.",
     exercises: [
       {
         title: "Bicicleta o elíptica",

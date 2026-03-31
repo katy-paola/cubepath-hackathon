@@ -10,8 +10,6 @@ const SvgStridSmall = (props: SVGProps<SVGSVGElement>) => (
       display: "block",
     }}
     viewBox="0 0 86.698 26.079"
-    width="false"
-    height="false"
     {...props}
   >
     <g fill="var(--fill-0, #0051FF)">

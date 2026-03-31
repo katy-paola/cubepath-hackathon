@@ -10,8 +10,6 @@ const SvgRunSmall = (props: SVGProps<SVGSVGElement>) => (
       display: "block",
     }}
     viewBox="0 0 24.348 27.132"
-    width="false"
-    height="false"
     {...props}
   >
     <path

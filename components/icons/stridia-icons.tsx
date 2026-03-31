@@ -8,6 +8,7 @@ import type {
 import RawArtificialIntelligenceInner from "./raw/ArtificialIntelligenceInner";
 import RawArtificialIntelligenceOutline from "./raw/ArtificialIntelligenceOutline";
 import RawArrowDown from "./raw/ArrowDown";
+import RawArrowLeft02 from "./raw/ArrowLeft02";
 import RawInfoCircle from "./raw/InfoCircle";
 import RawInfoDot from "./raw/InfoDot";
 import RawInfoLine from "./raw/InfoLine";
@@ -122,6 +123,12 @@ export const ArrowDown = createSingleLayerIcon(
   RawArrowDown,
   { top: "37.5%", right: "25%", bottom: "37.5%", left: "25%" },
   { inset: "-10% -5%" },
+);
+
+export const ArrowLeft = createSingleLayerIcon(
+  RawArrowLeft02,
+  { inset: 0 },
+  { inset: 0 },
 );
 
 export const Sparkles = createSingleLayerIcon(

@@ -4,11 +4,7 @@ import { useEffect, useId, useMemo, useRef, useState } from "react";
 
 import type { ReactNode } from "react";
 
-import {
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-} from "./select";
+import { SelectContent, SelectItem, SelectTrigger } from "./select";
 import { cn } from "@/lib/utils";
 
 export type SelectBoxProps = {
@@ -134,13 +130,13 @@ export function SelectBox({
 
             if (e.key === "ArrowDown") {
               e.preventDefault();
-              setActiveIndex((idx) => clampIndex((idx < 0 ? 0 : idx + 1)));
+              setActiveIndex((idx) => clampIndex(idx < 0 ? 0 : idx + 1));
               return;
             }
 
             if (e.key === "ArrowUp") {
               e.preventDefault();
-              setActiveIndex((idx) => clampIndex((idx < 0 ? 0 : idx - 1)));
+              setActiveIndex((idx) => clampIndex(idx < 0 ? 0 : idx - 1));
               return;
             }
 
@@ -197,4 +193,3 @@ export function SelectBox({
     </div>
   );
 }
-

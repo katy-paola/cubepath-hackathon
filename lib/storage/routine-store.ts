@@ -32,6 +32,22 @@ function getDefaultStatusForDayIndex(index: number) {
   return index === 0 ? ("por_completar" as const) : ("pendiente" as const);
 }
 
+function totalDurationMinutes(day: TrainingDay) {
+  return day.ejercicios.reduce((acc, ex) => acc + (ex.duracion ?? 0), 0);
+}
+
+function totalMinutesCompletedInRoutine(r: Routine): number {
+  return r.dias
+    .filter((d) => d.estado === "completado")
+    .reduce((acc, d) => acc + totalDurationMinutes(d), 0);
+}
+
+function parseIsoToMs(value?: string) {
+  if (!value) return null;
+  const ms = Date.parse(value);
+  return Number.isFinite(ms) ? ms : null;
+}
+
 export async function setActiveRoutine(routine: Routine) {
   const stored = routineToStored(routine);
 
@@ -80,6 +96,56 @@ export async function clearActiveRoutine() {
   notifyRoutineUpdated();
 }
 
+export async function resetActiveRoutineProgress() {
+  const routine = await getActiveRoutine();
+  if (!routine) return;
+
+  await db.transaction("rw", db.routines, db.dayProgress, async () => {
+    const storedRoutine = await db.routines.get(routine.id);
+    if (!storedRoutine) return;
+
+    const dias = storedRoutine.dias.map((d, idx) => ({
+      ...d,
+      estado: idx === 0 ? ("por_completar" as const) : ("pendiente" as const),
+    }));
+
+    await db.routines.put({ ...storedRoutine, dias });
+
+    for (let i = 0; i < dias.length; i++) {
+      const day = dias[i];
+      const key: [string, number] = [routine.id, day.numero_dia];
+      const existingProgress = await db.dayProgress.get(key);
+
+      await db.dayProgress.put({
+        routineId: routine.id,
+        numero_dia: day.numero_dia,
+        estado: day.estado,
+        updatedAt: nowIso(),
+        ...(existingProgress ?? {}),
+        completedAt: undefined,
+        durationMinutes: undefined,
+        notes: undefined,
+      });
+    }
+  });
+
+  notifyRoutineUpdated();
+}
+
+/** Reemplaza el contenido de un día en la rutina activa (misma `numero_dia`, p. ej. tras ajuste con IA). */
+export async function replaceTrainingDayContent(
+  numero_dia: number,
+  nextDay: TrainingDay,
+): Promise<boolean> {
+  const routine = await getActiveRoutine();
+  if (!routine) return false;
+  const dias = routine.dias.map((d) =>
+    d.numero_dia === numero_dia ? nextDay : d,
+  );
+  await setActiveRoutine({ ...routine, dias });
+  return true;
+}
+
 export async function getActiveRoutineDayBySlug(slug: string) {
   const routine = await getActiveRoutine();
   if (!routine) return null;
@@ -109,6 +175,29 @@ export async function updateDayStatus(
 
   await db.transaction("rw", db.routines, db.dayProgress, async () => {
     const existingProgress = await db.dayProgress.get([routineId, numero_dia]);
+    const storedRoutine = await db.routines.get(routineId);
+
+    const matchingDay =
+      storedRoutine?.dias.find((d) => d.numero_dia === numero_dia) ?? null;
+    const computedDuration =
+      matchingDay && estado === "completado"
+        ? totalDurationMinutes(matchingDay as TrainingDay)
+        : undefined;
+
+    const computedMeta: Partial<DayProgress> =
+      estado === "completado"
+        ? {
+            completedAt:
+              (meta as DayProgress | undefined)?.completedAt ??
+              existingProgress?.completedAt ??
+              nowIso(),
+            durationMinutes:
+              (meta as DayProgress | undefined)?.durationMinutes ??
+              existingProgress?.durationMinutes ??
+              computedDuration,
+          }
+        : {};
+
     await db.dayProgress.put({
       routineId,
       numero_dia,
@@ -116,16 +205,19 @@ export async function updateDayStatus(
       updatedAt: nowIso(),
       ...(existingProgress ?? {}),
       ...(meta ?? {}),
+      ...(computedMeta as Partial<DayProgress>),
     });
-
-    const storedRoutine = await db.routines.get(routineId);
     if (!storedRoutine) return;
 
     const dias = storedRoutine.dias.map((d) =>
-      d.numero_dia === numero_dia ? ({ ...d, estado } satisfies TrainingDay) : d,
+      d.numero_dia === numero_dia
+        ? ({ ...d, estado } satisfies TrainingDay)
+        : d,
     );
 
-    const firstIncompleteIndex = dias.findIndex((d) => d.estado !== "completado");
+    const firstIncompleteIndex = dias.findIndex(
+      (d) => d.estado !== "completado",
+    );
     for (let i = 0; i < dias.length; i++) {
       if (dias[i].estado === "completado") continue;
       dias[i] = {
@@ -136,19 +228,84 @@ export async function updateDayStatus(
 
     await db.routines.put({ ...storedRoutine, dias });
   });
+
+  notifyRoutineUpdated();
 }
 
 export async function getProgressSummary(): Promise<Progress | null> {
   const routine = await getActiveRoutine();
   if (!routine) return null;
 
-  const all = await db.dayProgress.where("routineId").equals(routine.id).toArray();
   const total = routine.dias.length;
-  const completados = all.filter((p) => p.estado === "completado").length;
+  // Source of truth for completion state is the routine itself (UI reads `routine.dias[*].estado`).
+  // `dayProgress` stores completion metadata like durationMinutes.
+  const completedDays = routine.dias.filter((d) => d.estado === "completado");
+  const completados = completedDays.length;
 
-  const tiempo_total = all.reduce((acc, p) => acc + (p.durationMinutes ?? 0), 0);
+  // Tiempo total sumado de los días completados según la rutina actual.
+  // Si en el futuro se quiere reflejar solo los minutos registrados manualmente,
+  // se podría priorizar `dayProgress.durationMinutes` cuando exista.
+  const tiempo_total = completedDays.reduce(
+    (acc, d) => acc + totalDurationMinutes(d),
+    0,
+  );
 
-  const intensityCounts = routine.dias.reduce(
+  const now = Date.now();
+  const weekMs = 7 * 24 * 60 * 60 * 1000;
+  const thisStart = now - weekMs;
+  const prevStart = now - 2 * weekMs;
+
+  // For week-over-week comparisons, use history across routines.
+  const allProgress = await db.dayProgress.toArray();
+  const completedProgress = allProgress.filter(
+    (p) => p.estado === "completado",
+  );
+  const minutesInRange = (startMs: number, endMs: number) =>
+    completedProgress.reduce((acc, p) => {
+      const ts =
+        parseIsoToMs(p.completedAt) ?? parseIsoToMs(p.updatedAt) ?? null;
+      if (ts === null) return acc;
+      if (ts < startMs || ts >= endMs) return acc;
+      return acc + (p.durationMinutes ?? 0);
+    }, 0);
+
+  const minutesThisWeek = minutesInRange(thisStart, now);
+  const minutesPrevWeek = minutesInRange(prevStart, thisStart);
+  const tiempo_delta_pct =
+    minutesPrevWeek > 0
+      ? Math.round(
+          ((minutesThisWeek - minutesPrevWeek) / minutesPrevWeek) * 100 * 10,
+        ) / 10
+      : null;
+
+  const routinesNewestFirst = await db.routines
+    .orderBy("createdAt")
+    .reverse()
+    .toArray();
+  const currentIdx = routinesNewestFirst.findIndex((s) => s.id === routine.id);
+  const prevStored =
+    currentIdx >= 0 && currentIdx + 1 < routinesNewestFirst.length
+      ? routinesNewestFirst[currentIdx + 1]
+      : null;
+  const prevRoutine = prevStored ? storedToRoutine(prevStored) : null;
+  const tiempo_routine_anterior_min = prevRoutine
+    ? totalMinutesCompletedInRoutine(prevRoutine)
+    : null;
+  const tiempo_delta_vs_routine_anterior_pct =
+    tiempo_routine_anterior_min != null &&
+    tiempo_routine_anterior_min > 0 &&
+    Number.isFinite(tiempo_total)
+      ? Math.round(
+          ((tiempo_total - tiempo_routine_anterior_min) /
+            tiempo_routine_anterior_min) *
+            100 *
+            10,
+        ) / 10
+      : null;
+
+  const intensitySourceDays =
+    completedDays.length > 0 ? completedDays : routine.dias;
+  const intensityCounts = intensitySourceDays.reduce(
     (acc, d) => {
       acc[d.intensidad] += 1;
       return acc;
@@ -156,18 +313,23 @@ export async function getProgressSummary(): Promise<Progress | null> {
     { baja: 0, media: 0, alta: 0 } as Record<"baja" | "media" | "alta", number>,
   );
   const topIntensity =
-    intensityCounts.alta >= intensityCounts.media && intensityCounts.alta >= intensityCounts.baja
+    intensityCounts.alta >= intensityCounts.media &&
+    intensityCounts.alta >= intensityCounts.baja
       ? "alta"
       : intensityCounts.media >= intensityCounts.baja
         ? "media"
         : "baja";
 
-  const intensidad = INTENSITY_VALUES.find((i) => i.nivel === topIntensity) ?? INTENSITY_VALUES[0];
+  const intensidad =
+    INTENSITY_VALUES.find((i) => i.nivel === topIntensity) ??
+    INTENSITY_VALUES[0];
 
   return {
     consistencia: { completados, total },
     tiempo_total,
+    tiempo_delta_pct,
+    tiempo_routine_anterior_min,
+    tiempo_delta_vs_routine_anterior_pct,
     intensidad,
   };
 }
-

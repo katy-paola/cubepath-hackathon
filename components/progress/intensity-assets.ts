@@ -30,4 +30,3 @@ export const intensityAssets = {
 } as const;
 
 export type IntensityLevel = "low" | "medium" | "high";
-

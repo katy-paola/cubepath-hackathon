@@ -30,6 +30,8 @@
   /* Métricas / progreso (evitar hex sueltos en cards) */
   --metric-blue: #002066;
   --trend-positive: #059443;
+  /* Tendencia a la baja (métricas / cards progreso) — alinear con componente en Figma */
+  --trend-negative: #c62828;
   --primary-accent-tile: #3374ff;
   /* Estado completado (training card, etc.) */
   --success-border: #07c559;
@@ -39,6 +41,16 @@
   --line-height-eyebrow: 0.9375rem;
   /* Ancho mínimo rail demo (galería / scroll horizontal) */
   --width-demo-rail: 36rem;
+}
+
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
 }
 
 @theme inline {
@@ -62,6 +74,7 @@
   --color-hero-orb: var(--hero-orb);
   --color-metric-blue: var(--metric-blue);
   --color-trend-positive: var(--trend-positive);
+  --color-trend-negative: var(--trend-negative);
   --color-primary-accent-tile: var(--primary-accent-tile);
   --color-success-border: var(--success-border);
   --color-success-ink: var(--success-ink);

@@ -2,13 +2,20 @@
 
 import type { ComponentPropsWithoutRef } from "react";
 import Image from "next/image";
-import { useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { SlidersHorizontal } from "@/components/icons";
 import { Button, FormField, SelectBox } from "@/components/ui";
-import { mapRoutineFormToConfig } from "@/lib/routine-form-mapper";
+import {
+  mapRoutineConfigToFormValues,
+  mapRoutineFormToConfig,
+} from "@/lib/routine-form-mapper";
 import type { Routine, TrainingDay } from "@/lib/types";
-import { setActiveRoutine } from "@/lib/storage/routine-store";
+import {
+  getActiveRoutine,
+  onRoutineUpdated,
+  setActiveRoutine as persistActiveRoutine,
+} from "@/lib/storage/routine-store";
 import {
   routineCommitmentOptions,
   routineFormDefaults,
@@ -49,10 +56,29 @@ export function GenerateSection({ className, ...props }: GenerateSectionProps) {
     commitment: routineFormDefaults.commitment,
     health: routineFormDefaults.health,
   });
+  const [activeRoutine, setActiveRoutineState] = useState<Routine | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [streamStatus, setStreamStatus] = useState<string | null>(null);
   const abortRef = useRef<AbortController | null>(null);
+
+  const refreshActiveRoutine = useCallback(async () => {
+    const r = await getActiveRoutine();
+    setActiveRoutineState(r);
+    if (r) {
+      setFormValues(mapRoutineConfigToFormValues(r.config));
+    }
+  }, []);
+
+  useEffect(() => {
+    void refreshActiveRoutine();
+  }, [refreshActiveRoutine]);
+
+  useEffect(() => {
+    return onRoutineUpdated(() => {
+      void refreshActiveRoutine();
+    });
+  }, [refreshActiveRoutine]);
 
   function updateField<Key extends keyof RoutineFormValues>(
     key: Key,
@@ -63,7 +89,7 @@ export function GenerateSection({ className, ...props }: GenerateSectionProps) {
 
   async function consumeRoutineStream(
     response: Response,
-    onEvent: (event: string, data: any) => Promise<void> | void,
+    onEvent: (event: string, data: unknown) => Promise<void> | void,
   ) {
     if (!response.body) {
       throw new Error("Streaming no soportado en esta respuesta.");
@@ -90,7 +116,7 @@ export function GenerateSection({ className, ...props }: GenerateSectionProps) {
           if (line.startsWith("data:")) dataStr += line.slice(5).trim();
         }
         if (!dataStr) continue;
-        const data = JSON.parse(dataStr);
+        const data: unknown = JSON.parse(dataStr);
         await onEvent(event, data);
       }
     }
@@ -131,6 +157,16 @@ export function GenerateSection({ className, ...props }: GenerateSectionProps) {
     abortRef.current = abortController;
 
     try {
+      const existing = await getActiveRoutine();
+      const routineBase: Routine = existing
+        ? { ...existing, config: payload }
+        : {
+            id: crypto.randomUUID(),
+            config: payload,
+            dias: [],
+            createdAt: new Date(),
+          };
+
       const response = await fetch("/api/generate-routine", {
         method: "POST",
         headers: {
@@ -146,31 +182,32 @@ export function GenerateSection({ className, ...props }: GenerateSectionProps) {
         return;
       }
 
-      const routine: Routine = {
-        id: crypto.randomUUID(),
-        config: payload,
-        dias: [],
-        createdAt: new Date(),
-      };
-
       const days: TrainingDay[] = [];
+      let expectedDays: number = payload.frecuencia_semanal;
+      let streamErrored = false;
 
       await consumeRoutineStream(response, async (evt, data) => {
+        const row = data as Record<string, unknown>;
         if (evt === "start") {
-          setStreamStatus(`Generando rutina (${data.totalDays} días)...`);
+          expectedDays =
+            typeof row.totalDays === "number"
+              ? row.totalDays
+              : payload.frecuencia_semanal;
+          setStreamStatus(`Generando rutina (${expectedDays} días)...`);
           return;
         }
 
         if (evt === "progress") {
           setStreamStatus(
-            `Generando día ${data.generatedDays}/${data.totalDays}...`,
+            `Generando día ${String(row.generatedDays)}/${String(row.totalDays)}...`,
           );
           return;
         }
 
         if (evt === "day") {
           days.push(data as TrainingDay);
-          await setActiveRoutine({ ...routine, dias: [...days] });
+          // No persistimos rutinas parciales: evitamos rutina vacía / 1 día y inconsistencias.
+          // Persistiremos una sola vez cuando se valide la rutina completa.
 
           if (days.length === 1) {
             requestAnimationFrame(() => {
@@ -184,8 +221,13 @@ export function GenerateSection({ className, ...props }: GenerateSectionProps) {
         }
 
         if (evt === "error") {
-          setErrorMessage(data?.message ?? "No se pudo generar la rutina.");
+          setErrorMessage(
+            typeof row.message === "string"
+              ? row.message
+              : "No se pudo generar la rutina.",
+          );
           setStreamStatus(null);
+          streamErrored = true;
           return;
         }
 
@@ -193,6 +235,36 @@ export function GenerateSection({ className, ...props }: GenerateSectionProps) {
           setStreamStatus("Rutina lista.");
         }
       });
+
+      if (streamErrored) return;
+
+      if (days.length < 2) {
+        setErrorMessage(
+          "La rutina generada está vacía o incompleta (mínimo 2 días).",
+        );
+        setStreamStatus(null);
+        return;
+      }
+
+      if (
+        days.length !== expectedDays ||
+        days.length !== payload.frecuencia_semanal
+      ) {
+        setErrorMessage(
+          `La rutina generada no coincide con la frecuencia seleccionada (${payload.frecuencia_semanal} días). Se generaron ${days.length} días.`,
+        );
+        setStreamStatus(null);
+        return;
+      }
+
+      // Normaliza numeración por si el backend/cached stream se desordenó.
+      const normalizedDays = days.map((d, idx) => ({
+        ...d,
+        numero_dia: idx + 1,
+        estado: idx === 0 ? ("por_completar" as const) : ("pendiente" as const),
+      }));
+
+      await persistActiveRoutine({ ...routineBase, dias: normalizedDays });
     } catch (error) {
       if (abortController.signal.aborted) {
         setStreamStatus("Generación cancelada.");
@@ -341,7 +413,11 @@ export function GenerateSection({ className, ...props }: GenerateSectionProps) {
                 />
               }
             >
-              {isGenerating ? "Generando rutina..." : "Generar rutina"}
+              {isGenerating
+                ? "Generando rutina..."
+                : activeRoutine
+                  ? "Regenerar rutina"
+                  : "Generar rutina"}
             </Button>
 
             {isGenerating ? (

@@ -1,4 +1,5 @@
 import { HomeHeader } from "@/components/home/home-header";
+import { RoutineExtrasLive } from "@/components/home/routine-extras-live";
 import { WorkoutSectionLive } from "@/components/home/workout-section-live";
 import { GenerateSection } from "@/components/landing/generate-section";
 import { Hero } from "@/components/landing/hero";
@@ -15,6 +16,7 @@ export default function Home() {
           <Hero />
           <GenerateSection />
           <WorkoutSectionLive />
+          <RoutineExtrasLive />
         </div>
       </div>
     </main>

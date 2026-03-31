@@ -10,8 +10,6 @@ const SvgADefault = (props: SVGProps<SVGSVGElement>) => (
       display: "block",
     }}
     viewBox="0 0 24.668 30.052"
-    width="false"
-    height="false"
     {...props}
   >
     <path

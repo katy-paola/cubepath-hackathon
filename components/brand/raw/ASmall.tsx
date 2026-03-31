@@ -10,8 +10,6 @@ const SvgASmall = (props: SVGProps<SVGSVGElement>) => (
       display: "block",
     }}
     viewBox="0 0 19.734 24.042"
-    width="false"
-    height="false"
     {...props}
   >
     <path

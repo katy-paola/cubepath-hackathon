@@ -32,7 +32,10 @@ const DEFAULT_EXERCISES = [
   { label: "Técnica de carrera: Skipping y talones" },
 ] satisfies Array<{ label: string; tooltipText?: string }>;
 
-export type TrainingDayCardProps = Omit<ComponentPropsWithoutRef<"div">, "children"> & {
+export type TrainingDayCardProps = Omit<
+  ComponentPropsWithoutRef<"div">,
+  "children"
+> & {
   device?: "desktop" | "mobile";
   status?: "default" | "completed";
   dayLabel?: string;
@@ -71,7 +74,9 @@ export function TrainingDayCard({
       {/* Cabecera */}
       <div className="flex w-full items-start justify-between gap-2">
         <div className="flex min-w-0 flex-col gap-0.5 leading-none">
-          <p className="text-xs uppercase leading-4 text-muted-foreground">{dayLabel}</p>
+          <p className="text-xs uppercase leading-4 text-muted-foreground">
+            {dayLabel}
+          </p>
           <p className="text-xl leading-8 text-heading">{workoutLabel}</p>
           <p className="text-xs leading-4 text-primary-hover">{typeLabel}</p>
         </div>
@@ -90,10 +95,17 @@ export function TrainingDayCard({
             <li key={`${ex.label}-${idx}`} className="list-none">
               <div className="flex w-full min-w-0 items-center justify-between gap-2">
                 <div className="flex min-w-0 items-center gap-2">
-                  <span className="size-1.5 shrink-0 rounded-full bg-primary" aria-hidden />
+                  <span
+                    className="size-1.5 shrink-0 rounded-full bg-primary"
+                    aria-hidden
+                  />
                   <p className="truncate text-sm text-subdued">{ex.label}</p>
                 </div>
-                <InfoIconButton tooltipText={tip} ariaLabel={tip} className="shrink-0" />
+                <InfoIconButton
+                  tooltipText={tip}
+                  ariaLabel={tip}
+                  className="shrink-0"
+                />
               </div>
             </li>
           );
@@ -174,7 +186,9 @@ export function TrainingDayCard({
       {/* Pie */}
       <div className="flex w-full items-center justify-between gap-2">
         <div className="flex min-w-0 flex-col leading-none">
-          <p className="text-xs leading-3 text-muted-foreground">{COPY.durationLabel}</p>
+          <p className="text-xs leading-3 text-muted-foreground">
+            {COPY.durationLabel}
+          </p>
           <p className="text-sm leading-5 text-heading">{COPY.durationValue}</p>
         </div>
         <div
@@ -184,7 +198,9 @@ export function TrainingDayCard({
           )}
         >
           {isCompleted && (
-            <p className="text-base font-bold leading-6 text-success-ink">{COPY.completedLabel}</p>
+            <p className="text-base font-bold leading-6 text-success-ink">
+              {COPY.completedLabel}
+            </p>
           )}
         </div>
       </div>

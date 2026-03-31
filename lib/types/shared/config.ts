@@ -11,7 +11,7 @@ export const LEVEL_VALUES = ["principiante", "intermedio", "avanzado"] as const;
 
 export const FREQUENCY_VALUES = [2, 3, 4, 5, 6] as const;
 
-export const SESSION_TIME_VALUES = [20, 30, 45, 60] as const;
+export const SESSION_TIME_VALUES = [20, 30, 45, 60, 75] as const;
 
 export const LOCATION_VALUES = [
   "exterior",

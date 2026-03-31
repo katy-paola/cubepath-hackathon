@@ -22,13 +22,15 @@ export const StatusSchema = stringEnum(STATUS_VALUES);
 export const ExerciseSchema = z.object({
   nombre: z.string().describe("Nombre corto del ejercicio"),
   duracion: z.number().int().positive().describe("Duración en minutos"),
-  descripcion: z.string().describe("Explicación breve de cómo hacer el ejercicio"),
+  descripcion: z
+    .string()
+    .describe("Explicación breve de cómo hacer el ejercicio"),
 });
 
 export const AITrainingDaySchema = z.object({
   tipo: TrainingTypeSchema.describe("Tipo de entrenamiento del día"),
   intensidad: IntensityLevelSchema.describe("Nivel de intensidad"),
-  ejercicios: z.array(ExerciseSchema),
+  ejercicios: z.array(ExerciseSchema).min(2),
   razon: z.string().max(200).describe("Por qué este entrenamiento es adecuado"),
 });
 

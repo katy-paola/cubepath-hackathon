@@ -1,7 +1,6 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 
-import { Sparkles } from "@/components/icons";
 import { cn } from "@/lib/utils";
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
@@ -29,11 +28,6 @@ const buttonVariants = cva(
     },
   },
 );
-
-const iconSizeClasses = {
-  default: "size-4",
-  sm: "size-4",
-} as const;
 
 export function Button({
   children,

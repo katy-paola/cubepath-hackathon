@@ -1,5 +1,6 @@
 import type { ComponentPropsWithoutRef } from "react";
 
+import type { Progress } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 import { ProgressCard } from "./progress-card";
@@ -9,11 +10,13 @@ export type ProgressSectionProps = Omit<
   "children"
 > & {
   device?: "desktop" | "tablet" | "mobile";
+  progress?: Progress | null;
 };
 
 export function ProgressSection({
   className,
   device = "desktop",
+  progress = null,
   ...props
 }: ProgressSectionProps) {
   const isMobile = device === "mobile";
@@ -62,20 +65,22 @@ export function ProgressSection({
         <ProgressCard
           type="consistencia"
           device={device}
+          progress={progress}
           className={cn(isStacked && "max-w-none")}
         />
         <ProgressCard
           type="tiempo"
           device={device}
+          progress={progress}
           className={cn(isStacked && "max-w-none")}
         />
         <ProgressCard
           type="intensidad"
           device={device}
+          progress={progress}
           className={cn(isStacked && "max-w-none")}
         />
       </div>
     </section>
   );
 }
-

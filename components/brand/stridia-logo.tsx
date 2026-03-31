@@ -76,7 +76,9 @@ function RawPiece({
   icon: RawLogoSvg;
   style?: CSSProperties;
 }) {
-  return <Icon aria-hidden focusable="false" style={{ ...baseSvgStyle, ...style }} />;
+  return (
+    <Icon aria-hidden focusable="false" style={{ ...baseSvgStyle, ...style }} />
+  );
 }
 
 export function StridiaLogo({

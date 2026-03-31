@@ -44,7 +44,9 @@ export function Hero({
             "text-2xl font-normal not-italic text-heading md:text-4xl lg:text-5xl",
           )}
         >
-          <span className="leading-9 md:leading-12 lg:leading-16">{titlePrefix}</span>
+          <span className="leading-9 md:leading-12 lg:leading-16">
+            {titlePrefix}
+          </span>
           <span className="leading-9 text-primary md:leading-12 lg:leading-16">
             {titleHighlight}
           </span>

@@ -8,24 +8,24 @@ Segunda ronda de inventario: barrido de patrones `*-[[...]]` en `*.tsx` (aprox. 
 
 ## Resumen por archivo (volumen de coincidencias)
 
-| Archivo | Coincidencias | Grupo inventario |
-|---------|----------------|------------------|
-| `components/landing/generate-section.tsx` | ~~53~~ **↓** | C — grid simplificado, `max-w-page`, `rounded-3xl`, tokens; quedan anclajes Figma (robot/IA) |
-| `app/gallery/page.tsx` | ~~40~~ **~4** | A — `flex`+`lg:w-80`, `min-w-demo-rail` en tema; sin `grid-cols-[...]` |
-| `components/progress/progress-card.tsx` | ~~38~~ **~14** | D — `min-h-52` (~208px), `max-w-card-promo`, tokens métrica |
-| `components/training/training-day-card.tsx` | ~~37~~ **~8** | D — tokens `success-border` / `success-ink`, `p-4`/`p-6`, `w-36` |
-| `components/progress/intensity-meter.tsx` | 17 | D |
-| `components/landing/hero.tsx` | ~~9~~ **1** | C — `text-[0px]` en contenedor del título (truco layout) |
-| `components/landing/adjust-routine-card.tsx` | 9 | C |
-| `components/home/workout-section.tsx` | ~~9~~ **5** | C — gaps y tipografía a escala (`gap-4`, `gap-6`, `text-xs`…`text-3xl`) |
-| `components/progress/progress-section.tsx` | 6 | D — parcial: `max-w-page`, gaps de escala, `text-3xl` |
-| `app/page.tsx` | ~~7~~ **0** | A — móvil progreso: `max-w-sm`; imports directos a componentes |
-| `components/progress/mini-chart.tsx` | ~~5~~ **0** | D — `bg-primary` / `bg-primary/20`, escala `h-8`, `w-2`, `gap-1` |
-| `components/ui/select.tsx` | ~~3~~ **0** | B — migrado a `rounded-xl` / `rounded-b-xl` / `size-6` |
-| `components/home/home-header.tsx` | ~~2~~ **0** | C |
-| `components/ui/button.tsx` | 1 | B |
-| `components/ui/select-box.tsx` | ~~1~~ **0** | B — ancho por defecto `w-40` (10rem ≈ 160px; antes 162px) |
-| `components/brand/**`, `components/icons/**` | **0** | E |
+| Archivo                                      | Coincidencias  | Grupo inventario                                                                             |
+| -------------------------------------------- | -------------- | -------------------------------------------------------------------------------------------- |
+| `components/landing/generate-section.tsx`    | ~~53~~ **↓**   | C — grid simplificado, `max-w-page`, `rounded-3xl`, tokens; quedan anclajes Figma (robot/IA) |
+| `app/gallery/page.tsx`                       | ~~40~~ **~4**  | A — `flex`+`lg:w-80`, `min-w-demo-rail` en tema; sin `grid-cols-[...]`                       |
+| `components/progress/progress-card.tsx`      | ~~38~~ **~14** | D — `min-h-52` (~208px), `max-w-card-promo`, tokens métrica                                  |
+| `components/training/training-day-card.tsx`  | ~~37~~ **~8**  | D — tokens `success-border` / `success-ink`, `p-4`/`p-6`, `w-36`                             |
+| `components/progress/intensity-meter.tsx`    | 17             | D                                                                                            |
+| `components/landing/hero.tsx`                | ~~9~~ **1**    | C — `text-[0px]` en contenedor del título (truco layout)                                     |
+| `components/landing/adjust-routine-card.tsx` | 9              | C                                                                                            |
+| `components/home/workout-section.tsx`        | ~~9~~ **5**    | C — gaps y tipografía a escala (`gap-4`, `gap-6`, `text-xs`…`text-3xl`)                      |
+| `components/progress/progress-section.tsx`   | 6              | D — parcial: `max-w-page`, gaps de escala, `text-3xl`                                        |
+| `app/page.tsx`                               | ~~7~~ **0**    | A — móvil progreso: `max-w-sm`; imports directos a componentes                               |
+| `components/progress/mini-chart.tsx`         | ~~5~~ **0**    | D — `bg-primary` / `bg-primary/20`, escala `h-8`, `w-2`, `gap-1`                             |
+| `components/ui/select.tsx`                   | ~~3~~ **0**    | B — migrado a `rounded-xl` / `rounded-b-xl` / `size-6`                                       |
+| `components/home/home-header.tsx`            | ~~2~~ **0**    | C                                                                                            |
+| `components/ui/button.tsx`                   | 1              | B                                                                                            |
+| `components/ui/select-box.tsx`               | ~~1~~ **0**    | B — ancho por defecto `w-40` (10rem ≈ 160px; antes 162px)                                    |
+| `components/brand/**`, `components/icons/**` | **0**          | E                                                                                            |
 
 ---
 
@@ -48,13 +48,13 @@ Segunda ronda de inventario: barrido de patrones `*-[[...]]` en `*.tsx` (aprox. 
 
 ## Prioridad sugerida de migración (“poco a poco”)
 
-| Orden | Objetivo | Motivo |
-|-------|----------|--------|
-| ~~1~~ **Hecho** | `components/ui/select.tsx`, `select-box.tsx` | `rounded-xl`, `size-6`, `w-40` por defecto. |
-| ~~2~~ **Hecho** | `app/page.tsx`, `home-header`, `hero` | Tokens `--page-shell`, `--hero-*`, `max-w-page`; espaciado `gap-8`/`md:gap-16`; hero `rounded-3xl`, tipografía `text-2xl`…`lg:text-5xl`. Queda 1 arbitrary en `page` y `text-[0px]` en hero. |
-| 3 | `generate-section`, `adjust-routine-card` | Mayor densidad; conviene tras fijar escala tipográfica/espaciado en `@theme`. |
-| 4 | `progress-*`, `training-*`, `training-day-card` | Muchos valores; compartir escala con landing reduce trabajo. |
-| 5 | `app/gallery/page.tsx` | Alinear al final cuando el resto esté estable. |
+| Orden           | Objetivo                                        | Motivo                                                                                                                                                                                       |
+| --------------- | ----------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ~~1~~ **Hecho** | `components/ui/select.tsx`, `select-box.tsx`    | `rounded-xl`, `size-6`, `w-40` por defecto.                                                                                                                                                  |
+| ~~2~~ **Hecho** | `app/page.tsx`, `home-header`, `hero`           | Tokens `--page-shell`, `--hero-*`, `max-w-page`; espaciado `gap-8`/`md:gap-16`; hero `rounded-3xl`, tipografía `text-2xl`…`lg:text-5xl`. Queda 1 arbitrary en `page` y `text-[0px]` en hero. |
+| 3               | `generate-section`, `adjust-routine-card`       | Mayor densidad; conviene tras fijar escala tipográfica/espaciado en `@theme`.                                                                                                                |
+| 4               | `progress-*`, `training-*`, `training-day-card` | Muchos valores; compartir escala con landing reduce trabajo.                                                                                                                                 |
+| 5               | `app/gallery/page.tsx`                          | Alinear al final cuando el resto esté estable.                                                                                                                                               |
 
 ---
 

@@ -1,5 +1,10 @@
-import { openrouter } from "./openrouter";
-import { AIRoutineSchema } from "../validations/training";
+import { Output, generateText } from "ai";
+
+import { getOpenRouterProvider } from "@/lib/ai/provider";
+import {
+  AIRoutineSchema,
+  AITrainingDaySchema,
+} from "@/lib/validations/training";
 import type { AITrainingDaySchemaType } from "@/lib/validations/training";
 
 /**
@@ -28,30 +33,23 @@ Genera una NUEVA rutina completa mejorada basada en la anterior.
 Formato: igual a AITrainingDaySchemaType (tipo, intensidad, ejercicios, razon)
 `;
 
-  const completion = await openrouter.chat.completions.create({
-    model: "openrouter/free",
-    messages: [{ role: "user", content: prompt }],
+  const openrouter = getOpenRouterProvider();
+  const model = process.env.OPENROUTER_MODEL ?? "openrouter/auto";
+
+  const result = await generateText({
+    model: openrouter(model),
+    system: "Responde únicamente datos válidos para la rutina solicitada.",
+    prompt,
+    output: Output.array({
+      element: AITrainingDaySchema,
+    }),
   });
 
-  const content = completion.choices[0].message.content;
+  const parsed = AIRoutineSchema.safeParse(result.output);
 
-  if (!content) {
-    throw new Error("Empty AI response");
-  }
-
-  let parsed: AITrainingDaySchemaType[];
-
-  try {
-    parsed = JSON.parse(content) as AITrainingDaySchemaType[];
-  } catch {
-    throw new Error("Invalid JSON from AI");
-  }
-
-  const result = AIRoutineSchema.safeParse(parsed);
-
-  if (!result.success) {
+  if (!parsed.success) {
     throw new Error("Invalid AI routine structure");
   }
 
-  return result.data;
+  return parsed.data;
 }

@@ -29,11 +29,11 @@ export class StridiaDB extends Dexie {
 
     this.version(1).stores({
       routines: "id, createdAt",
-      dayProgress: "[routineId+numero_dia], routineId, numero_dia, estado, updatedAt",
+      dayProgress:
+        "[routineId+numero_dia], routineId, numero_dia, estado, updatedAt",
       meta: "key",
     });
   }
 }
 
 export const db = new StridiaDB();
-
