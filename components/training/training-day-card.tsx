@@ -160,15 +160,13 @@ export function TrainingDayCard({
               </FormField>
             </div>
 
-            <div className="flex w-full items-center justify-center rounded-xl border border-primary-hover bg-secondary px-4 py-2 opacity-80">
-              <Button
-                variant="secondary"
-                size="sm"
-                className="w-full rounded-xl border-0 bg-inherit px-0 py-0 opacity-100 shadow-none"
-              >
-                {COPY.actionLabel}
-              </Button>
-            </div>
+            <Button
+              variant="secondary"
+              size="sm"
+              className="w-full rounded-xl border border-primary-hover bg-secondary"
+            >
+              {COPY.actionLabel}
+            </Button>
           </div>
         </div>
       </div>

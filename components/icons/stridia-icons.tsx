@@ -87,7 +87,6 @@ function IconRoot({
         height: size,
         lineHeight: 0,
         flexShrink: 0,
-        color: "inherit",
         verticalAlign: "middle",
         ...style,
       }}
@@ -115,8 +114,8 @@ function createSingleLayerIcon(
 
 export const SlidersHorizontal = createSingleLayerIcon(
   RawSlidersHorizontal,
-  { inset: "8.33% 16.67%" },
-  { inset: "-3% -3.75%" },
+  { inset: "8.33%" },
+  { inset: "-3%" },
 );
 
 export const ArrowDown = createSingleLayerIcon(
@@ -186,6 +185,12 @@ export function Info(props: StridiaIconProps) {
 }
 
 export const TradeUp = createSingleLayerIcon(
+  RawTradeUp,
+  { inset: "8.33%" },
+  { inset: "-3%" },
+);
+
+export const TradeUpCompact = createSingleLayerIcon(
   RawTradeUp,
   { inset: "33.33% 16.67%" },
   { inset: "-7.5% -3.75%" },

@@ -119,7 +119,7 @@ export function FormField({
 }: FormFieldProps) {
   return (
     <div className={cn("flex flex-col gap-2", className)} {...props}>
-      <p className="line-clamp-2 min-h-12 text-base leading-6 font-medium text-heading">
+      <p className="line-clamp-2 text-base leading-6 font-medium text-heading">
         {label}
       </p>
       {children}

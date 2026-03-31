@@ -1,11 +1,10 @@
 import type { ComponentPropsWithoutRef } from "react";
-import Image from "next/image";
 
+import { TradeUpCompact } from "@/components/icons";
 import { cn } from "@/lib/utils";
 
 import { IntensityMeter } from "./intensity-meter";
 import { MiniChart } from "./mini-chart";
-import { intensityAssets } from "./intensity-assets";
 
 export type ProgressCardProps = Omit<
   ComponentPropsWithoutRef<"div">,
@@ -65,19 +64,11 @@ export function ProgressCard({
             )}
 
             {isTiempo && (
-              <div className="flex shrink-0 items-center gap-1">
+              <div className="flex shrink-0 items-start gap-1">
                 <span className="whitespace-nowrap text-base font-medium leading-6 text-trend-positive">
                   +15% vs semana anterior
                 </span>
-                <span className="relative size-6 shrink-0" aria-hidden>
-                  <Image
-                    src={intensityAssets.imgVector13}
-                    alt=""
-                    fill
-                    className="object-contain"
-                    sizes="24px"
-                  />
-                </span>
+                <TradeUpCompact className="size-6 shrink-0 text-trend-positive" />
               </div>
             )}
           </div>

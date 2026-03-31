@@ -1,8 +1,9 @@
 import type { ComponentPropsWithoutRef } from "react";
+import Link from "next/link";
 
-import { Refresh, TradeUp } from "@/components/icons";
-import { TrainingDayCard } from "@/components/training";
+import { Refresh, TradeUpCompact } from "@/components/icons";
 import { Button } from "@/components/ui";
+import { workoutDays } from "@/lib/workout-days";
 import { cn } from "@/lib/utils";
 
 export type WorkoutSectionProps = Omit<
@@ -18,8 +19,9 @@ export function WorkoutSection({
   ...props
 }: WorkoutSectionProps) {
   const isMobile = device === "mobile";
-  const isTablet = device === "tablet";
-  const isStacked = isTablet || isMobile;
+  const gridClasses = isMobile
+    ? "grid-cols-1 gap-4"
+    : "grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-4 lg:gap-6";
 
   return (
     <section
@@ -27,7 +29,12 @@ export function WorkoutSection({
       className={cn("flex w-full flex-col gap-6", className)}
       aria-labelledby="workout-section-heading"
     >
-      <div className={cn("w-full", isMobile ? "flex flex-col items-start gap-4" : "flex items-end justify-between")}>
+      <div
+        className={cn(
+          "w-full",
+          isMobile ? "flex flex-col items-start gap-4" : "flex items-end justify-between",
+        )}
+      >
         <h2
           id="workout-section-heading"
           className="flex flex-col items-start gap-0 leading-0 whitespace-nowrap"
@@ -58,55 +65,48 @@ export function WorkoutSection({
         >
           <Button
             variant="secondary"
-            size="sm"
-            className={cn(isMobile ? "flex-1 justify-center" : undefined)}
+            className={cn(
+              "rounded-xl px-4 py-2 text-base leading-6",
+              isMobile ? "flex-1 justify-center" : undefined,
+            )}
             icon={<Refresh className="size-4" />}
           >
             Reiniciar
           </Button>
           <Button
             variant="secondary"
-            size="sm"
             className={cn(
-              "opacity-70 hover:bg-secondary",
+              "rounded-xl px-4 py-2 text-base leading-6 opacity-70 hover:bg-secondary",
               isMobile ? "flex-1 justify-center" : undefined,
             )}
-            icon={<TradeUp className="size-4" />}
+            icon={<TradeUpCompact className="size-4" />}
           >
             Actualizar
           </Button>
         </div>
       </div>
 
-      <div
-        className={cn(
-          "w-full",
-          isStacked
-            ? "flex flex-col gap-4"
-            : "flex items-center gap-6",
-        )}
-      >
-        <TrainingDayCard
-          device={isMobile ? "mobile" : "desktop"}
-          status="completed"
-          className={cn(isStacked ? "max-w-none" : undefined)}
-        />
-        <TrainingDayCard
-          device={isMobile ? "mobile" : "desktop"}
-          status="completed"
-          workoutLabel="Intervalos"
-          typeLabel="Tipo: Velocidad"
-          intensityTag="ALTA"
-          className={cn(isStacked ? "max-w-none" : undefined)}
-        />
-        <TrainingDayCard
-          device={isMobile ? "mobile" : "desktop"}
-          status="default"
-          workoutLabel="Tirada larga"
-          typeLabel="Tipo: Resistencia"
-          intensityTag="MODERADA"
-          className={cn(isStacked ? "max-w-none" : undefined)}
-        />
+      <div className={cn("grid w-full", gridClasses)}>
+        {workoutDays.map((day) => (
+          <Link
+            key={day.slug}
+            href={`/rutina/${day.slug}`}
+            className={cn(
+              "flex min-h-[108px] flex-col items-start justify-between rounded-3xl border-2 bg-page-shell p-[18px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/25 focus-visible:ring-offset-2 focus-visible:ring-offset-page-shell",
+              day.borderClass ?? "border-border",
+            )}
+          >
+            <div className="w-full">
+              <p className="text-xs font-medium uppercase leading-4 text-muted-foreground">{day.day}</p>
+              <p className="text-xl font-medium leading-[30px] text-heading">{day.name}</p>
+            </div>
+            {day.statusLabel ? (
+              <p className="text-base font-bold leading-6 text-success-ink">{day.statusLabel}</p>
+            ) : (
+              <span aria-hidden className="h-6" />
+            )}
+          </Link>
+        ))}
       </div>
     </section>
   );

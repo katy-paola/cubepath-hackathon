@@ -4,6 +4,7 @@ import type { ComponentPropsWithoutRef } from "react";
 import Image from "next/image";
 import { useMemo, useState } from "react";
 
+import { SlidersHorizontal } from "@/components/icons";
 import { Button, FormField, SelectBox } from "@/components/ui";
 import {
   routineCommitmentOptions,
@@ -61,16 +62,7 @@ export function GenerateSection({ className, ...props }: GenerateSectionProps) {
         aria-labelledby="configura-rutina-heading"
       >
         <div className="flex items-center gap-2">
-          <div className="relative size-6 shrink-0">
-            <Image
-              src={generateSectionAssets.slidersHorizontal}
-              alt=""
-              width={24}
-              height={24}
-              aria-hidden
-              className="absolute inset-0 size-full"
-            />
-          </div>
+          <SlidersHorizontal className="size-6 shrink-0 text-heading" />
           <h2
             id="configura-rutina-heading"
             className="whitespace-nowrap text-xl font-bold leading-8 text-heading md:text-2xl md:leading-9 lg:text-2xl lg:leading-10"
