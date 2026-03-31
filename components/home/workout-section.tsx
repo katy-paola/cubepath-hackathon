@@ -45,7 +45,9 @@ export function WorkoutSection({
       <div
         className={cn(
           "w-full",
-          isMobile ? "flex flex-col items-start gap-4" : "flex items-end justify-between",
+          isMobile
+            ? "flex flex-col items-start gap-4"
+            : "flex items-end justify-between",
         )}
       >
         <h2
@@ -103,27 +105,37 @@ export function WorkoutSection({
 
       <div className={cn("grid w-full", gridClasses)}>
         {(days ?? []).map((day) => (
-          <Link
+          <article
             key={day.slug}
-            href={`/rutina/${day.slug}`}
             className={cn(
-              "flex min-h-[108px] flex-col items-start justify-between rounded-3xl border-2 bg-page-shell p-[18px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/25 focus-visible:ring-offset-2 focus-visible:ring-offset-page-shell",
+              "relative flex min-h-27 flex-col items-start justify-between rounded-3xl border-2 bg-page-shell transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/25 focus-visible:ring-offset-2 focus-visible:ring-offset-page-shell",
               day.borderClass ?? "border-border",
             )}
           >
-            <div className="w-full">
-              <p className="text-xs font-medium uppercase leading-4 text-muted-foreground">{day.day}</p>
-              <p className="text-xl font-medium leading-[30px] text-heading">{day.name}</p>
-            </div>
-            {day.statusLabel ? (
-              <p className="text-base font-bold leading-6 text-success-ink">{day.statusLabel}</p>
+            <Link href={`/rutina/${day.slug}`} className="w-full h-full p-4.5">
+              <div className="w-full">
+                <p className="text-xs font-medium uppercase leading-4 text-muted-foreground">
+                  {day.day}
+                </p>
+                <p className="text-xl font-medium leading-7.5 text-heading">
+                  {day.name}
+                </p>
+              </div>
+            </Link>
+            {day.statusLabel === "Completado" ? (
+              <span className="absolute left-4.5 bottom-4.5 whitespace-nowrap text-base font-bold leading-6 text-success-ink">
+                Completado
+              </span>
             ) : (
-              <span aria-hidden className="h-6" />
+              day.statusLabel === "Completar día" && (
+                <button className="absolute left-4.5 bottom-4.5 whitespace-nowrap text-base font-bold leading-6 text-success-ink underline hover:no-underline">
+                  Completar día
+                </button>
+              )
             )}
-          </Link>
+          </article>
         ))}
       </div>
     </section>
   );
 }
-
