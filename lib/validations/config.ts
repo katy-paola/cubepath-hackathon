@@ -39,7 +39,7 @@ export const RoutineConfigSchema = z.object({
   tiempo_sesion: SessionTimeSchema,
   lugar_entrenamiento: LocationSchema,
   compromiso: CommitmentSchema,
-  salud_limitaciones: z.array(HealthLimitationSchema),
+  salud_limitaciones: z.array(HealthLimitationSchema).optional(),
 });
 
 // inferred type

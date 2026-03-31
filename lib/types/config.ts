@@ -24,5 +24,5 @@ export type RoutineConfig = {
   tiempo_sesion: SessionTime;
   lugar_entrenamiento: Location;
   compromiso: Commitment;
-  salud_limitaciones: UserHealthLimitations;
+  salud_limitaciones?: UserHealthLimitations;
 };
