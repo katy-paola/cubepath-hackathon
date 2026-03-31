@@ -8,7 +8,7 @@ const config: RoutineConfig = {
   tiempo_sesion: 30,
   lugar_entrenamiento: "exterior",
   compromiso: "medio",
-  salud_limitaciones: "nada",
+  salud_limitaciones: [],
 };
 
 const routine = generateRoutine(config);
