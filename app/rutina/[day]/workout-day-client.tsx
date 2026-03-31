@@ -77,7 +77,7 @@ export function WorkoutDayClient({ daySlug }: WorkoutDayClientProps) {
       intensityMeter: intensityToMeter(day.intensidad),
       intensityText: intensityLabel(day.intensidad),
       durationText: `${duration}min`,
-      showAdjustDay: day.estado === "por_completar",
+      showAdjustDay: day.estado !== "completado",
       borderClass:
         day.estado === "completado"
           ? "border-success-border"
