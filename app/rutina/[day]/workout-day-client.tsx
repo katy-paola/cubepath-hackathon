@@ -135,50 +135,58 @@ export function WorkoutDayClient({ daySlug }: WorkoutDayClientProps) {
 
       <div className="mx-auto w-full max-w-page px-4 py-6 md:px-6">
         <section className="flex w-full flex-col gap-12">
-          <header
-            className={cn(
-              "flex w-full flex-col gap-6 border-l-[3px] pl-4 lg:flex-row lg:items-start lg:justify-between",
-              view.borderClass,
-            )}
-          >
-            <h1 className="flex flex-col whitespace-nowrap leading-none">
-              <span className="text-xs font-medium leading-6 text-primary-hover lg:text-sm">
-                TU PLAN DE ACCIÓN
-              </span>
-              <span className="text-2xl font-bold leading-7.5 text-heading lg:text-[30px]">
-                {view.headerTitle}
-              </span>
-            </h1>
-
-            <div className="flex flex-col items-start gap-6 lg:flex-row lg:items-center lg:flex-nowrap">
-              <div className="flex items-center gap-2">
-                <IntensityMeter level={view.intensityMeter} />
-                <span className="text-base font-medium uppercase leading-6 text-primary-hover">
-                  {view.intensityText}
-                </span>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <ClockIcon />
-                <span className="text-base font-bold leading-normal text-subdued">
-                  {view.durationText}
-                </span>
-              </div>
-
-              {state.day?.estado === "completado" ? (
-                <span className="whitespace-nowrap text-base font-bold leading-6 text-success-ink">
-                  Completado
-                </span>
-              ) : (
-                state.day?.estado === "por_completar" && (
-                  <button
-                    onClick={handleComplete}
-                    className="whitespace-nowrap text-base font-bold leading-6 text-success-ink underline hover:no-underline"
-                  >
-                    Completar día
-                  </button>
-                )
+          <header className="flex flex-col gap-6">
+            <Link
+              href="/"
+              className="text-subdued font-medium text-xl hover:text-heading transition-colors"
+            >
+              Volver
+            </Link>
+            <div
+              className={cn(
+                "flex w-full flex-col gap-6 border-l-[3px] pl-4 lg:flex-row lg:items-start lg:justify-between",
+                view.borderClass,
               )}
+            >
+              <h1 className="flex flex-col whitespace-nowrap leading-none">
+                <span className="text-xs font-medium leading-6 text-primary-hover lg:text-sm">
+                  TU PLAN DE ACCIÓN
+                </span>
+                <span className="text-2xl font-bold leading-7.5 text-heading lg:text-[30px]">
+                  {view.headerTitle}
+                </span>
+              </h1>
+
+              <div className="flex flex-col items-start gap-6 lg:flex-row lg:items-center lg:flex-nowrap">
+                <div className="flex items-center gap-2">
+                  <IntensityMeter level={view.intensityMeter} />
+                  <span className="text-base font-medium uppercase leading-6 text-primary-hover">
+                    {view.intensityText}
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <ClockIcon />
+                  <span className="text-base font-bold leading-normal text-subdued">
+                    {view.durationText}
+                  </span>
+                </div>
+
+                {state.day?.estado === "completado" ? (
+                  <span className="whitespace-nowrap text-base font-bold leading-6 text-success-ink">
+                    Completado
+                  </span>
+                ) : (
+                  state.day?.estado === "por_completar" && (
+                    <button
+                      onClick={handleComplete}
+                      className="whitespace-nowrap text-base font-bold leading-6 text-success-ink underline hover:no-underline"
+                    >
+                      Completar día
+                    </button>
+                  )
+                )}
+              </div>
             </div>
           </header>
 
