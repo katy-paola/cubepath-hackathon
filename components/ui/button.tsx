@@ -6,8 +6,8 @@ import { cn } from "@/lib/utils";
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
   VariantProps<typeof buttonVariants> & {
-  icon?: ReactNode;
-};
+    icon?: ReactNode;
+  };
 
 const buttonVariants = cva(
   "relative inline-flex items-center justify-center gap-1 whitespace-nowrap font-medium transition-[background-color,border-color,color] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-offset-2 focus-visible:ring-offset-card disabled:pointer-events-none disabled:opacity-50",
@@ -56,7 +56,7 @@ export function Button({
       )}
       type={type}
     >
-      {icon ?? <Sparkles className={cn(iconSizeClasses[resolvedSize], "shrink-0")} />}
+      {icon}
       <span>{children}</span>
     </button>
   );
