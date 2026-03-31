@@ -1,8 +1,11 @@
-import { EnergyLevel, Location, Health } from "./config";
+import { Location, UserHealthLimitations, SessionTime } from "./config";
+import { ENERGY_LEVEL_VALUES } from "./shared";
+
+export type EnergyLevel = (typeof ENERGY_LEVEL_VALUES)[number];
 
 export type DailyAdjustment = {
-  energia: EnergyLevel;
-  tiempo_disponible: number;
+  energia?: EnergyLevel;
+  tiempo_sesion?: SessionTime;
   lugar?: Location;
-  molestias?: Health;
+  salud_limitaciones?: UserHealthLimitations;
 };

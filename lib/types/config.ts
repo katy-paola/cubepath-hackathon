@@ -1,39 +1,21 @@
-export type Goal =
-  | "resistencia"
-  | "velocidad"
-  | "tecnica"
-  | "bajar_grasa";
+import {
+  COMMITMENT_VALUES,
+  FREQUENCY_VALUES,
+  GOAL_VALUES,
+  HEALTH_LIMITATIONS_VALUES,
+  LEVEL_VALUES,
+  LOCATION_VALUES,
+  SESSION_TIME_VALUES,
+} from "./shared";
 
-export type Level =
-  | "principiante"
-  | "intermedio"
-  | "avanzado";
-
-export type Frequency = 2 | 3 | 4 | 5;
-
-export type SessionTime = 20 | 30 | 45 | 60;
-
-export type Location =
-  | "exterior"
-  | "cinta"
-  | "casa_sin_equipo";
-
-export type EnergyLevel =
-  | "baja"
-  | "media"
-  | "alta";
-
-export type Commitment =
-  | "bajo"
-  | "medio"
-  | "alto";
-
-export type Health =
-  | "nada"
-  | "molestias_leves"
-  | "lesion_cronica"
-  | "condicion_cardiaca"
-  | "condicion_respiratoria";
+export type Goal = (typeof GOAL_VALUES)[number];
+export type Level = (typeof LEVEL_VALUES)[number];
+export type Frequency = (typeof FREQUENCY_VALUES)[number];
+export type SessionTime = (typeof SESSION_TIME_VALUES)[number];
+export type Location = (typeof LOCATION_VALUES)[number];
+export type Commitment = (typeof COMMITMENT_VALUES)[number];
+export type HealthLimitation = (typeof HEALTH_LIMITATIONS_VALUES)[number];
+export type UserHealthLimitations = HealthLimitation[];
 
 export type RoutineConfig = {
   objetivo: Goal;
@@ -42,5 +24,5 @@ export type RoutineConfig = {
   tiempo_sesion: SessionTime;
   lugar_entrenamiento: Location;
   compromiso: Commitment;
-  salud_limitaciones: Health;
+  salud_limitaciones?: UserHealthLimitations;
 };

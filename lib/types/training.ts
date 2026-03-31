@@ -1,26 +1,24 @@
-export type TrainingType =
-  | "resistencia"
-  | "velocidad"
-  | "fuerza";
+import {
+  INTENSITY_VALUES,
+  STATUS_VALUES,
+  TRAINING_TYPE_VALUES,
+} from "./shared";
 
-export type Intensity =
-  | "baja"
-  | "media"
-  | "alta";
+export type TrainingType = (typeof TRAINING_TYPE_VALUES)[number];
+export type Intensity = (typeof INTENSITY_VALUES)[number];
+export type Status = (typeof STATUS_VALUES)[number];
 
 export type Exercise = {
   nombre: string;
-  duracion?: number;
-  repeticiones?: number;
-  descripcion?: string;
+  duracion: number;
+  descripcion: string;
 };
 
 export type TrainingDay = {
-  dia: number;
+  numero_dia: number;
   tipo: TrainingType;
-  intensidad: Intensity;
+  intensidad: Intensity["nivel"];
   ejercicios: Exercise[];
   razon: string;
-
-  estado: "pendiente" | "completado";
+  estado: Status;
 };
