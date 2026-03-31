@@ -8,7 +8,10 @@ import { IntensityMeter } from "@/components/progress";
 import { AdjustDayCard } from "@/components/routine/adjust-day-card";
 import { Button } from "@/components/ui";
 import { buttonVariants } from "@/components/ui/button";
-import { getActiveRoutineDayBySlug, updateDayStatus } from "@/lib/storage/routine-store";
+import {
+  getActiveRoutineDayBySlug,
+  updateDayStatus,
+} from "@/lib/storage/routine-store";
 import type { Status, TrainingDay } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -22,8 +25,8 @@ function ClockIcon() {
       aria-hidden
       className="relative inline-block size-4 rounded-full border-2 border-muted-foreground"
     >
-      <span className="absolute left-1/2 top-[3px] h-[4px] w-[1.5px] -translate-x-1/2 rounded-full bg-muted-foreground" />
-      <span className="absolute left-1/2 top-1/2 h-[1.5px] w-[4px] rounded-full bg-muted-foreground" />
+      <span className="absolute left-1/2 top-0.75 h-1 w-[1.5px] -translate-x-1/2 rounded-full bg-muted-foreground" />
+      <span className="absolute left-1/2 top-1/2 h-[1.5px] w-1 rounded-full bg-muted-foreground" />
     </span>
   );
 }
@@ -38,12 +41,6 @@ function intensityLabel(level: TrainingDay["intensidad"]) {
   if (level === "alta") return "ALTA";
   if (level === "media") return "MODERADA";
   return "BAJA";
-}
-
-function statusLabel(status: Status) {
-  if (status === "completado") return "Completado";
-  if (status === "por_completar") return "Completar día";
-  return "Pendiente";
 }
 
 function totalDurationMinutes(day: TrainingDay) {
@@ -80,9 +77,11 @@ export function WorkoutDayClient({ daySlug }: WorkoutDayClientProps) {
       intensityMeter: intensityToMeter(day.intensidad),
       intensityText: intensityLabel(day.intensidad),
       durationText: `${duration}min`,
-      statusText: statusLabel(day.estado),
       showAdjustDay: day.estado === "por_completar",
-      borderClass: day.estado === "completado" ? "border-success-border" : "border-[#63789c]",
+      borderClass:
+        day.estado === "completado"
+          ? "border-success-border"
+          : "border-[#63789c]",
     };
   }, [state.day]);
 
@@ -113,7 +112,9 @@ export function WorkoutDayClient({ daySlug }: WorkoutDayClientProps) {
         <HomeHeader />
         <div className="mx-auto w-full max-w-page px-4 py-10 md:px-6">
           <div className="flex flex-col gap-4 rounded-3xl border border-border bg-card p-6">
-            <h1 className="text-2xl font-bold text-heading">Aún no tienes una rutina guardada</h1>
+            <h1 className="text-2xl font-bold text-heading">
+              Aún no tienes una rutina guardada
+            </h1>
             <p className="text-muted-foreground">
               Genera tu rutina desde el inicio para ver tu plan día a día.
             </p>
@@ -144,7 +145,7 @@ export function WorkoutDayClient({ daySlug }: WorkoutDayClientProps) {
               <span className="text-xs font-medium leading-6 text-primary-hover lg:text-sm">
                 TU PLAN DE ACCIÓN
               </span>
-              <span className="text-2xl font-bold leading-[30px] text-heading lg:text-[30px]">
+              <span className="text-2xl font-bold leading-7.5 text-heading lg:text-[30px]">
                 {view.headerTitle}
               </span>
             </h1>
@@ -164,9 +165,20 @@ export function WorkoutDayClient({ daySlug }: WorkoutDayClientProps) {
                 </span>
               </div>
 
-              <span className="whitespace-nowrap text-base font-bold leading-6 text-success-ink">
-                {view.statusText}
-              </span>
+              {state.day?.estado === "completado" ? (
+                <span className="whitespace-nowrap text-base font-bold leading-6 text-success-ink">
+                  Completado
+                </span>
+              ) : (
+                state.day?.estado === "por_completar" && (
+                  <button
+                    onClick={handleComplete}
+                    className="whitespace-nowrap text-base font-bold leading-6 text-success-ink underline hover:no-underline"
+                  >
+                    Completar día
+                  </button>
+                )
+              )}
             </div>
           </header>
 
@@ -174,13 +186,16 @@ export function WorkoutDayClient({ daySlug }: WorkoutDayClientProps) {
             {view.day.ejercicios.map((exercise) => (
               <article key={exercise.nombre} className="flex flex-col gap-3">
                 <div className="flex items-center gap-2">
-                  <span aria-hidden className="size-1.5 rounded-full bg-primary" />
+                  <span
+                    aria-hidden
+                    className="size-1.5 rounded-full bg-primary"
+                  />
                   <h2 className="text-[18px] font-bold leading-normal text-subdued">
                     {exercise.nombre}
                   </h2>
                 </div>
 
-                <div className="flex flex-col gap-3 pl-[14px]">
+                <div className="flex flex-col gap-3 pl-3.5">
                   <p className="text-base font-normal leading-normal text-subdued">
                     {exercise.descripcion}
                   </p>
@@ -196,7 +211,7 @@ export function WorkoutDayClient({ daySlug }: WorkoutDayClientProps) {
           </div>
 
           <aside className="w-full rounded-2xl bg-secondary p-4">
-            <h3 className="text-base font-bold uppercase leading-[15px] tracking-[1px] text-primary-hover">
+            <h3 className="text-base font-bold uppercase leading-3.75 tracking-[1px] text-primary-hover">
               Razón:
             </h3>
             <p className="mt-2 text-base font-medium leading-6 text-muted-foreground">
@@ -205,17 +220,8 @@ export function WorkoutDayClient({ daySlug }: WorkoutDayClientProps) {
           </aside>
 
           {view.showAdjustDay ? <AdjustDayCard /> : null}
-
-          {view.day.estado !== "completado" ? (
-            <div className="flex w-full justify-end">
-              <Button variant="primary" onClick={handleComplete}>
-                Marcar como completado
-              </Button>
-            </div>
-          ) : null}
         </section>
       </div>
     </main>
   );
 }
-
