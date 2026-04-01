@@ -17,14 +17,21 @@ export function HeaderAdjustRoutineButtonLive({
   label?: string;
 }) {
   const [hasRoutine, setHasRoutine] = useState<boolean | null>(null);
+  const [completedRoutine, setCompletedRoutine] = useState<boolean | undefined>(
+    false,
+  );
 
   useEffect(() => {
     let cancelled = false;
 
     async function load() {
       const routine = await getActiveRoutine();
+      const isRoutineCompleted = routine?.dias.every(
+        (dia) => dia.estado === "completado",
+      );
       if (cancelled) return;
       setHasRoutine(Boolean(routine));
+      setCompletedRoutine(isRoutineCompleted);
     }
 
     load();
@@ -38,7 +45,7 @@ export function HeaderAdjustRoutineButtonLive({
     };
   }, []);
 
-  if (hasRoutine !== true) return null;
+  if (hasRoutine !== true || completedRoutine) return null;
 
   return (
     <Link
