@@ -4,7 +4,7 @@
 
 ## 📱 Demo
 
-[🚀 Ver Stridia en línea](https://cubepath-hackathon.vercel.app) _(Reemplaza con tu URL de demo)_
+[🚀 Ver Stridia en línea](https://stridia.pipegoods.dev/)
 
 ## 🎯 ¿Qué es Stridia?
 
@@ -19,7 +19,7 @@ Stridia genera rutinas de entrenamiento personalizadas basadas en tu objetivo (5
 
 ## 🎬 Capturas & GIFs
 
-_[Aquí van tus capturas o GIFs del flujo de generación, ajuste y progreso]_
+
 
 ```
 Ejemplos:
