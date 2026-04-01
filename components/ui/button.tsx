@@ -20,6 +20,8 @@ const buttonVariants = cva(
         // Height comes from line-height + vertical padding (no min-height); matches Figma via scale, not fixed px.
         default: "rounded-2xl px-6 py-3 text-base leading-6 lg:py-4",
         sm: "rounded-xl px-6 py-2 text-sm leading-5",
+        /** Figma Action: px-16 py-8, radius 12, 16/24. */
+        action: "rounded-xl px-4 py-2 text-base leading-6",
       },
     },
     defaultVariants: {

@@ -1,12 +1,11 @@
-import type { HTMLAttributes } from "react";
-import Image from "next/image";
+import type { ComponentPropsWithoutRef } from "react";
 
 import { cn } from "@/lib/utils";
 
 import { intensityAssets, type IntensityLevel } from "./intensity-assets";
 
 export type IntensityMeterProps = Omit<
-  HTMLAttributes<HTMLDivElement>,
+  ComponentPropsWithoutRef<"svg">,
   "children"
 > & {
   level?: IntensityLevel;
@@ -21,186 +20,60 @@ export function IntensityMeter({
   const isMedium = level === "medium";
 
   return (
-    <div
+    <svg
       {...props}
-      className={cn(
-        "relative h-[12px] w-[20.484px] overflow-clip shrink-0",
-        className,
-      )}
+      className={cn("shrink-0", className)}
+      style={{ width: 20.484, height: 12 }}
+      viewBox="0 0 20.484 12"
       aria-hidden="true"
+      focusable="false"
     >
-      <div className="absolute inset-[6.18%_62.69%_67.5%_22.05%]">
-        <div className="relative size-full">
-          <Image
-            src={intensityAssets.imgVector}
-            alt=""
-            fill
-            aria-hidden
-            className="object-contain"
-            sizes="24px"
-          />
-        </div>
-      </div>
-      <div className="absolute inset-[18.83%_72.98%_53.8%_10.88%]">
-        <div className="relative size-full">
-          <Image
-            src={intensityAssets.imgVector1}
-            alt=""
-            fill
-            aria-hidden
-            className="object-contain"
-            sizes="24px"
-          />
-        </div>
-      </div>
-      <div className="absolute inset-[1.21%_50.96%_76.15%_35.86%]">
-        <div className="relative size-full">
-          <Image
-            src={intensityAssets.imgVector2}
-            alt=""
-            fill
-            aria-hidden
-            className="object-contain"
-            sizes="24px"
-          />
-        </div>
-      </div>
-      <div className="absolute inset-[37.73%_81.23%_35.89%_3.51%]">
-        <div className="relative size-full">
-          <Image
-            src={intensityAssets.imgVector3}
-            alt=""
-            fill
-            aria-hidden
-            className="object-contain"
-            sizes="24px"
-          />
-        </div>
-      </div>
-      <div className="absolute inset-[6.03%_21.9%_67.62%_63.04%]">
-        <div className="relative size-full">
-          <Image
-            src={intensityAssets.imgVector4}
-            alt=""
-            fill
-            aria-hidden
-            className="object-contain"
-            sizes="24px"
-          />
-        </div>
-      </div>
-      <div className="absolute inset-[1.27%_35.67%_76.29%_51.3%]">
-        <div className="relative size-full">
-          <Image
-            src={intensityAssets.imgVector5}
-            alt=""
-            fill
-            aria-hidden
-            className="object-contain"
-            sizes="24px"
-          />
-        </div>
-      </div>
-      <div className="absolute inset-[18.82%_10.64%_53.81%_73.28%]">
-        <div className="relative size-full">
-          <Image
-            src={intensityAssets.imgVector6}
-            alt=""
-            fill
-            aria-hidden
-            className="object-contain"
-            sizes="24px"
-          />
-        </div>
-      </div>
-      <div className="absolute inset-[61.7%_86.12%_15.87%_0.61%]">
-        <div className="relative size-full">
-          <Image
-            src={intensityAssets.imgVector7}
-            alt=""
-            fill
-            aria-hidden
-            className="object-contain"
-            sizes="24px"
-          />
-        </div>
-      </div>
-      <div className="absolute inset-[37.98%_3.25%_35.95%_81.45%]">
-        <div className="relative size-full">
-          <Image
-            src={intensityAssets.imgVector8}
-            alt=""
-            fill
-            aria-hidden
-            className="object-contain"
-            sizes="24px"
-          />
-        </div>
-      </div>
+      {/* Converted from Figma absolute insets to SVG positions to reduce arbitrary Tailwind. */}
+      <image href={intensityAssets.imgVector} x={4.516} y={0.742} width={3.136} height={3.16} preserveAspectRatio="none" />
+      <image href={intensityAssets.imgVector1} x={2.227} y={2.26} width={3.312} height={3.291} preserveAspectRatio="none" />
+      <image href={intensityAssets.imgVector2} x={7.346} y={0.145} width={2.704} height={2.72} preserveAspectRatio="none" />
+      <image href={intensityAssets.imgVector3} x={0.719} y={4.528} width={3.13} height={3.158} preserveAspectRatio="none" />
+      <image href={intensityAssets.imgVector4} x={12.912} y={0.724} width={3.124} height={3.125} preserveAspectRatio="none" />
+      <image href={intensityAssets.imgVector5} x={10.508} y={0.152} width={2.644} height={2.685} preserveAspectRatio="none" />
+      <image href={intensityAssets.imgVector6} x={15.011} y={2.258} width={3.232} height={3.275} preserveAspectRatio="none" />
+      <image href={intensityAssets.imgVector7} x={0.125} y={7.404} width={2.717} height={2.692} preserveAspectRatio="none" />
+      <image href={intensityAssets.imgVector8} x={16.685} y={4.558} width={3.244} height={3.248} preserveAspectRatio="none" />
 
-      {/* Middle slash / marks */}
-      <div className="absolute inset-[56.11%_-2.95%_10.17%_83.18%] flex items-center justify-center">
-        <div className="h-[3.128px] w-[3.134px] rotate-[21.07deg]">
-          <div className="relative size-full">
-            <Image
-              src={intensityAssets.imgVector9}
-              alt=""
-              fill
-              aria-hidden
-              className="object-contain"
-              sizes="8px"
-            />
-          </div>
-        </div>
-      </div>
+      {/* Middle slash */}
+      <g transform="translate(17.037 6.733) rotate(21.07)">
+        <image href={intensityAssets.imgVector9} x={-1.567} y={-1.564} width={3.134} height={3.128} preserveAspectRatio="none" />
+      </g>
 
-      {["low", "medium"].includes(level) && (
-        <div
-          className={cn(
-            "absolute flex items-center justify-center",
+      {/* Level markers */}
+      {["low", "medium"].includes(level) ? (
+        <g
+          transform={
             isMedium
-              ? "inset-[14.06%_35.12%_-1.55%_41.57%]"
-              : "inset-[71.99%_41.67%_0_8.91%]",
-          )}
+              ? "translate(8.514 1.687) rotate(-81.78)"
+              : "translate(5.668 10.639) rotate(180) scale(1,-1)"
+          }
         >
-          <div
-            className={cn(
-              "flex-none h-[3.361px] w-[10.122px]",
-              isMedium ? "rotate-[-81.78deg]" : "-scale-y-100 rotate-180",
-            )}
-          >
-            <div className="relative size-full">
-              <Image
-                src={
-                  isMedium
-                    ? intensityAssets.imgVector11
-                    : intensityAssets.imgVector10
-                }
-                alt=""
-                fill
-                aria-hidden
-                className="object-contain"
-                sizes="16px"
-              />
-            </div>
-          </div>
-        </div>
-      )}
+          <image
+            href={isMedium ? intensityAssets.imgVector11 : intensityAssets.imgVector10}
+            x={-5.061}
+            y={-1.681}
+            width={10.122}
+            height={3.361}
+            preserveAspectRatio="none"
+          />
+        </g>
+      ) : null}
 
-      {isHigh && (
-        <div className="absolute inset-[71.99%_8.72%_0_41.87%]">
-          <div className="relative size-full">
-            <Image
-              src={intensityAssets.imgVector12}
-              alt=""
-              fill
-              aria-hidden
-              className="object-contain"
-              sizes="24px"
-            />
-          </div>
-        </div>
-      )}
-    </div>
+      {isHigh ? (
+        <image
+          href={intensityAssets.imgVector12}
+          x={8.574}
+          y={8.639}
+          width={10.124}
+          height={3.361}
+          preserveAspectRatio="none"
+        />
+      ) : null}
+    </svg>
   );
 }

@@ -33,7 +33,7 @@ function mapRoutineToDays(routine: Routine): WorkoutSectionDay[] {
       borderClass: isCompleted
         ? "border-success-border"
         : isActive
-          ? "border-[#63789c]"
+          ? "border-border-active"
           : "border-border",
       statusLabel: isCompleted
         ? "Completado"

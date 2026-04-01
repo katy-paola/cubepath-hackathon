@@ -95,7 +95,7 @@ export function AdjustDayCard({
       aria-label="Adaptar hoy"
     >
       <div className="flex w-full flex-col gap-8">
-        <h3 className="text-[18px] font-bold leading-4 tracking-[1px] text-subdued">
+        <h3 className="text-lg font-bold leading-4 tracking-1px text-subdued">
           Adaptar hoy
         </h3>
 

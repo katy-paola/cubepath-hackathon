@@ -81,7 +81,7 @@ export function WorkoutDayClient({ daySlug }: WorkoutDayClientProps) {
       borderClass:
         day.estado === "completado"
           ? "border-success-border"
-          : "border-[#63789c]",
+          : "border-border-active",
     };
   }, [state.day]);
 
@@ -181,7 +181,7 @@ export function WorkoutDayClient({ daySlug }: WorkoutDayClientProps) {
           <header className="flex flex-col gap-6">
             <Link
               href="/"
-              className="inline-flex items-center gap-1 text-subdued font-medium text-xl hover:text-heading transition-colors"
+              className="inline-flex items-center gap-1 text-subdued font-medium text-xl hover:text-heading transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-offset-2 focus-visible:ring-offset-page-shell rounded-md px-1 -mx-1"
             >
               <ArrowLeft decorative size={24} />
               Volver
@@ -196,7 +196,7 @@ export function WorkoutDayClient({ daySlug }: WorkoutDayClientProps) {
                 <span className="text-xs font-medium leading-6 text-primary-hover lg:text-sm">
                   TU PLAN DE ACCIÓN
                 </span>
-                <span className="text-2xl font-bold leading-7.5 text-heading lg:text-[30px]">
+                <span className="text-2xl font-bold leading-7.5 text-heading lg:text-3xl">
                   {view.headerTitle}
                 </span>
               </h1>
@@ -224,7 +224,7 @@ export function WorkoutDayClient({ daySlug }: WorkoutDayClientProps) {
                   state.day?.estado === "por_completar" && (
                     <button
                       onClick={handleComplete}
-                      className="whitespace-nowrap text-base font-bold leading-6 text-success-ink underline hover:no-underline"
+                      className="whitespace-nowrap text-base font-bold leading-6 text-success-ink underline hover:no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-offset-2 focus-visible:ring-offset-page-shell rounded-sm"
                     >
                       Completar día
                     </button>
@@ -242,7 +242,7 @@ export function WorkoutDayClient({ daySlug }: WorkoutDayClientProps) {
                     aria-hidden
                     className="size-1.5 rounded-full bg-primary"
                   />
-                  <h2 className="text-[18px] font-bold leading-normal text-subdued">
+                  <h2 className="text-lg font-bold leading-normal text-subdued">
                     {exercise.nombre}
                   </h2>
                 </div>
@@ -263,7 +263,7 @@ export function WorkoutDayClient({ daySlug }: WorkoutDayClientProps) {
           </div>
 
           <aside className="w-full rounded-2xl bg-secondary p-4">
-            <h3 className="text-base font-bold uppercase leading-3.75 tracking-[1px] text-primary-hover">
+            <h3 className="text-base font-bold uppercase leading-3.75 tracking-1px text-primary-hover">
               Razón:
             </h3>
             <p className="mt-2 text-base font-medium leading-6 text-muted-foreground">

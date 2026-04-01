@@ -63,8 +63,8 @@ export type ChipProps = Omit<
   selected?: boolean;
   /** Al pulsar el chip (típico: alternar filtro). Si no se pasa, el botón queda deshabilitado. */
   onToggle?: () => void;
-  /** Modal Figma: ancho completo; por defecto pill 118px. */
-  fullWidth?: boolean;
+  /** Ancho del chip (por defecto = Figma 118px). */
+  width?: "fixed" | "fluid";
 };
 
 /**
@@ -74,7 +74,7 @@ export function Chip({
   label,
   selected = false,
   onToggle,
-  fullWidth = false,
+  width = "fixed",
   className,
   disabled,
   type = "button",
@@ -91,7 +91,7 @@ export function Chip({
       onClick={onToggle}
       className={cn(
         "inline-flex h-5 shrink-0 items-center justify-between gap-0 rounded-2xl border border-solid py-1 pl-2 pr-[5px] text-left font-sans text-xs font-medium leading-none",
-        fullWidth
+        width === "fluid"
           ? "w-full min-w-0 max-w-none"
           : "w-[118px] min-w-[118px] max-w-[118px]",
         /* Figma: blue/100, blue/300, blue/950 */

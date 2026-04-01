@@ -67,10 +67,9 @@ export function WorkoutSection({
           {onReset ? (
             <Button
               variant="secondary"
-              size="sm"
+              size="action"
               className={cn(
-                // Figma Action: px-16 py-8, gap-4, radius 12, 16/24
-                "w-full justify-center gap-1 rounded-xl! px-4! py-2! text-base! leading-6!",
+                "w-full justify-center gap-1",
                 // Mobile (Figma): fixed width per button
                 "min-[360px]:w-[158px] md:w-auto",
               )}
@@ -83,9 +82,9 @@ export function WorkoutSection({
           {onRefresh ? (
             <Button
               variant="secondary"
-              size="sm"
+              size="action"
               className={cn(
-                "w-full justify-center gap-1 rounded-xl! px-4! py-2! text-base! leading-6!",
+                "w-full justify-center gap-1",
                 "min-[360px]:w-[158px] md:w-auto",
               )}
               icon={<TradeUpCompact className="size-4" />}
@@ -147,7 +146,10 @@ export function WorkoutSection({
               day.statusLabel === "Completar día" && (
                 <button
                   type="button"
-                  className="absolute left-4.5 bottom-4.5 whitespace-nowrap text-base font-bold leading-6 text-success-ink underline hover:no-underline"
+                  className={cn(
+                    "absolute left-4.5 bottom-4.5 whitespace-nowrap text-base font-bold leading-6 text-success-ink underline hover:no-underline",
+                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-offset-2 focus-visible:ring-offset-page-shell rounded-sm",
+                  )}
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();

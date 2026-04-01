@@ -199,7 +199,7 @@ export function HealthLimitationsField({
               return (
                 <Chip
                   key={code}
-                  fullWidth
+                  width="fluid"
                   label={routineHealthLimitationLabel(code)}
                   selected={selected}
                   onToggle={() => setDraft((d) => toggleCode(code, d))}

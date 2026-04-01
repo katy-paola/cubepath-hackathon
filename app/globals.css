@@ -15,6 +15,8 @@
   --secondary: #eceff3;
   --border-subtle: #dadfe7;
   --border: #c1c9d7;
+  /* Estado "por completar": antes hex suelto #63789c */
+  --border-active: #63789c;
   --primary: #0051ff;
   --primary-hover: #0041cc;
   --primary-strong: #003099;
@@ -67,6 +69,7 @@ html:focus-within {
   --color-secondary: var(--secondary);
   --color-border-subtle: var(--border-subtle);
   --color-border: var(--border);
+  --color-border-active: var(--border-active);
   --color-primary: var(--primary);
   --color-primary-hover: var(--primary-hover);
   --color-primary-strong: var(--primary-strong);
@@ -121,6 +124,11 @@ button:not(:disabled),
   .text-eyebrow-sm {
     font-size: var(--font-size-eyebrow);
     line-height: var(--line-height-eyebrow);
+  }
+
+  /* Figma uses 1px tracking in a few headings (avoid inline arbitrary). */
+  .tracking-1px {
+    letter-spacing: 1px;
   }
 
   /* Increase touch target on touch devices without changing visual size. */
