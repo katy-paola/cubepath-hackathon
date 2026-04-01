@@ -101,7 +101,7 @@ export function WorkoutSection({
             <Button
               variant="secondary"
               className={cn(
-                "rounded-xl px-4 py-2 text-base leading-6 opacity-70 hover:bg-secondary",
+                "rounded-xl px-4 py-2 text-base leading-6 hover:bg-secondary",
                 isMobile ? "flex-1 justify-center" : undefined,
               )}
               icon={<TradeUpCompact className="size-4" />}
