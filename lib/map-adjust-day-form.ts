@@ -1,6 +1,7 @@
 import type { DailyAdjustment } from "@/lib/types/adjustments";
+import { normalizeHealthLimitations } from "@/lib/routine-form-mapper";
 import { ENERGY_LEVEL_VALUES } from "@/lib/types/shared/adjustments";
-import type { SessionTime } from "@/lib/types/config";
+import type { HealthLimitation, SessionTime } from "@/lib/types/config";
 
 const lugarByLabel: Record<string, NonNullable<DailyAdjustment["lugar"]>> = {
   Exterior: "exterior",
@@ -12,7 +13,7 @@ export function mapAdjustDayFormToAdjustment(values: {
   energy: string;
   time: string;
   location: string;
-  discomfort: string;
+  discomfort: HealthLimitation[];
 }): DailyAdjustment {
   const energia = ENERGY_LEVEL_VALUES.includes(
     values.energy as (typeof ENERGY_LEVEL_VALUES)[number],
@@ -31,20 +32,9 @@ export function mapAdjustDayFormToAdjustment(values: {
 
   const lugar = lugarByLabel[values.location] ?? "exterior";
 
-  let salud_limitaciones: DailyAdjustment["salud_limitaciones"];
-  if (values.discomfort === "Ninguna") {
-    salud_limitaciones = undefined;
-  } else if (values.discomfort === "Molestias leves") {
-    salud_limitaciones = ["molestias_leves"];
-  } else if (values.discomfort === "Lesión crónica") {
-    salud_limitaciones = ["lesion_cronica"];
-  } else if (values.discomfort === "Condición cardiaca") {
-    salud_limitaciones = ["condicion_cardiaca"];
-  } else if (values.discomfort === "Condición respiratoria") {
-    salud_limitaciones = ["condicion_respiratoria"];
-  } else {
-    salud_limitaciones = undefined;
-  }
+  const salud = normalizeHealthLimitations(values.discomfort);
+  const salud_limitaciones: DailyAdjustment["salud_limitaciones"] =
+    salud.length > 0 ? salud : undefined;
 
   return {
     energia,

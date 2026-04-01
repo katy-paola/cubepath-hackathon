@@ -3,22 +3,22 @@
 import { useMemo, useState } from "react";
 
 import { Sparkles } from "@/components/icons";
-import { Button, FormField, SelectBox } from "@/components/ui";
+import { Button, FormField, HealthLimitationsField, SelectBox } from "@/components/ui";
 import { mapAdjustDayFormToAdjustment } from "@/lib/map-adjust-day-form";
 import {
-  adjustDayDiscomfortOptions,
   adjustDayEnergyOptions,
   adjustDayLocationOptions,
   adjustDayTimeOptions,
+  routineHealthLimitationLabel,
 } from "@/lib/routine-form-options";
 import { replaceTrainingDayContent } from "@/lib/storage/routine-store";
 import type { TrainingDay } from "@/lib/types";
+import type { HealthLimitation } from "@/lib/types/config";
 import { cn } from "@/lib/utils";
 
 const energyOptions = adjustDayEnergyOptions;
 const timeOptions = adjustDayTimeOptions;
 const locationOptions = adjustDayLocationOptions;
-const discomfortOptions = adjustDayDiscomfortOptions;
 
 export type AdjustDayCardProps = {
   day: TrainingDay;
@@ -34,7 +34,7 @@ export function AdjustDayCard({
   const [energy, setEnergy] = useState<string>("media");
   const [time, setTime] = useState<string>("45min");
   const [location, setLocation] = useState<string>("Exterior");
-  const [discomfort, setDiscomfort] = useState<string>("Ninguna");
+  const [discomfort, setDiscomfort] = useState<HealthLimitation[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -80,7 +80,11 @@ export function AdjustDayCard({
       energy: `Seleccionar Energía (actual: ${energy})`,
       time: `Seleccionar Tiempo (actual: ${time})`,
       location: `Seleccionar Lugar (actual: ${location})`,
-      discomfort: `Seleccionar Molestias (actual: ${discomfort})`,
+      discomfort: `Seleccionar Molestias (actual: ${
+        discomfort.length
+          ? discomfort.map((c) => routineHealthLimitationLabel(c)).join(", ")
+          : "ninguna"
+      })`,
     }),
     [discomfort, energy, location, time],
   );
@@ -133,12 +137,12 @@ export function AdjustDayCard({
             </FormField>
 
             <FormField className="w-full" label="Molestias">
-              <SelectBox
+              <HealthLimitationsField
                 value={discomfort}
-                options={discomfortOptions}
-                onValueChange={setDiscomfort}
+                onChange={setDiscomfort}
                 className="w-full"
                 triggerAriaLabel={aria.discomfort}
+                modalTitle="Molestias"
               />
             </FormField>
           </div>

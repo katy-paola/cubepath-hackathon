@@ -18,12 +18,11 @@ export default function HomeOld() {
           <Hero />
           <ChipDemoSection />
           <GenerateSection />
-          <WorkoutSection device="desktop" className="hidden lg:flex" />
+          <WorkoutSection className="hidden lg:flex" />
           <WorkoutSection
-            device="tablet"
             className="hidden sm:flex lg:hidden"
           />
-          <WorkoutSection device="mobile" className="flex sm:hidden" />
+          <WorkoutSection className="flex sm:hidden" />
           <ProgressSection device="desktop" className="hidden lg:flex" />
           <ProgressSection
             device="tablet"

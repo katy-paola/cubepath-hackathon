@@ -19,7 +19,6 @@ export type WorkoutSectionProps = Omit<
   ComponentPropsWithoutRef<"section">,
   "children"
 > & {
-  device?: "desktop" | "tablet" | "mobile";
   days?: WorkoutSectionDay[];
   onReset?: () => void | Promise<void>;
   onRefresh?: () => void | Promise<void>;
@@ -29,7 +28,6 @@ export type WorkoutSectionProps = Omit<
 
 export function WorkoutSection({
   className,
-  device = "desktop",
   days,
   onCompleteDay,
   onReset,
@@ -37,11 +35,6 @@ export function WorkoutSection({
   refreshLoading = false,
   ...props
 }: WorkoutSectionProps) {
-  const isMobile = device === "mobile";
-  const gridClasses = isMobile
-    ? "grid-cols-1 gap-4"
-    : "grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-4 lg:gap-6";
-
   return (
     <section
       {...props}
@@ -50,47 +43,36 @@ export function WorkoutSection({
     >
       <div
         className={cn(
-          "w-full",
-          isMobile
-            ? "flex flex-col items-start gap-4"
-            : "flex items-end justify-between",
+          // Mobile (Figma): columna, gap 16px. Desktop: fila y actions a la derecha.
+          "flex w-full flex-col items-start gap-4 md:flex-row md:items-end md:justify-between",
         )}
       >
         <h2
           id="workout-section-heading"
-          className="flex flex-col items-start gap-0 leading-0 whitespace-nowrap"
+          className="flex flex-col items-start gap-0 leading-none"
         >
           <span
-            className={cn(
-              "block font-medium leading-6 text-primary-hover",
-              isMobile ? "text-xs" : "text-sm",
-            )}
+            className="block text-xs font-medium leading-6 text-primary-hover md:text-sm"
           >
             TU PLAN DE ACCIÓN
           </span>
           <span
-            className={cn(
-              "block font-bold leading-8 text-heading",
-              isMobile ? "text-2xl" : "text-3xl",
-            )}
+            className="block text-2xl font-bold leading-8 text-heading md:text-3xl"
           >
             Rutina generada
           </span>
         </h2>
 
-        <div
-          className={cn(
-            "flex items-start",
-            isMobile ? "w-full gap-4" : "gap-4",
-          )}
-        >
+        <div className={cn("flex w-full items-start gap-4 md:w-auto")}>
           {onReset ? (
             <Button
               variant="secondary"
               size="sm"
               className={cn(
-                "rounded-xl px-4 py-2 text-base leading-6",
-                isMobile ? "flex-1 justify-center" : undefined,
+                // Figma Action: px-16 py-8, gap-4, radius 12, 16/24
+                "w-full justify-center gap-1 rounded-xl! px-4! py-2! text-base! leading-6!",
+                // Mobile (Figma): fixed width per button
+                "min-[360px]:w-[158px] md:w-auto",
               )}
               icon={<Refresh className="size-4" />}
               onClick={onReset}
@@ -103,8 +85,8 @@ export function WorkoutSection({
               variant="secondary"
               size="sm"
               className={cn(
-                "rounded-xl px-4 py-2 text-base leading-6",
-                isMobile ? "flex-1 justify-center" : undefined,
+                "w-full justify-center gap-1 rounded-xl! px-4! py-2! text-base! leading-6!",
+                "min-[360px]:w-[158px] md:w-auto",
               )}
               icon={<TradeUpCompact className="size-4" />}
               onClick={onRefresh}
@@ -116,7 +98,11 @@ export function WorkoutSection({
         </div>
       </div>
 
-      <div className={cn("grid w-full", gridClasses)}>
+      <div
+        className={cn(
+          "grid w-full grid-cols-1 gap-4 md:grid-cols-[repeat(auto-fit,minmax(220px,1fr))] lg:gap-6",
+        )}
+      >
         {(days ?? []).map((day) => (
           <article
             key={day.slug}

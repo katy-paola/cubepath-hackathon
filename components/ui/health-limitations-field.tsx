@@ -19,6 +19,7 @@ export type HealthLimitationsFieldProps = {
   onChange: (next: RoutineFormValues["health"]) => void;
   className?: string;
   triggerAriaLabel: string;
+  modalTitle?: string;
 };
 
 function toggleCode(
@@ -78,6 +79,7 @@ export function HealthLimitationsField({
   onChange,
   className,
   triggerAriaLabel,
+  modalTitle = "Salud y limitaciones",
 }: HealthLimitationsFieldProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const applyCloseRef = useRef(false);
@@ -184,7 +186,7 @@ export function HealthLimitationsField({
           </button>
 
           <h2 id={titleId} className="sr-only">
-            Salud y limitaciones
+            {modalTitle}
           </h2>
 
           <div
