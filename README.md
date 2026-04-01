@@ -17,16 +17,11 @@ Stridia genera rutinas de entrenamiento personalizadas basadas en tu objetivo (5
 - 📊 Seguimiento de progreso
 - 💡 Consejos de entrenamiento
 
-## 🎬 Capturas & GIFs
+## 🎬 Capturas
 
+![Generador de rutina](./generate-routine.png)
 
-
-```
-Ejemplos:
-1. Seleccionar objetivo y configuración → Generar rutina
-2. Ver plan semanal → Ajustar día específico con IA
-3. Registrar progreso → Visualizar estadísticas
-```
+![Día](./stridia-rutina_dia-1.png)
 
 ## 🏗️ Cómo usamos CubePath
 
