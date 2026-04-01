@@ -87,6 +87,7 @@ export function WorkoutSection({
           {onReset ? (
             <Button
               variant="secondary"
+              size="sm"
               className={cn(
                 "rounded-xl px-4 py-2 text-base leading-6",
                 isMobile ? "flex-1 justify-center" : undefined,
@@ -100,6 +101,7 @@ export function WorkoutSection({
           {onRefresh ? (
             <Button
               variant="secondary"
+              size="sm"
               className={cn(
                 "rounded-xl px-4 py-2 text-base leading-6",
                 isMobile ? "flex-1 justify-center" : undefined,
