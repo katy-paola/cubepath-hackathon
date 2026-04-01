@@ -19,9 +19,9 @@ Stridia genera rutinas de entrenamiento personalizadas basadas en tu objetivo (5
 
 ## 🎬 Capturas
 
-![Generador de rutina](./generate-routine.png)
+![Generador de rutina](./public/generate-routine.png)
 
-![Día](./stridia-rutina_dia-1.png)
+![Día](./public/dia-1.png)
 
 ## 🏗️ Cómo usamos CubePath
 
