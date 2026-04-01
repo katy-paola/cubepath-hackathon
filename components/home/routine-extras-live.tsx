@@ -43,7 +43,7 @@ export function RoutineExtrasLive() {
       />
       <ProgressSectionLive
         device="mobile"
-        className="flex max-w-sm sm:hidden"
+        className="flex w-full sm:hidden"
       />
 
       <div id="ajustar-rutina">

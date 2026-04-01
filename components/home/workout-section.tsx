@@ -63,16 +63,18 @@ export function WorkoutSection({
           </span>
         </h2>
 
-        <div className={cn("flex w-full items-start gap-4 md:w-auto")}>
+        <div
+          className={cn(
+            // Mobile (Figma): dos columnas (50/50) con gap 16px.
+            // Desktop+: fila con ancho natural.
+            "flex w-full flex-row items-start gap-4 md:w-auto",
+          )}
+        >
           {onReset ? (
             <Button
               variant="secondary"
               size="action"
-              className={cn(
-                "w-full justify-center gap-1",
-                // Mobile (Figma): fixed width per button
-                "min-[360px]:w-[158px] md:w-auto",
-              )}
+              className="flex-1 justify-center gap-1 md:w-auto md:flex-none"
               icon={<Refresh className="size-4" />}
               onClick={onReset}
             >
@@ -83,10 +85,7 @@ export function WorkoutSection({
             <Button
               variant="secondary"
               size="action"
-              className={cn(
-                "w-full justify-center gap-1",
-                "min-[360px]:w-[158px] md:w-auto",
-              )}
+              className="flex-1 justify-center gap-1 md:w-auto md:flex-none"
               icon={<TradeUpCompact className="size-4" />}
               onClick={onRefresh}
               disabled={refreshLoading}

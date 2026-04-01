@@ -236,7 +236,7 @@ export default function GalleryPage() {
                 <div className="space-y-4">
                   <ProgressSection device="desktop" />
                   <ProgressSection device="tablet" className="max-w-lg" />
-                  <ProgressSection device="mobile" className="max-w-sm" />
+                  <ProgressSection device="mobile" className="w-full" />
                 </div>
               </div>
             </div>

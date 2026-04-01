@@ -30,7 +30,7 @@ export default function HomeOld() {
           />
           <ProgressSection
             device="mobile"
-            className="flex max-w-sm sm:hidden"
+            className="flex w-full sm:hidden"
           />
           <AdjustRoutineCard device="desktop" className="hidden lg:flex" />
           <AdjustRoutineCard
